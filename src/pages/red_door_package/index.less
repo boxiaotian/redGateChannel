@@ -1,0 +1,297 @@
+#app {
+  background-color: #f6f6f6;
+  line-height: 1;
+
+  .red_door_package {
+    padding: 88px 0 110px;
+
+    .nav_bar {
+      background-color: #1f1e1b
+    }
+
+    .package_top_group {
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      height: 538px;
+      padding: 20px;
+      margin-bottom: 164px;
+      background-image: linear-gradient(132deg, #1f1e1b 0%, #272522 50%, #2a2824 71%, #1f1e1b 100%);
+
+      .package_panel {
+        box-sizing: border-box;
+        width: 710px;
+        height: 354px;
+        padding: 66px 0;
+        background-image: linear-gradient(90deg, #fef1c6 0%, #f2d9a1 100%);
+        box-shadow: inset 1px 2px 5px 0px rgba(255, 255, 255, 0.79);
+        border-radius: 20px;
+        font-size: 24px;
+        font-weight: 300;
+        color: #252525;
+        text-align: center;
+
+        .package_identity {
+          font-size: 48px;
+          font-weight: 400;
+        }
+
+        .package_nickname {
+          margin: 18px 0 42px;
+        }
+      }
+
+      .package_privilege {
+        position: absolute;
+        bottom: -164px;
+        left: 0;
+        width: 100%;
+        height: 466px;
+        padding: 110px 148px 0;
+        box-sizing: border-box;
+        background: url(https://qiniu.hongmenpd.com/H5/images/privilege_bg.png) no-repeat;
+        background-size: cover;
+
+        .at-grid {
+          .at-grid__flex {
+            margin-bottom: 20px;
+
+            .at-grid__flex-item {
+              .at-grid-item__content {
+                .at-grid-item__content-inner {
+                  .content-inner__icon {
+                    .content-inner__img {
+                      width: 72px;
+                      height: 72px;
+                    }
+                  }
+
+                  .content-inner__text {
+                    font-size: 24px;
+                    color: #f3dba4;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .package_center_group {
+      color: #ffffff;
+
+      .package_price_date {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        box-sizing: border-box;
+        width: 100%;
+        height: 150px;
+        padding: 24px 20px;
+        background-image: linear-gradient(-90deg, #ff1048 0%, #ff4188 100%);
+
+        .package_price {
+          font-size: 48px;
+
+          .package_price_lable {
+            position: relative;
+            width: 120px;
+            height: 36px;
+            margin-bottom: 16px;
+            background-color: #ff0050;
+            border-radius: 4px;
+            font-size: 24px;
+            line-height: 36px;
+            text-align: center;
+
+            &::after {
+              content: "";
+              position: absolute;
+              bottom: -10px;
+              left: 0;
+              width: 0;
+              height: 0;
+              border-color: transparent #ff0050;
+              border-width: 0 0 10px 10px;
+              border-style: solid;
+            }
+          }
+        }
+
+        .package_date {
+          .package_date_content {
+            margin-bottom: 25px;
+            font-size: 22px;
+
+            .package_date_title {
+              margin-right: 14px;
+            }
+
+            .at-countdown {
+              .at-countdown__item {
+                .at-countdown__time-box {
+                  border: none;
+                  font-size: 24px;
+
+                  &::after {
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
+
+          .package_sales_volume {
+            position: relative;
+            font-size: 22px;
+
+            .package_has_robbed {
+              position: absolute;
+              top: 0;
+              left: 20px;
+              z-index: 1;
+              line-height: 34px;
+              color: #47443e;
+            }
+
+            .package_only_left {
+              position: absolute;
+              top: 0;
+              right: 20px;
+              z-index: 1;
+              line-height: 34px;
+              color: #ffffff;
+            }
+
+            .at-progress {
+              .at-progress__outer {
+                .at-progress__outer-inner {
+                  width: 316px;
+                  height: 34px;
+                  background-color: #e00020;
+                  border-radius: 17px;
+
+                  .at-progress__outer-inner-background {
+                    height: 34px;
+                    background-image: linear-gradient(90deg, #fef1c6 0%, #f2d9a1 100%);
+                    box-shadow: inset 1px 2px 5px 0px rgba(255, 255, 255, 0.79);
+                    border-radius: 17px 0px 0px 17px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .package_content {
+        width: 100%;
+        min-height: 180px;
+        padding: 50px 20px;
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        box-sizing: border-box;
+        font-size: 36px;
+        color: #000000;
+        line-height: 46px;
+
+        .package_introduction {
+          font-size: 30px;
+          color: #999999;
+        }
+      }
+    }
+
+    .package_details {
+      width: 100%;
+      min-height: 100px;
+      padding: 50px 20px;
+      box-sizing: border-box;
+      background-color: #ffffff;
+
+      .taro-img {
+        width: 100%;
+        height: auto;
+        vertical-align: top;
+      }
+
+      .at-tab-bar {
+        width: 50%;
+        margin-bottom: 30px;
+
+        &::after {
+          display: none;
+        }
+
+        .at-tab-bar__item {
+          width: 146px;
+        }
+
+        .at-tab-bar__item--active {
+          position: relative;
+
+          &::after {
+            position: absolute;
+            content: "";
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 8px;
+            background-image: linear-gradient(-90deg, #ff1048 0%, #ff4188 100%);
+            border-radius: 4px
+          }
+        }
+      }
+    }
+
+    .package_pay {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 110px;
+      background-color: #ffffff;
+      box-shadow: 3px 4px 30px 0px rgba(3, 0, 0, 0.1);
+      font-size: 36px;
+      line-height: 110px;
+      color: #bca366;
+
+      .package_pay_title {
+        margin-left: 112px;
+      }
+
+      .at-button {
+        width: 210px;
+        height: 110px;
+        margin: 0;
+        background-image: linear-gradient(-45deg, #ff0000 0%, #ff477b 100%);
+        border: none;
+        border-radius: 0%;
+        line-height: 110px;
+      }
+    }
+
+    .my {
+      position: fixed;
+      right: 0;
+      z-index: 101;
+      bottom: 256px;
+      width: 160px;
+      height: 160px;
+    }
+
+    .service {
+      position: fixed;
+      right: 0;
+      bottom: 70px;
+      z-index: 101;
+      width: 160px;
+      height: 160px;
+    }
+  }
+}
