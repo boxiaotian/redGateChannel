@@ -40,9 +40,8 @@ export default class RedDoorPackage extends Component {
   };
 
   componentWillMount() {
-    if (getUrlKey("cid")) {
-      setCahce("cid", { cid: getUrlKey("cid") });
-    }
+    if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
+
     // 礼包详情
     packageModel.giftBag().then(res => {
       let proportion = (res.salenum / (res.salenum + res.num)) * 100;
@@ -115,11 +114,9 @@ export default class RedDoorPackage extends Component {
         icon: "none",
         success: () => {
           setTimeout(() => {
-            if (isAndroid()) {
+            if (isAndroid())
               window.location.href = "https://51gsc.com/app/Fqkr";
-            } else {
-              window.location.href = "https://51gsc.com/app/6DZx";
-            }
+            else window.location.href = "https://51gsc.com/app/6DZx";
           }, 1000);
         }
       });
@@ -131,18 +128,15 @@ export default class RedDoorPackage extends Component {
     if (isWeiXin()) {
       Taro.navigateTo({ url: "/pages/my/index?appid=" + this.state.app_id });
       setCahce("appid", { appid: this.state.app_id });
-      // setCahce("isappid", { isappid: 1 });
     } else {
       Taro.showToast({
         title: "请下载APP或使用微信打开",
         icon: "none",
         success: () => {
           setTimeout(() => {
-            if (isAndroid()) {
+            if (isAndroid())
               window.location.href = "https://51gsc.com/app/Fqkr";
-            } else {
-              window.location.href = "https://51gsc.com/app/6DZx";
-            }
+            else window.location.href = "https://51gsc.com/app/6DZx";
           }, 1000);
         }
       });
@@ -201,14 +195,14 @@ export default class RedDoorPackage extends Component {
               <View className="package_date_content">
                 <Text className="package_date_title">距结束</Text>
                 <AtCountdown
-                  isCard
-                  isShowDay
-                  isShowHour
                   format={{ day: "天", hours: ":", minutes: ":", seconds: "" }}
                   day={info.day}
                   hours={info.hours}
                   minutes={info.minutes}
                   seconds={info.seconds}
+                  isCard
+                  isShowDay={info.day ? true : false}
+                  isShowHour
                 />
               </View>
               <View className="package_sales_volume">

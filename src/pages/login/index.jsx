@@ -162,20 +162,20 @@ export default class Login extends Component {
       <View className="login">
         <Image className="login_logo" src={image_domain + "logo.png"} />
         <AtInput
+          title="手机号码"
+          placeholder="输入手机号码"
           className="login_mobile"
           name="mobile"
-          title="手机号码"
           type="phone"
-          placeholder="输入手机号码"
           onChange={this.handleInput.bind(this, "mobile")}
           value={mobile}
         />
         <AtInput
+          title="验证码"
+          placeholder="输入验证码"
           className="login_verification"
           name="verification"
-          title="验证码"
           type="number"
-          placeholder="输入验证码"
           onChange={this.handleInput.bind(this, "verification")}
           value={verification}
         >

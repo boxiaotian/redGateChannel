@@ -1,4 +1,3 @@
-
 function getUrlKey(e) {
   return decodeURIComponent((new RegExp("[?|&]" + e + "=([^&;]+?)(&|#|;|$)").exec(window.location.href) || [, ""])[1].replace(/\+/g, "%20")) || null
 }
@@ -13,7 +12,6 @@ function isWeiXin() {
 function isAndroid() {
   return "android" == window.navigator.userAgent.toLowerCase().match(/android/i);
 }
-
 
 function onBridgeReady(WeixinParameter) {
   return new Promise((resolve, reject) => {

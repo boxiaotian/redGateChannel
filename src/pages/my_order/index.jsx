@@ -35,14 +35,26 @@ export default class MyOrder extends Component {
 
   componentWillMount() {
     let { sort_current } = this.$router.params;
+
+    let status_tab = [];
+    if (sort_current == 0 || sort_current == 1) {
+      status_tab = [
+        { title: "全部" },
+        { title: "未支付" },
+        { title: "未使用" },
+        { title: "已完成" }
+      ];
+    } else if (sort_current == 2) {
+      status_tab = [
+        { title: "全部" },
+        { title: "未支付" },
+        { title: "已支付" }
+      ];
+    }
     this.setState(
       {
-        sort_current: sort_current ? sort_current : 0,
-        status_tab: [
-          { title: "全部" },
-          { title: "未支付" },
-          { title: "已支付" }
-        ]
+        sort_current: sort_current ? parseInt(sort_current) : 0,
+        status_tab
       },
       () => {
         if (this.state.sort_current == 2) this.orderGiftBagc();

@@ -33,14 +33,10 @@ export default class My extends Component {
   };
 
   componentWillMount() {
-    // console.log(1);
-
     if (getCahce("appid")) {
-      // console.log(2);
       // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
       let redirect_uri = urlEncode(window.location.href);
       if (!getUrlKey("code")) {
-        // console.log(3);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           getCahce("appid").appid
         }&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
@@ -75,7 +71,7 @@ export default class My extends Component {
   }
 
   onAllOrder() {
-    Taro.navigateTo({ url: "/pages/my_order/index" });
+    Taro.navigateTo({ url: "/pages/my_order/index?sort_current=0" });
   }
 
   onHelpService() {
@@ -113,7 +109,12 @@ export default class My extends Component {
                 查看全部
               </Text>
             </View>
-            <AtGrid data={my_order_data} hasBorder={false} columnNum="4" />
+            <AtGrid
+              onClick={this.onAllOrder.bind(this)}
+              data={my_order_data}
+              hasBorder={false}
+              columnNum="4"
+            />
           </View>
         </View>
         <AtList hasBorder={false}>
