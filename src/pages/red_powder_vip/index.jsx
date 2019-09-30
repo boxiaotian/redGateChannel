@@ -4,11 +4,11 @@ import { connect } from "@tarojs/redux";
 import { AtButton } from "taro-ui";
 
 import { Navbar } from "@/components/index";
-import { image_domain } from "@/constants/counter";
+import { url_domain, image_domain } from "@/constants/counter";
 import PackageModel from "@/models/package";
 import WeiXinModel from "@/models/weixin";
-import { getCahce } from "@/utils/cache";
-import { onBridgeReady, getUrlKey } from "@/utils/utils";
+import { setCahce, getCahce } from "@/utils/cache";
+import { onBridgeReady } from "@/utils/utils";
 
 import "./index.less";
 
@@ -21,10 +21,13 @@ const weiXinModel = new WeiXinModel();
 export default class RedPowderVip extends Component {
   state = {};
 
-  componentWillMount() {}
+  componentWillUnmount() {
+    setCahce("cid", {});
+  }
 
   onJump() {
-    Taro.reLaunch({ url: "/pages/red_door_package/index" });
+    // Taro.redirectTo({ url: "/pages/red_door_package/index" });
+    window.location.href = url_domain + "redDoorPackage";
   }
 
   onConfirmPay() {
@@ -39,8 +42,9 @@ export default class RedPowderVip extends Component {
     packageModel
       .orderGiftBagc({
         gid: getCahce("packagePay").gid,
-        source_type_id: getCahce("cid") ? getCahce("cid").cid : "",
-        source_type_share: getCahce("cid") ? getCahce("cid").cid : 1,
+        source_type_id:
+          getCahce("cid") && getCahce("cid").cid ? getCahce("cid").cid : "",
+        source_type_share: getCahce("cid") && getCahce("cid").cid ? 2 : 1,
         token
       })
       .then(res => {
@@ -67,7 +71,8 @@ export default class RedPowderVip extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/red_door_package/index" });
+              // Taro.redirectTo({ url: "/pages/red_door_package/index" });
+              window.location.href = url_domain + "redDoorPackage";
             }, 1000);
           }
         });

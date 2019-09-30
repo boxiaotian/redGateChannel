@@ -8,7 +8,7 @@ import { image_domain } from "@/constants/counter";
 import PackageModel from "@/models/package";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
-import { setCahce } from "@/utils/cache";
+import { setCahce, getCahce } from "@/utils/cache";
 import {
   onBridgeReady,
   getUrlKey,
@@ -41,6 +41,7 @@ export default class Spree extends Component {
   };
 
   componentWillMount() {
+    if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
     packageModel.giftBagHousekeeperCard().then(res => {
       this.setState({ info: res });
     });
@@ -49,28 +50,12 @@ export default class Spree extends Component {
     weiXinModel.getConfig().then(res => {
       this.setState({ app_id: res.app_id });
     });
-  }
 
-  onJump() {}
-
-  // 购买
-  onConfirmPay() {
-    if (isWeiXin()) {
-      console.log("微信");
-      let code = getUrlKey("code"); // 微信code
-      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
-      if (!code) {
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-        Taro.showToast({
-          title: "已授权，请继续购买",
-          icon: "none"
-        });
-      } else {
-        this.props.onGetMemberInfo &&
-          this.props.onGetMemberInfo({ code: getUrlKey("code") });
-        setCahce("url", { url: "spree" });
-        setTimeout(() => {
+    if (getUrlKey("code")) {
+      this.props.onGetMemberInfo &&
+        this.props.onGetMemberInfo({ code: getUrlKey("code") });
+      setTimeout(() => {
+        if (this.props.memberInfo && this.props.memberInfo.uid) {
           weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
             if (res.grade_id == 1 && res.vip == 1) {
               this.orderGiftBagHousekeeperCard(res.token);
@@ -80,7 +65,7 @@ export default class Spree extends Component {
                 icon: "none",
                 success: () => {
                   setTimeout(() => {
-                    Taro.reLaunch({ url: "/pages/red_door_package/index" });
+                    Taro.redirectTo({ url: "/pages/red_door_package/index" });
                   }, 1000);
                 }
               });
@@ -91,8 +76,30 @@ export default class Spree extends Component {
               });
             }
           });
-        }, 1500);
-      }
+        } else {
+          Taro.showToast({
+            title: "请登录注册",
+            icon: "none",
+            success: () => {
+              setTimeout(() => {
+                Taro.redirectTo({ url: "/pages/login/index" });
+              }, 1000);
+            }
+          });
+        }
+      }, 1000);
+    }
+  }
+
+  onJump() {}
+
+  // 购买
+  onConfirmPay() {
+    setCahce("url", { url: "spree" });
+    if (isWeiXin()) {
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      let redirect_uri = urlEncode(window.location.href);
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {
       Taro.showToast({
         title: "请下载APP购买或使用微信打开",
@@ -112,11 +119,14 @@ export default class Spree extends Component {
 
   // 支付
   orderGiftBagHousekeeperCard(token) {
-    if (getUrlKey("cid")) {
+    if (getCahce("cid")) {
       packageModel
         .orderGiftBagHousekeeperCard({
           gid: this.state.info.id,
-          source_type_id: getUrlKey("cid"),
+          source_type_id:
+            getCahce("cid") && getCahce("cid").cid
+              ? getCahce("cid").cid
+              : "HN888888",
           token
         })
         .then(res => {
@@ -137,11 +147,13 @@ export default class Spree extends Component {
         Taro.showToast({
           title: "支付成功",
           icon: "none",
-          success: () => {}
+          success: () => {
+            Taro.redirectTo({ url: "/pages/my_order/index?sort_current=2" });
+          }
         });
       } else {
         Taro.showToast({
-          title: "支付失败",
+          title: "支付失败,请重新进入",
           icon: "none"
         });
       }

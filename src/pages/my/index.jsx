@@ -4,7 +4,7 @@ import { connect } from "@tarojs/redux";
 import { AtGrid, AtList, AtListItem } from "taro-ui";
 
 import { Navbar } from "@/components/index";
-import { order_status } from "@/constants/counter";
+import { url_domain, order_status } from "@/constants/counter";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { getCahce, setCahce } from "@/utils/cache";
@@ -33,27 +33,49 @@ export default class My extends Component {
   };
 
   componentWillMount() {
-    if (this.props.memberInfo.uid) {
-      weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-        this.setState({ info: res });
-      });
-    } else if (getCahce("appid")) {
-      let redirect_uri = urlEncode("https://app.hongmenpd.com/wxauth.php");
-      // let redirect_uri = urlEncode(window.location.href);
+    // console.log(1);
+
+    if (getCahce("appid")) {
+      // console.log(2);
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      let redirect_uri = urlEncode(window.location.href);
       if (!getUrlKey("code")) {
+        // console.log(3);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           getCahce("appid").appid
         }&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       } else {
+        setCahce("url", { url: "my" });
         this.props.onGetMemberInfo &&
           this.props.onGetMemberInfo({ code: getUrlKey("code") });
-        setCahce("url", { url: "my" });
+        setTimeout(() => {
+          if (this.props.memberInfo && this.props.memberInfo.uid) {
+            weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+              this.setState({ info: res });
+            });
+          } else {
+            Taro.showToast({
+              title: "请登录注册",
+              icon: "none",
+              success: () => {
+                setTimeout(() => {
+                  Taro.redirectTo({ url: "/pages/login/index" });
+                }, 1000);
+              }
+            });
+          }
+        }, 1000);
       }
     }
   }
 
   onJump() {
-    Taro.reLaunch({ url: "/pages/red_door_package/index" });
+    // Taro.redirectTo({ url: "/pages/red_door_package/index" });
+    window.location.href = url_domain + "redDoorPackage";
+  }
+
+  onAllOrder() {
+    Taro.navigateTo({ url: "/pages/my_order/index" });
   }
 
   onHelpService() {
@@ -84,7 +106,12 @@ export default class My extends Component {
           <View className="my_order">
             <View className="my_order_top">
               <Text>我的订单</Text>
-              <Text className="my_all_order">查看全部</Text>
+              <Text
+                className="my_all_order"
+                onClick={this.onAllOrder.bind(this)}
+              >
+                查看全部
+              </Text>
             </View>
             <AtGrid data={my_order_data} hasBorder={false} columnNum="4" />
           </View>

@@ -12,17 +12,19 @@ import { getUrlKey, urlEncode, isWeiXin, isAndroid } from "@/utils/utils";
 import { setCahce } from "@/utils/cache";
 
 import "./index.less";
-import { image_domain } from "../../constants/counter";
+import { image_domain } from "@/constants/counter";
 
 const packageModel = new PackageModel();
 const weiXinModel = new WeiXinModel();
 
 @connect(
-  store => {},
+  store => {
+    return { memberInfo: store.user.memberInfo };
+  },
   dispatch => {
     return {
-      onGetMemberInfo(params, type) {
-        dispatch(getMemberInfo(params, type));
+      onGetMemberInfo(params) {
+        dispatch(getMemberInfo(params));
       }
     };
   }
@@ -51,6 +53,40 @@ export default class RedDoorPackage extends Component {
     weiXinModel.getConfig().then(res => {
       this.setState({ app_id: res.app_id });
     });
+
+    if (getUrlKey("code")) {
+      this.props.onGetMemberInfo &&
+        this.props.onGetMemberInfo({ code: getUrlKey("code") });
+      setTimeout(() => {
+        if (this.props.memberInfo && this.props.memberInfo.uid) {
+          weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+            if (res.grade_id && res.vip) {
+              Taro.showToast({
+                title: "您已是红粉VIP,请前往APP查看",
+                icon: "none",
+                success: () => {
+                  setTimeout(() => {
+                    if (isAndroid())
+                      window.location.href = "https://51gsc.com/app/Fqkr";
+                    else window.location.href = "https://51gsc.com/app/6DZx";
+                  }, 1000);
+                }
+              });
+            } else Taro.navigateTo({ url: "/pages/red_powder_vip/index" });
+          });
+        } else {
+          Taro.showToast({
+            title: "请登录注册",
+            icon: "none",
+            success: () => {
+              setTimeout(() => {
+                Taro.redirectTo({ url: "/pages/login/index" });
+              }, 1000);
+            }
+          });
+        }
+      }, 1000);
+    }
   }
 
   // 查看特权
@@ -66,23 +102,13 @@ export default class RedDoorPackage extends Component {
   // 立即开通
   onOpen() {
     let { app_id, info } = this.state;
+    setCahce("url", { url: "redDoorPackage" });
+    setCahce("packagePay", { gid: info.id, price: info.price });
 
     if (isWeiXin()) {
-      let code = getUrlKey("code"); // 微信code
-      let redirect_uri = urlEncode("https://app.hongmenpd.com/wxauth.php");
-      // let redirect_uri = urlEncode(window.location.href);
-      if (!code) {
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-        Taro.showToast({
-          title: "已授权，请继续开通",
-          icon: "none"
-        });
-      } else {
-        this.props.onGetMemberInfo &&
-          this.props.onGetMemberInfo({ code: getUrlKey("code") }, 1);
-        setCahce("url", { url: "red_door_package" });
-        setCahce("packagePay", { gid: info.id, price: info.price });
-      }
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      let redirect_uri = urlEncode(window.location.href);
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {
       Taro.showToast({
         title: "请下载APP购买或使用微信打开",
@@ -103,8 +129,9 @@ export default class RedDoorPackage extends Component {
   // 我的
   onMy() {
     if (isWeiXin()) {
-      Taro.navigateTo({ url: "/pages/my/index" });
+      Taro.navigateTo({ url: "/pages/my/index?appid=" + this.state.app_id });
       setCahce("appid", { appid: this.state.app_id });
+      // setCahce("isappid", { isappid: 1 });
     } else {
       Taro.showToast({
         title: "请下载APP或使用微信打开",

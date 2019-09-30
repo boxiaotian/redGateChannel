@@ -1,4 +1,5 @@
 .my_order {
+  background-color: #ffffff;
   padding-top: 278px;
 
   .nav_bar {
@@ -54,7 +55,7 @@
         border: solid 1PX #ff093c;
         border-radius: 34px;
         font-size: 30px;
-        line-height: 64px;
+        line-height: 65px;
 
         &::after {
           display: none;
@@ -121,19 +122,164 @@
     }
   }
 
+  .my_order_group_buy,
   .my_order_gift {
     width: 100%;
     height: 100%;
     padding: 0 20px;
     box-sizing: border-box;
+    font-size: 24px;
+
+    .my_order_group_buy_flex,
+    .my_order_gift_flex {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .my_order_group_buy {
+    color: #2a2a2a;
+
+    .my_order_group_buy_item {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 350px;
+      padding: 30px 20px;
+      margin: 20px 0;
+      background-color: #ffffff;
+      box-shadow: 0px 0px 15px 0px rgba(39, 39, 39, 0.17);
+      border-radius: 10px;
+
+      .my_order_group_buy_flex {
+        .order_numbering {
+          position: relative;
+          color: #000000;
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            right: -25px;
+            width: 8px;
+            height: 14px;
+            background: url(https://qiniu.hongmenpd.com/H5/images/jiantou.png) no-repeat;
+            background-size: cover;
+          }
+        }
+      }
+
+      .my_order_group_buy_item_content {
+        display: flex;
+        margin: 30px 0;
+        line-height: 30px;
+
+        .my_order_group_buy_img {
+          width: 180px;
+          height: 180px;
+          margin-right: 20px;
+          background-color: #f4f4f4;
+        }
+
+        .my_order_group_buy_item20 {
+          font-size: 20px;
+          color: #999999;
+        }
+      }
+
+      .my_order_group_buy_price {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .my_order_group_buy_btn {
+          width: 124px;
+          height: 38px;
+          margin: 30px 0 0;
+          border: solid 1PX #999999;
+          border-radius: 19px;
+          font-size: 24px;
+          line-height: 38px;
+          color: #333333;
+        }
+      }
+    }
+  }
+
+  .my_order_gift {
+    color: #000000;
 
     .my_order_gift_item {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       width: 100%;
       height: 286px;
+      padding: 28px 24px;
       margin: 20px 0;
       background: #ffffff;
       box-shadow: 0px 0px 15px 0px rgba(39, 39, 39, 0.17);
       border-radius: 10px;
+
+      .my_order_gift_flex {
+        &:nth-child(2) {
+          align-items: flex-start;
+          width: 100%;
+          height: 50px;
+          padding: 30px 0;
+          margin: 27px 0 30px;
+          border-top: solid 2px #f6f6f6;
+          border-bottom: solid 2px #f6f6f6;
+        }
+
+        .my_order_gift_content {
+          line-height: 35px;
+        }
+
+        .my_order_gift20 {
+          font-size: 20px;
+          color: #999999;
+        }
+
+        .my_order_gift_price {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .my_order_gift_btn {
+            width: 124px;
+            height: 38px;
+            margin-left: 26px;
+            border: solid 1PX #999999;
+            border-radius: 19px;
+            font-size: 24px;
+            line-height: 38px;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
+
+  .no_order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    font-size: 24px;
+    color: #707070;
+
+    .no_order_img {
+      width: 80px;
+      height: 80px;
+      margin: 10px 0;
     }
   }
 }

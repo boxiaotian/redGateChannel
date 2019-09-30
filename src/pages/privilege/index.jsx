@@ -23,7 +23,7 @@ export default class Privilege extends Component {
   }
 
   onJump() {
-    Taro.reLaunch({ url: "/pages/red_door_package/index" });
+    Taro.redirectTo({ url: "/pages/red_door_package/index" });
   }
 
   render() {

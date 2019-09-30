@@ -3,9 +3,9 @@ import { View, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtInput, AtButton } from "taro-ui";
 
-import { image_domain } from "@/constants/counter";
-import WeiXinModel from "../../models/weixin";
-import { getCahce } from "@/utils/cache";
+import { url_domain, image_domain } from "@/constants/counter";
+import WeiXinModel from "@/models/weixin";
+import { getCahce, setCahce } from "@/utils/cache";
 import { isWeiXin } from "@/utils/utils";
 
 import "./index.less";
@@ -101,12 +101,16 @@ export default class Login extends Component {
             from: "H5"
           };
         }
-        weiXinModel.codelogin(params).then(() => {
-          Taro.redirectTo({
-            url: getCahce("url")
-              ? `/pages/${getCahce("url").url}/index`
-              : "/pages/red_door_package/index"
-          });
+        weiXinModel.codelogin(params).then(res => {
+          setCahce("member_info", res);
+          window.location.href =
+            url_domain +
+            (getCahce("url") ? getCahce("url").url : "redDoorPackage");
+          // Taro.redirectTo({
+          //   url: getCahce("url")
+          //     ? `/pages/${getCahce("url").url}/index`
+          //     : "/pages/red_door_package/index"
+          // });
         });
       } else {
         if (isWeiXin()) {
@@ -120,22 +124,32 @@ export default class Login extends Component {
             unionid: memberInfo.unionid,
             bind_id: memberInfo.bind_id,
             from: "weixin",
-            code: getCahce("cid") ? getCahce("cid") : "HN888888"
+            code:
+              getCahce("cid") && getCahce("cid").cid
+                ? getCahce("cid").cid
+                : "HN888888"
           };
         } else {
           params = {
             mobile: mobile,
             yzm: verification,
             from: "H5",
-            code: getCahce("cid") ? getCahce("cid") : "HN888888"
+            code:
+              getCahce("cid") && getCahce("cid").cid
+                ? getCahce("cid").cid
+                : "HN888888"
           };
         }
-        weiXinModel.register(params).then(() => {
-          Taro.redirectTo({
-            url: getCahce("url")
-              ? `/pages/${getCahce("url").url}/index`
-              : "/pages/red_door_package/index"
-          });
+        weiXinModel.register(params).then(res => {
+          setCahce("member_info", res);
+          window.location.href =
+            url_domain +
+            (getCahce("url") ? getCahce("url").url : "redDoorPackage");
+          // Taro.redirectTo({
+          //   url: getCahce("url")
+          //     ? `/pages/${getCahce("url").url}/index`
+          //     : "/pages/red_door_package/index"
+          // });
         });
       }
     }
