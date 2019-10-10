@@ -1,0 +1,74 @@
+.operated_goods {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 600px;
+  padding: 40px 20px 0;
+  margin-top: -66px;
+  background-color: #f6f6f6;
+  border-radius: 30px;
+
+  .operated_good {
+    width: 350px;
+    height: 562px;
+    margin-bottom: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    font-size: 30px;
+
+    .operated_good_pict {
+      width: 100%;
+      min-height: 350px;
+      height: auto;
+      vertical-align: middle;
+      border-radius: 8px 8px 0px 0px;
+    }
+
+    .operated_good_title {
+      margin: 24px 12px;
+      color: #2a2a2a;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 32px;
+    }
+
+    .operated_good_after_money {
+      margin-left: 12px;
+      color: #ff4141;
+      font-weight: bold;
+    }
+
+    .operated_good_zk_final_price {
+      margin: 0 18px;
+      font-size: 18px;
+      color: #999999;
+      text-decoration: line-through;
+    }
+
+    .operated_good_volume {
+      margin: 14px 12px 20px;
+      font-size: 18px;
+      color: #999999;
+      letter-spacing: 2px;
+    }
+
+    .operated_good_discount_money {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 125px;
+      height: 30px;
+      margin: 0 12px;
+      background: url(https://qiniu.hongmenpd.com/H5/images/voucher.png) no-repeat;
+      background-size: cover;
+      font-size: 24px;
+      line-height: 30px;
+      color: #ffffff;
+    }
+  }
+}

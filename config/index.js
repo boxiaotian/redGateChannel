@@ -94,7 +94,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: './',
+    publicPath: '/',
     staticDirectory: 'static',
     module: {
       postcss: {
@@ -123,6 +123,8 @@ const config = {
     router: {
       customRoutes: {
         '/pages/index/index': '/index',
+        '/pages/home/index': '/home',
+        '/pages/product_detail/index': '/productDetail',
         '/pages/login/index': '/login',
         '/pages/red_door_package/index': '/redDoorPackage',
         '/pages/privilege/index': '/privilege',
@@ -134,7 +136,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '10.10.0.15'
+      host: '192.168.0.124'
     }
   }
 }

@@ -5,7 +5,7 @@ export default class PackageModel extends HTTP {
   giftBag() {
     return this.request({
       url: 'Apigiftbag/giftBag',
-      data: { "source_mode": 1, "yzdl": "yzdl" }
+      data: { source_mode: 1, yzdl: "yzdl" }
     })
   }
 
@@ -26,7 +26,7 @@ export default class PackageModel extends HTTP {
   giftBagHousekeeperCard() {
     return this.request({
       url: 'Apigiftbag/giftBagHousekeeperCard',
-      data: { "yzdl": "yzdl" }
+      data: { yzdl: "yzdl" }
     })
   }
 

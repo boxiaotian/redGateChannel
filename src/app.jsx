@@ -20,6 +20,8 @@ const store = configStore();
 class App extends Component {
   config = {
     pages: [
+      "pages/home/index", // 首页
+      "pages/product_detail/index", // 商品详情
       "pages/red_door_package/index", // 小礼包
       "pages/privilege/index", // 六大权益
       "pages/red_powder_vip/index", // 小礼包支付

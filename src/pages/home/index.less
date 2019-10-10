@@ -1,0 +1,72 @@
+#app {
+  background-color: #f6f6f6;
+}
+
+.home {
+  padding-top: 88px;
+
+  .nav_bar {
+    .nav_bar_left {
+      opacity: 0;
+    }
+  }
+
+  .at-tabs {
+    padding-top: 72px;
+
+    .at-tabs__header {
+      position: fixed;
+      top: 88px;
+      left: 0;
+      padding: 0 20px;
+      z-index: 1;
+      background-color: #ff0239;
+
+      .at-tabs__item {
+        padding: 23px 72px 23px 0;
+        flex: none;
+        color: #ffffff;
+
+        &.at-tabs__item--active {
+          font-weight: bold;
+        }
+
+        .at-tabs__item-underline {
+          width: 16%;
+          height: 4px;
+          background-color: #ffffff;
+          border-radius: 2PX;
+          left: 40px;
+        }
+      }
+    }
+
+    .at-tabs__body {
+      .at-tabs-pane {
+        .year_member_privilege {
+          width: 100%;
+          height: auto;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .my {
+    position: fixed;
+    right: 0;
+    z-index: 101;
+    bottom: 270px;
+    width: 160px;
+    height: 160px;
+  }
+
+  .service {
+    position: fixed;
+    right: 0;
+    bottom: 110px;
+    z-index: 101;
+    width: 160px;
+    height: 160px;
+  }
+}

@@ -88,6 +88,11 @@ export default class RedDoorPackage extends Component {
     }
   }
 
+  // 返回首页
+  onJump() {
+    Taro.redirectTo({ url: "/pages/home/index" });
+  }
+
   // 查看特权
   onPrivilege(item, index) {
     Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
@@ -111,26 +116,6 @@ export default class RedDoorPackage extends Component {
     } else {
       Taro.showToast({
         title: "请下载APP购买或使用微信打开",
-        icon: "none",
-        success: () => {
-          setTimeout(() => {
-            if (isAndroid())
-              window.location.href = "https://51gsc.com/app/Fqkr";
-            else window.location.href = "https://51gsc.com/app/6DZx";
-          }, 1000);
-        }
-      });
-    }
-  }
-
-  // 我的
-  onMy() {
-    if (isWeiXin()) {
-      Taro.navigateTo({ url: "/pages/my/index?appid=" + this.state.app_id });
-      setCahce("appid", { appid: this.state.app_id });
-    } else {
-      Taro.showToast({
-        title: "请下载APP或使用微信打开",
         icon: "none",
         success: () => {
           setTimeout(() => {
@@ -169,7 +154,7 @@ export default class RedDoorPackage extends Component {
 
     return (
       <View className="red_door_package">
-        <Navbar title="红门礼包" />
+        <Navbar title="红门礼包" onJump={this.onJump.bind(this)} />
         <View className="package_top_group">
           <View className="package_panel">
             <View className="package_identity">红粉</View>
@@ -247,11 +232,6 @@ export default class RedDoorPackage extends Component {
             立即开通
           </AtButton>
         </View>
-        <Image
-          className="my"
-          src={image_domain + "my.png"}
-          onClick={this.onMy.bind(this)}
-        />
         <Image
           className="service"
           src={image_domain + "customer_service.png"}
