@@ -3,20 +3,24 @@ import { View, Image } from "@tarojs/components";
 import { AtTabs, AtTabsPane } from "taro-ui";
 import { Navbar, OperatedGood, GroupBuyDoctor } from "@/components/index";
 import { image_domain } from "@/constants/counter";
+import { setCahce } from "@/utils/cache";
 import { isWeiXin, isAndroid } from "@/utils/utils";
 
 import "./index.less";
 import OperatedModel from "@/models/operated_goods";
 import BuyDoctorModel from "@/models/buy_doctors";
+import WeiXinModel from "@/models/weixin";
 
 const operatedModel = new OperatedModel();
 const buyDoctorModel = new BuyDoctorModel();
+const weiXinModel = new WeiXinModel();
 
 export default class Home extends Component {
   config = {
     onReachBottomDistance: 50
   };
   state = {
+    app_id: "",
     tab_list: [
       { title: "自营商品" },
       { title: "团购医生" },
@@ -30,6 +34,10 @@ export default class Home extends Component {
   };
 
   componentWillMount() {
+    // 公众号AppId
+    weiXinModel.getConfig().then(res => {
+      this.setState({ app_id: res.app_id });
+    });
     if (this.state.tab_current == 0) this.hmGoods();
     else if (this.state.tab_current == 1) this.doctorList();
   }
@@ -74,8 +82,8 @@ export default class Home extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://51gsc.com/app/Fqkr";
-            else window.location.href = "https://51gsc.com/app/6DZx";
+              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+            else window.location.href = "https://iiu.xyz.com/app.php/NA";
           }, 1000);
         }
       });
@@ -90,9 +98,9 @@ export default class Home extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://51gsc.com/app/Fqkr";
+        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
       } else {
-        window.location.href = "https://51gsc.com/app/6DZx";
+        window.location.href = "https://iiu.xyz.com/app.php/NA";
       }
     }, 1000);
   }

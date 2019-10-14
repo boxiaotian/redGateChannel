@@ -3,7 +3,8 @@ import { View, Image, Text, Swiper, SwiperItem } from "@tarojs/components";
 import { AtButton, AtDivider } from "taro-ui";
 import { Navbar } from "@/components/index";
 import OperatedModel from "@/models/operated_goods";
-import { image_domain } from "@/constants/counter";
+import { getUrlKey } from "@/utils/utils";
+import { setCahce } from "@/utils/cache";
 
 import "./index.less";
 
@@ -17,6 +18,7 @@ export default class ProductDetail extends Component {
   };
 
   componentWillMount() {
+    if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
     if (this.$router.params.gid) this.goodsHmDetails();
     else Taro.redirectTo({ url: "/pages/home/index" });
   }
@@ -44,10 +46,15 @@ export default class ProductDetail extends Component {
   onSwiper(obj) {
     this.setState({ current: obj.detail.current + 1 });
   }
+
+  // 确认订单
+  onPay(id) {
+    Taro.navigateTo({ url: "/pages/confirm_order/index?gid=" + id });
+  }
+
   // 商品详情
   goodsHmDetails() {
     operatedModel.goodsHmDetails(this.$router.params.gid).then(res => {
-      console.log(res);
       this.setState({ details: res });
     });
   }
@@ -57,22 +64,18 @@ export default class ProductDetail extends Component {
 
     return (
       <View className="product_details">
-        <View
-          className="product_details_navbar"
-          style={{ opacity: opacity, zIndex: 2 }}
-        >
+        <View className="product_details_navbar" style={{ opacity: opacity }}>
           <Navbar title="商品详情" onJump={this.onJump.bind(this)} />
         </View>
         <View style={{ position: "relative" }}>
           {Object.keys(details).length && (
             <Swiper
-              className="test-h"
               indicatorColor="rgba(255, 255, 255, 0)"
               indicatorActiveColor="#ff0000"
               onChange={this.onSwiper.bind(this)}
-              circular
-              indicatorDots
+              circular={details.small_images.length > 1 ? true : false}
               autoplay
+              indicatorDots
             >
               {details.small_images &&
                 details.small_images.map(item => {
@@ -149,7 +152,7 @@ export default class ProductDetail extends Component {
                   </Text>
                 </View>
                 <View className="product_price_reach">
-                  到店再付：¥{details.price_reach}
+                  到院再付：¥{details.price_reach}
                 </View>
               </View>
             ) : (
@@ -161,7 +164,12 @@ export default class ProductDetail extends Component {
               </View>
             )}
           </View>
-          <AtButton className="pay_btn">立即购买</AtButton>
+          <AtButton
+            className="pay_btn"
+            onClick={this.onPay.bind(this, details.id)}
+          >
+            立即购买
+          </AtButton>
         </View>
       </View>
     );

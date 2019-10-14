@@ -254,7 +254,7 @@ export default class MyOrder extends Component {
         )}
         {sort_current == 2 && (
           <View className="my_order_gift">
-            {(gift_info.giftBage && gift_info.giftBage.length) ||
+            {(gift_info.giftBage && gift_info.giftBage[0].length) ||
             (gift_info.giftBageLarge && gift_info.giftBageLarge.length) ? (
               gift_info.giftBage.map(item => {
                 return (

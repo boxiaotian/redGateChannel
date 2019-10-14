@@ -1,55 +1,44 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
-import { connect } from "@tarojs/redux";
+import { View, Image, Text } from "@tarojs/components";
 import { AtButton } from "taro-ui";
-
 import { Navbar } from "@/components/index";
 import { url_domain, image_domain } from "@/constants/counter";
-import PackageModel from "@/models/package";
-import WeiXinModel from "@/models/weixin";
+import BuyDoctorModel from "@/models/buy_doctors";
 import { setCahce, getCahce } from "@/utils/cache";
 import { onBridgeReady } from "@/utils/utils";
 
 import "./index.less";
 
-const packageModel = new PackageModel();
-const weiXinModel = new WeiXinModel();
+const buyDoctorModel = new BuyDoctorModel();
 
-@connect(store => {
-  return { memberInfo: store.user.memberInfo };
-})
-export default class RedPowderVip extends Component {
-  state = {};
+export default class DoctorPay extends Component {
+  state = {
+    info: {}
+  };
 
-  componentWillUnmount() {
-    // setCahce("cid", {});
+  componentWillMount() {
+    setCahce("isdoctorPay", { isPay: false });
+    if (getCahce("doctorPay")) {
+      this.setState({ info: getCahce("doctorPay") });
+    }
   }
 
+  // 返回上一页
   onJump() {
     // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-    window.location.href = url_domain + "redDoorPackage";
+    window.location.href = url_domain + getCahce("url").url;
   }
 
+  // 返回首页
+  onHome() {
+    Taro.redirectTo({ url: "/pages/home/index" });
+  }
+
+  // 团购医生支付
   onConfirmPay() {
-    let { memberInfo } = this.props;
-    weiXinModel.selectUser(memberInfo.uid).then(res => {
-      this.orderGiftBagc(res.token);
+    buyDoctorModel.orderSubmission(this.state.info).then(res => {
+      this.BridgeReady(res);
     });
-  }
-
-  // 支付
-  orderGiftBagc(token) {
-    packageModel
-      .orderGiftBagc({
-        gid: getCahce("packagePay").gid,
-        source_type_id:
-          getCahce("cid") && getCahce("cid").cid ? getCahce("cid").cid : "",
-        source_type_share: getCahce("cid") && getCahce("cid").cid ? 2 : 1,
-        token
-      })
-      .then(res => {
-        this.BridgeReady(res);
-      });
   }
 
   // 调取微信支付
@@ -71,8 +60,7 @@ export default class RedPowderVip extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-              window.location.href = url_domain + "redDoorPackage";
+              Taro.redirectTo({ url: "/pages/my/index" });
             }, 1000);
           }
         });
@@ -81,25 +69,28 @@ export default class RedPowderVip extends Component {
   }
 
   render() {
+    let { info } = this.state;
+
     return (
-      <View className="red_powder_vip">
-        <Navbar
-          title="红粉VIP"
-          color="#000000"
-          onJump={this.onJump.bind(this)}
-        />
+      <View className="commodity_pay">
+        <Navbar title="团购医生支付" onJump={this.onJump.bind(this)}>
+          <Image
+            className="nav_bar_home"
+            src={image_domain + "home.png"}
+            onClick={this.onHome.bind(this)}
+          />
+        </Navbar>
         <View className="red_powder_vip_top">
           <View className="red_powder_vip_top_flex">
-            <Text>开通服务：</Text>
-            <Text>红粉VIP</Text>
+            <Text>付款项目：</Text>
+            <Text>
+              {info.name.substring(0, 15)}
+              {info.name.length > 15 && "..."}
+            </Text>
           </View>
           <View className="red_powder_vip_top_flex">
-            <Text>开通周期：</Text>
-            <Text>年卡</Text>
-          </View>
-          <View className="red_powder_vip_top_flex">
-            <Text>应付金额：</Text>
-            <Text>¥{getCahce("packagePay").price}</Text>
+            <Text>支付金额：</Text>
+            <Text style={{ color: "#ff0000" }}>¥{info.price}</Text>
           </View>
         </View>
         <View className="red_powder_vip_center">

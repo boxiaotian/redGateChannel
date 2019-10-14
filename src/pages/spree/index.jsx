@@ -107,9 +107,9 @@ export default class Spree extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid()) {
-              window.location.href = "https://51gsc.com/app/Fqkr";
+              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
             } else {
-              window.location.href = "https://51gsc.com/app/6DZx";
+              window.location.href = "https://iiu.xyz.com/app.php/NA";
             }
           }, 1000);
         }

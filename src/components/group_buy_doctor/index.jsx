@@ -1,7 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Image, Text } from "@tarojs/components";
 import { AtButton } from "taro-ui";
-import { image_domain } from "@/constants/counter";
 
 import "./index.less";
 
@@ -10,13 +9,23 @@ export default class GroupBuyDoctor extends Component {
     doctor_list: []
   };
 
+  // 商品详情
+  onDetail(id) {
+    Taro.removeStorageSync("cid");
+    Taro.navigateTo({ url: "/pages/doctor_detail/index?id=" + id });
+  }
+
   render() {
     let { doctor_list } = this.props;
     return (
       <View className="buy_doctors">
         {doctor_list.map(item => {
           return (
-            <View className="buy_doctor" key={item.id}>
+            <View
+              className="buy_doctor"
+              onClick={this.onDetail.bind(this, item.id)}
+              key={item.id}
+            >
               <Image className="buy_doctor_pict" src={item.pict_url} />
               <View style={{ flex: "1" }}>
                 <View className="buy_doctor_name">{item.name}</View>

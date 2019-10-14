@@ -1,7 +1,4 @@
 .nav_bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -11,10 +8,13 @@
   background-color: #ff0239;
   color: #ffffff;
   font-size: 36px;
+  line-height: 88px;
+  text-align: center;
   font-weight: bold;
 
-  .nav_bar_return {
-    width: 80px;
-    height: 60px;
+  .nav_bar_left {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }

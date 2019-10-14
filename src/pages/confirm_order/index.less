@@ -1,0 +1,201 @@
+#app {
+  height: 100%;
+  background-color: #f6f6f6;
+}
+
+.confirm_order {
+  padding-top: 88px;
+
+  .nav_bar {
+    .nav_bar_left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      width: 160px;
+      height: 60px;
+      margin-left: 20px;
+      border-radius: 30px;
+      border: solid 1PX #d2d2d2;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 2px;
+        height: 38px;
+        background-color: #ffffff;
+      }
+
+      .nav_bar_home {
+        width: 32px;
+        height: 32px;
+
+        .taro-img__mode-scaletofill {
+          vertical-align: top;
+        }
+      }
+    }
+  }
+
+  .confirm_order_info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 218px;
+    padding: 36px 20px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    font-size: 30px;
+
+    .confirm_order_info_img {
+      min-width: 146px;
+      width: 146px;
+      height: 146px;
+      margin-right: 24px;
+      background-color: #ff0c14;
+      border-radius: 8px;
+    }
+
+    .confirm_order_info_content {
+      flex: 1;
+
+      .confirm_order_info_title {
+        line-height: 46px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+        /*! autoprefixer: off */
+      }
+
+      .confirm_order_info_after_money {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        font-size: 36px;
+        color: #ff4141;
+
+        .at-input-number {
+          border: solid 1PX #d6cfd2;
+
+          .at-input-number__btn {
+            color: #ff0c14;
+            line-height: 30px;
+
+            .at-input-number__btn-subtract,
+            .at-input-number__btn-add {
+              font-size: 24px;
+            }
+
+            &.at-input-number--disabled {
+              color: #999999;
+            }
+          }
+
+          .at-input-number__input {
+            border-left: solid 1PX #d6cfd2;
+            border-right: solid 1PX #d6cfd2;
+          }
+        }
+      }
+    }
+
+  }
+
+  .confirm_order_phone {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    height: 80px;
+    padding: 30px 20px;
+    margin: 20px 0;
+    background-color: #ffffff;
+    font-size: 24px;
+  }
+
+  .confirm_order_remarks {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 92px;
+    padding: 0 20px;
+    margin: 20px 0;
+    background-color: #ffffff;
+    font-size: 24px;
+
+    .at-input {
+      width: 87%;
+      margin-left: 15px;
+
+      input {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .confirm_order_prompt {
+    padding: 38px 20px;
+    font-size: 24px;
+    color: #666666;
+  }
+
+  .product_detail_pay {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    background-color: #ffffff;
+    font-size: 36px;
+    z-index: 101;
+
+    .product_detail_pay_left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 72%;
+      padding-left: 30px;
+
+      .product_appointment_money {
+        margin-bottom: 24px;
+        font-size: 24px;
+
+        .product_appointment_money_num {
+          font-size: 36px;
+          font-weight: bold;
+          color: #ff0000;
+        }
+      }
+
+      .product_price_reach {
+        font-size: 24px;
+        color: #999999;
+      }
+    }
+
+    .pay_btn {
+      width: 28%;
+      height: 120px;
+      margin: 0;
+      background-image: linear-gradient(0deg, #ff0000 0%, #ff477b 100%);
+      border: none;
+      border-radius: 0;
+      color: #ffffff;
+      text-align: center;
+      line-height: 110px;
+    }
+  }
+}

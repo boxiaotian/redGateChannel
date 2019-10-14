@@ -16,4 +16,12 @@ export default class OperatedModel extends HTTP {
       data: { source_mode: 1, yzdl: "yzdl", gid }
     })
   }
+
+  // 确认订单
+  ordersConfirmation(gid, token) {
+    return this.request({
+      url: 'Apihmselected/ordersConfirmation',
+      data: { source_mode: 1, yzdl: "yzdl", gid, token }
+    })
+  }
 }

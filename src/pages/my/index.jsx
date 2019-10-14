@@ -34,8 +34,8 @@ export default class My extends Component {
 
   componentWillMount() {
     if (getCahce("appid")) {
-      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
+      let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      // let redirect_uri = urlEncode(window.location.href);
       if (!getUrlKey("code")) {
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           getCahce("appid").appid
@@ -67,7 +67,7 @@ export default class My extends Component {
 
   onJump() {
     // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-    window.location.href = url_domain + "redDoorPackage";
+    window.location.href = url_domain + "home";
   }
 
   onAllOrder() {
@@ -81,9 +81,9 @@ export default class My extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://51gsc.com/app/Fqkr";
+        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
       } else {
-        window.location.href = "https://51gsc.com/app/6DZx";
+        window.location.href = "https://iiu.xyz.com/app.php/NA";
       }
     }, 1000);
   }

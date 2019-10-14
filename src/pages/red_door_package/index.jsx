@@ -57,7 +57,7 @@ export default class RedDoorPackage extends Component {
       this.props.onGetMemberInfo &&
         this.props.onGetMemberInfo({ code: getUrlKey("code") });
       setTimeout(() => {
-        if (this.props.memberInfo && this.props.memberInfo.uid) {
+        if (this.props.memberInfo != undefined && this.props.memberInfo.uid) {
           weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
             if (res.grade_id && res.vip) {
               Taro.showToast({
@@ -66,8 +66,9 @@ export default class RedDoorPackage extends Component {
                 success: () => {
                   setTimeout(() => {
                     if (isAndroid())
-                      window.location.href = "https://51gsc.com/app/Fqkr";
-                    else window.location.href = "https://51gsc.com/app/6DZx";
+                      window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+                    else
+                      window.location.href = "https://iiu.xyz.com/app.php/NA";
                   }, 1000);
                 }
               });
@@ -120,8 +121,8 @@ export default class RedDoorPackage extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://51gsc.com/app/Fqkr";
-            else window.location.href = "https://51gsc.com/app/6DZx";
+              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+            else window.location.href = "https://iiu.xyz.com/app.php/NA";
           }, 1000);
         }
       });
@@ -136,9 +137,9 @@ export default class RedDoorPackage extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://51gsc.com/app/Fqkr";
+        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
       } else {
-        window.location.href = "https://51gsc.com/app/6DZx";
+        window.location.href = "https://iiu.xyz.com/app.php/NA";
       }
     }, 1000);
   }

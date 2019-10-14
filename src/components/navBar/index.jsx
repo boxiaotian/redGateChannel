@@ -28,8 +28,7 @@ export default class Navbar extends Component {
           />
           {this.props.children}
         </View>
-        <View className="nav_bar_title">{title}</View>
-        <View></View>
+        {title}
       </View>
     );
   }
