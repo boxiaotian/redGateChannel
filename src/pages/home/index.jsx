@@ -1,18 +1,15 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Image } from "@tarojs/components";
-import { AtTabs, AtTabsPane } from "taro-ui";
-import { Navbar, OperatedGood, GroupBuyDoctor } from "@/components/index";
+import { View, Image, Text, Swiper, SwiperItem } from "@tarojs/components";
+import { Navbar } from "@/components/index";
 import { image_domain } from "@/constants/counter";
+import HomeModel from "@/models/home";
+import WeiXinModel from "@/models/weixin";
 import { setCahce } from "@/utils/cache";
 import { isWeiXin, isAndroid } from "@/utils/utils";
 
 import "./index.less";
-import OperatedModel from "@/models/operated_goods";
-import BuyDoctorModel from "@/models/buy_doctors";
-import WeiXinModel from "@/models/weixin";
 
-const operatedModel = new OperatedModel();
-const buyDoctorModel = new BuyDoctorModel();
+const homeModel = new HomeModel();
 const weiXinModel = new WeiXinModel();
 
 export default class Home extends Component {
@@ -27,47 +24,68 @@ export default class Home extends Component {
       { title: "超级礼包" }
     ],
     tab_current: 0,
-    page: 0,
-    isrequest: true,
-    good_list: [], // 自营商品列表
-    doctor_list: [] // 团购医生列表
+    special_page: 0,
+    offer_page: 0,
+    isspecial: true,
+    isoffer: false,
+    carousel_map: [], // 轮播图
+    special_list: [], // 首页专场
+    offer_list: [] // 红们特惠
   };
 
   componentWillMount() {
+    Taro.removeStorageSync("cid");
     // 公众号AppId
     weiXinModel.getConfig().then(res => {
       this.setState({ app_id: res.app_id });
     });
-    if (this.state.tab_current == 0) this.hmGoods();
-    else if (this.state.tab_current == 1) this.doctorList();
+    this.setState(
+      {
+        special_page: 0,
+        offer_page: 0,
+        isspecial: true,
+        isoffer: false,
+        special_list: []
+      },
+      () => {
+        Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
+          this.specialField();
+        });
+      }
+    );
+    this.rotationChart();
   }
 
   // 滑动到底部
   onReachBottom() {
-    if (this.state.tab_current == 0) this.hmGoods();
-    else if (this.state.tab_current == 1) this.doctorList();
+    if (this.state.isspecial) this.specialField();
+    else if (!this.state.isspecial && this.state.isoffer) {
+      this.goodsPreferential();
+    }
   }
 
-  onTabs(current) {
-    if (this.state.tab_current != current) {
-      this.setState(
-        {
-          tab_current: current == 2 ? 0 : current,
-          page: 0,
-          isrequest: true,
-          good_list: []
-        },
-        () => {
-          Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
-            if (this.state.tab_current == 0) this.hmGoods();
-            else if (this.state.tab_current == 1) this.doctorList();
-          });
-        }
-      );
-    }
-    if (current == 2) {
-      Taro.navigateTo({ url: "/pages/red_door_package/index" });
-    }
+  onFeatured() {
+    Taro.navigateTo({ url: "/pages/reds_selection/index" });
+  }
+
+  onDoctors() {
+    Taro.navigateTo({ url: "/pages/enjoy_doctor/index" });
+  }
+
+  // 专场
+  onSpecial(fid) {
+    this.state.special_list.map(item => {
+      if (fid == item.id) {
+        let { background, banner, english_name, name } = item;
+        setCahce("special_info", { background, banner, english_name, name });
+      }
+    });
+    Taro.navigateTo({ url: "/pages/special_list/index?fid=" + fid });
+  }
+
+  // 商品详情
+  ondetail(gid) {
+    Taro.navigateTo({ url: "/pages/product_detail/index?gid=" + gid });
   }
 
   // 我的
@@ -105,78 +123,156 @@ export default class Home extends Component {
     }, 1000);
   }
 
-  // 自营商品列表
-  hmGoods() {
-    if (this.state.isrequest)
-      operatedModel.hmGoods(this.state.page++).then(res => {
-        this.setState({ good_list: this.state.good_list.concat(res) });
-        if (res.length == 20) this.setState({ isrequest: true });
-        else this.setState({ isrequest: false });
-      });
+  // 轮播图
+  rotationChart() {
+    homeModel.rotationChart().then(res => {
+      this.setState({ carousel_map: res });
+    });
   }
 
-  // 团购医生列表
-  doctorList() {
-    if (this.state.isrequest) {
-      let doctor_data = [];
-      buyDoctorModel.doctorList(this.state.page++).then(res => {
-        res.map(item => {
-          let user = [];
-          if (item.user.length < 4) {
-            user.push(...item.user);
-            for (let index = 0; index < 4 - item.user.length; index++) {
-              user.push({ portrait: image_domain + "avatar_add.png" });
-            }
-          } else if (item.user.length > 4) {
-            for (let index = 0; index < 4; index++) {
-              user.push({ ...item.user[index] });
-            }
-          }
-          doctor_data.push({ ...item, user });
-        });
-        this.setState({
-          doctor_list: this.state.doctor_list.concat(doctor_data)
-        });
-        if (res.length == 15) this.setState({ isrequest: true });
-        else this.setState({ isrequest: false });
+  // 首页专场
+  specialField() {
+    if (this.state.isspecial) {
+      homeModel.specialField(this.state.special_page++).then(res => {
+        this.setState({ special_list: this.state.special_list.concat(res) });
+        if (res.length == 3) {
+          this.setState({ isspecial: true, isoffer: false });
+        } else {
+          this.setState({ isspecial: false, isoffer: true }, () => {
+            this.goodsPreferential();
+          });
+        }
       });
     }
   }
 
+  // 红门特惠
+  goodsPreferential() {
+    homeModel.goodsPreferential(this.state.offer_page++).then(res => {
+      this.setState({ offer_list: this.state.offer_list.concat(res) });
+      if (res.length == 6) this.setState({ isoffer: true });
+      else this.setState({ isoffer: false });
+    });
+  }
+
   render() {
-    let { tab_list, tab_current, good_list, doctor_list } = this.state;
+    let { carousel_map, special_list, offer_list } = this.state;
 
     return (
       <View className="home">
         <Navbar title="首页" />
-        <AtTabs
-          current={tab_current}
-          tabList={tab_list}
-          swipeable={false}
-          animated={false}
-          onClick={this.onTabs.bind(this)}
-        >
-          <AtTabsPane current={tab_current} index={0}>
+        {carousel_map.length > 0 && (
+          <Swiper
+            circular={carousel_map.length > 1 ? true : false}
+            indicatorDots={carousel_map.length > 1 ? true : false}
+            autoplay
+          >
+            {carousel_map.map(item => {
+              return (
+                <SwiperItem key={item.id}>
+                  <Image className="home_img" src={item.img} />
+                </SwiperItem>
+              );
+            })}
+          </Swiper>
+        )}
+        {/* <Image
+          className="year_member_privilege"
+          src={image_domain + "year_member_privilege.png"}
+        /> */}
+        <View style={{ backgroundColor: "#ffffff" }}>
+          <View className="home_column_group">
             <Image
-              className="year_member_privilege"
-              src={image_domain + "year_member_privilege.png"}
+              className="home_column"
+              src={image_domain + "reds_selection.png"}
+              onClick={this.onFeatured.bind(this)}
             />
-          </AtTabsPane>
-          <AtTabsPane current={tab_current} index={1}>
             <Image
-              className="year_member_privilege"
-              src={image_domain + "year_member_privilege.png"}
+              className="home_column"
+              src={image_domain + "excellent_doctor_group.png"}
+              onClick={this.onDoctors.bind(this)}
             />
-          </AtTabsPane>
-          <AtTabsPane current={tab_current} index={2}>
-            <Image
-              className="year_member_privilege"
-              src={image_domain + "year_member_privilege.png"}
-            />
-          </AtTabsPane>
-        </AtTabs>
-        {tab_current == 0 && <OperatedGood good_list={good_list} />}
-        {tab_current == 1 && <GroupBuyDoctor doctor_list={doctor_list} />}
+          </View>
+        </View>
+        {special_list.map(item => {
+          return (
+            <View
+              className="home_special"
+              key={item.id}
+              style={{
+                backgroundImage: `url(${item.banner})`,
+                backgroundSize: "cover"
+              }}
+            >
+              <View
+                className={[
+                  "home_special_group",
+                  item.goods.length < 4 && "home_special_group1"
+                ]}
+              >
+                {item.goods.map(item1 => {
+                  return (
+                    <View
+                      className="home_special_good"
+                      onClick={this.ondetail.bind(this, item1.id)}
+                      key={item1.id}
+                    >
+                      <Image
+                        className="home_special_good_img"
+                        src={item1.pict_url}
+                      />
+                      <View className="home_special_good_name">
+                        {item1.title}
+                      </View>
+                      <View>¥ {item1.after_money}</View>
+                    </View>
+                  );
+                })}
+                {item.goods.length == 4 && (
+                  <View
+                    className="home_special_open"
+                    onClick={this.onSpecial.bind(this, item.id)}
+                  />
+                )}
+              </View>
+            </View>
+          );
+        })}
+        {offer_list.map(item => {
+          return (
+            <View
+              className="home_good"
+              onClick={this.ondetail.bind(this, item.id)}
+              key={item.id}
+            >
+              <View className="home_good_top">
+                <Image className="home_good_img" src={item.pict_url} />
+                <View className="home_good_right">
+                  <View>
+                    <View className="home_good_right_price">
+                      <Text className="home_good_price_symbol">¥</Text>
+                      <Text className="home_good_price">
+                        {item.after_money}
+                      </Text>
+                    </View>
+                    <View className="home_good_original">
+                      ￥{item.zk_final_price}
+                    </View>
+                    <View style={{ fontSize: "12px" }}>已售{item.volume}</View>
+                  </View>
+                  <View className="home_good_benefit">
+                    <Text className="home_good_benefit_text">惠</Text>
+                    <Text className="home_good_benefit_num">
+                      ¥{item.discount_money}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View className="home_good_title">{item.title}</View>
+            </View>
+          );
+        })}
+
         <Image
           className="my"
           src={image_domain + "my.png"}

@@ -24,4 +24,12 @@ export default class OperatedModel extends HTTP {
       data: { source_mode: 1, yzdl: "yzdl", gid, token }
     })
   }
+
+  // 提交订单
+  submissionOrder(params) {
+    return this.request({
+      url: 'Apihmselected/submissionOrder',
+      data: { source_mode: 1, yzdl: "yzdl", type: 4, source_type: 2, ...params }
+    })
+  }
 }

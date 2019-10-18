@@ -44,6 +44,7 @@
     height: 190px;
     background-color: #ffffff;
     box-shadow: 0px 10px 15px 0px rgba(164, 164, 164, 0.17);
+    z-index: 1;
 
     .my_order_sort {
       box-sizing: border-box;
@@ -58,7 +59,7 @@
         border: solid 1PX #ff093c;
         border-radius: 34px;
         font-size: 30px;
-        line-height: 63px;
+        line-height: 62px;
 
         &::after {
           display: none;
@@ -76,6 +77,12 @@
           &:nth-child(3) {
             border-radius: 0 34px 34px 0px;
             border-left: solid 1PX #ff093c;
+          }
+
+          .at-badge {
+            .at-tab-bar__title {
+              padding: 0;
+            }
           }
         }
 
@@ -125,6 +132,7 @@
     }
   }
 
+  .my_order_operated,
   .my_order_group_buy,
   .my_order_gift {
     width: 100%;
@@ -133,12 +141,138 @@
     box-sizing: border-box;
     font-size: 24px;
 
+    .my_order_operated_flex,
     .my_order_group_buy_flex,
     .my_order_gift_flex {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+    }
+  }
+
+  .my_order_operated {
+    .my_order_operated_item {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 385px;
+      padding: 26px 20px;
+      margin: 20px 0;
+      background-color: #ffffff;
+      box-shadow: 0px 0px 15px 0px rgba(39, 39, 39, 0.17);
+      border-radius: 10px;
+
+      .my_order_operated_flex {
+        .my_order_operated_hospital {
+          position: relative;
+          font-size: 26px;
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            right: -22px;
+            width: 8px;
+            height: 14px;
+            background: url(https://qiniu.hongmenpd.com/H5/images/jiantou.png) no-repeat;
+            background-size: cover;
+          }
+
+          .hospital_img {
+            width: 30px;
+            height: 30px;
+            margin-right: 18px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .my_order_operated_content {
+        display: flex;
+        flex-direction: row;
+        margin: 28px 0;
+
+        .my_order_operated_img {
+          min-width: 180px;
+          width: 180px;
+          height: 180px;
+          margin-right: 20px;
+          background-color: #f4f4f4;
+        }
+
+        .my_order_operated_name {
+          font-size: 26px;
+          line-height: 30px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          word-break: break-all;
+          /*! autoprefixer: off */
+        }
+
+        .my_order_operated_time {
+          margin-top: 10px;
+          font-size: 20px;
+          color: #999999;
+          ;
+        }
+
+        .my_order_operated_bottom {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 10px;
+          color: #999999
+        }
+      }
+
+      .operated_payment_method {
+        margin: 0 0 26px 120px;
+        font-size: 20px;
+        color: #333333;
+
+        .payment_method_text {
+          display: inline-block;
+          background-color: #ffeeee;
+          border: solid 1px #ff0000;
+          padding: 6px;
+          font-size: 18px;
+          // line-height: 20px;
+          color: #ff093c;
+        }
+      }
+
+      .my_order_operated_price {
+        text-align: right;
+        font-size: 24px;
+        color: #2a2a2a;
+
+        .operated_price {
+          font-size: 30px;
+        }
+      }
+
+      .my_order_operated_btn {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        .my_order_operated_pay_btn {
+          width: 144px;
+          height: 38px;
+          margin: 30px 0 0 40px;
+          border: solid 1PX #999999;
+          border-radius: 19px;
+          font-size: 24px;
+          line-height: 38px;
+          color: #333333;
+        }
+      }
     }
   }
 
@@ -182,6 +316,7 @@
         line-height: 30px;
 
         .my_order_group_buy_img {
+          min-width: 180px;
           width: 180px;
           height: 180px;
           margin-right: 20px;
@@ -191,6 +326,13 @@
         .my_order_group_buy_item20 {
           font-size: 20px;
           color: #999999;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          word-break: break-all;
+          /*! autoprefixer: off */
         }
       }
 

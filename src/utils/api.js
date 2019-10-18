@@ -50,7 +50,7 @@ export default class HTTP {
             return resolve(res.list)
           } else if (url == 'Apiwx/getMemberInfo') {
             if (res.code) return resolve(res.list)
-          } else if (res.code == 103) {
+          } else if (res.code == 101 || res.code == 103) {
             Taro.showToast({
               title: '用户信息过期',
               icon: 'none',

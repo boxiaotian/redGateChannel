@@ -124,9 +124,12 @@ const config = {
       customRoutes: {
         '/pages/index/index': '/index',
         '/pages/home/index': '/home',
+        '/pages/special_list/index': '/specialList',
+        '/pages/reds_selection/index': '/redsSelection',
         '/pages/product_detail/index': '/productDetail',
         '/pages/confirm_order/index': '/confirmOrder',
         '/pages/commodity_pay/index': '/CommodityPay',
+        '/pages/enjoy_doctor/index': '/enjoyDoctor',
         '/pages/doctor_detail/index': '/doctorDetail',
         '/pages/doctor_pay/index': '/doctorPay',
         '/pages/login/index': '/login',

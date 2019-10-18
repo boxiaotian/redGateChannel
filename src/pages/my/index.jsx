@@ -1,10 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtGrid, AtList, AtListItem } from "taro-ui";
+import { AtGrid, AtList, AtListItem, AtButton } from "taro-ui";
 
 import { Navbar } from "@/components/index";
-import { url_domain, order_status } from "@/constants/counter";
+import { url_domain, image_domain, order_status } from "@/constants/counter";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { getCahce, setCahce } from "@/utils/cache";
@@ -33,9 +33,10 @@ export default class My extends Component {
   };
 
   componentWillMount() {
+    Taro.removeStorageSync("cid");
     if (getCahce("appid")) {
-      let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
-      // let redirect_uri = urlEncode(window.location.href);
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      let redirect_uri = urlEncode(window.location.href);
       if (!getUrlKey("code")) {
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           getCahce("appid").appid
@@ -70,8 +71,23 @@ export default class My extends Component {
     window.location.href = url_domain + "home";
   }
 
-  onAllOrder() {
-    Taro.navigateTo({ url: "/pages/my_order/index?sort_current=0" });
+  onAllOrder(item, index) {
+    let status;
+    if (index === undefined) status = 0;
+    else if (index == 1 || index == 2) status = 2;
+    else if (index == 3) status = 3;
+    else status = 1;
+    Taro.navigateTo({
+      url: "/pages/my_order/index?sort_current=0&status_current=" + status
+    });
+  }
+
+  onPackage() {
+    if (this.props.memberInfo.vip) {
+      Taro.navigateTo({ url: "/pages/my_order/index?sort_current=2" });
+    } else {
+      Taro.navigateTo({ url: "/pages/red_door_package/index" });
+    }
   }
 
   onHelpService() {
@@ -90,6 +106,7 @@ export default class My extends Component {
 
   render() {
     let { info, my_order_data } = this.state;
+    let { memberInfo } = this.props;
 
     return (
       <View className="my">
@@ -116,6 +133,18 @@ export default class My extends Component {
               columnNum="4"
             />
           </View>
+        </View>
+        <View className="my_gift_package">
+          <Image
+            className="my_gift_package_img"
+            src={image_domain + "crown.png"}
+          />
+          <Text style={{ marginLeft: "-36px" }}>
+            购买礼包升级VIP享多种特权权限
+          </Text>
+          <AtButton size="small" onClick={this.onPackage.bind(this)}>
+            {memberInfo.vip ? "查看订单" : "立即购买"}
+          </AtButton>
         </View>
         <AtList hasBorder={false}>
           <AtListItem

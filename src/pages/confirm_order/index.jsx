@@ -3,7 +3,7 @@ import { View, Image, Text } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtButton, AtInputNumber, AtInput } from "taro-ui";
 import { Navbar } from "@/components/index";
-import { image_domain } from "@/constants/counter";
+import { url_domain, image_domain } from "@/constants/counter";
 import OperatedModel from "@/models/operated_goods";
 import { getCahce, setCahce } from "@/utils/cache";
 
@@ -28,9 +28,8 @@ export default class ConfirmOrder extends Component {
 
   // 返回上一页
   onJump() {
-    Taro.redirectTo({
-      url: "/pages/product_detail/index?gid=" + this.$router.params.gid
-    });
+    // Taro.redirectTo({ url: "/pages/product_detail/index?gid=" + this.$router.params.gid });
+    window.location.href = url_domain + getCahce("url").url;
   }
 
   // 返回首页
@@ -54,7 +53,7 @@ export default class ConfirmOrder extends Component {
   onPay() {
     let { info, good_number, remark } = this.state;
     let params = {
-      id: info.id,
+      gid: info.id,
       title: info.title,
       number: good_number,
       mobile: info.mobile,
@@ -62,7 +61,8 @@ export default class ConfirmOrder extends Component {
       price: info.appointment_money_status
         ? info.appointment_money * good_number
         : (info.after_money - info.appointment_money).toFixed(2) * good_number,
-      source_type_share: getCahce("cid") && getCahce("cid").cid ? 2 : 1
+      source_type_share: getCahce("cid") && getCahce("cid").cid ? 2 : 1,
+      token: this.props.memberInfo.token
     };
     setCahce("commodityPay", params);
     Taro.navigateTo({ url: "/pages/commodity_pay/index" });

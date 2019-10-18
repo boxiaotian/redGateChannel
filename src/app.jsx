@@ -21,9 +21,12 @@ class App extends Component {
   config = {
     pages: [
       "pages/home/index", // 首页
+      "pages/special_list/index", // 专场
+      "pages/reds_selection/index", // 红们精选
       "pages/product_detail/index", // 商品详情
       "pages/confirm_order/index", // 商品确认订单
       "pages/commodity_pay/index", // 商品支付
+      "pages/enjoy_doctor/index", // 优享医生
       "pages/doctor_detail/index", // 医生详情
       "pages/doctor_pay/index", // 医生支付
       "pages/red_door_package/index", // 小礼包

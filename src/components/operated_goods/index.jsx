@@ -10,6 +10,7 @@ export default class OperatedGood extends Component {
 
   // 商品详情
   ondetail(gid) {
+    Taro.removeStorageSync("cid");
     Taro.navigateTo({ url: "/pages/product_detail/index?gid=" + gid });
   }
   render() {

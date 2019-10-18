@@ -1,17 +1,33 @@
 import Taro, { Component } from "@tarojs/taro";
+import { connect } from "@tarojs/redux";
 import { View, Image, Text, Swiper, SwiperItem } from "@tarojs/components";
 import { AtButton, AtDivider } from "taro-ui";
 import { Navbar } from "@/components/index";
 import OperatedModel from "@/models/operated_goods";
-import { getUrlKey } from "@/utils/utils";
+import WeiXinModel from "@/models/weixin";
+import { getMemberInfo } from "@/redux/actions/user";
 import { setCahce } from "@/utils/cache";
+import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
 
 import "./index.less";
 
 const operatedModel = new OperatedModel();
-
+const weiXinModel = new WeiXinModel();
+@connect(
+  store => {
+    return { memberInfo: store.user.memberInfo };
+  },
+  dispatch => {
+    return {
+      onGetMemberInfo(params) {
+        dispatch(getMemberInfo(params));
+      }
+    };
+  }
+)
 export default class ProductDetail extends Component {
   state = {
+    app_id: "",
     opacity: 0,
     details: {},
     current: 1 // 轮播图当前下标
@@ -21,6 +37,36 @@ export default class ProductDetail extends Component {
     if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
     if (this.$router.params.gid) this.goodsHmDetails();
     else Taro.redirectTo({ url: "/pages/home/index" });
+
+    // 公众号AppId
+    weiXinModel.getConfig().then(res => {
+      this.setState({ app_id: res.app_id });
+    });
+
+    if (getUrlKey("code")) {
+      this.props.onGetMemberInfo &&
+        this.props.onGetMemberInfo({ code: getUrlKey("code") });
+      if (this.props.memberInfo !== undefined && this.props.memberInfo.uid) {
+        setTimeout(() => {
+          setCahce("url", {
+            url: "productDetail?gid=" + this.state.details.id
+          });
+          Taro.navigateTo({
+            url: "/pages/confirm_order/index?gid=" + this.state.details.id
+          });
+        }, 1000);
+      } else {
+        Taro.showToast({
+          title: "请登录注册",
+          icon: "none",
+          success: () => {
+            setTimeout(() => {
+              Taro.redirectTo({ url: "/pages/login/index" });
+            }, 1000);
+          }
+        });
+      }
+    }
   }
 
   onPageScroll(obj) {
@@ -40,6 +86,7 @@ export default class ProductDetail extends Component {
   // 返回首页
   onJump() {
     Taro.redirectTo({ url: "/pages/home/index" });
+    // Taro.navigateBack({ delta: 1 });
   }
 
   // 轮播图
@@ -48,8 +95,19 @@ export default class ProductDetail extends Component {
   }
 
   // 确认订单
-  onPay(id) {
-    Taro.navigateTo({ url: "/pages/confirm_order/index?gid=" + id });
+  onPay() {
+    let { app_id } = this.state;
+
+    if (isWeiXin()) {
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+      let redirect_uri = urlEncode(window.location.href);
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    } else {
+      Taro.showToast({
+        title: "请下载APP购买或使用微信打开",
+        icon: "none"
+      });
+    }
   }
 
   // 商品详情

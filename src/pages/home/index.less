@@ -1,54 +1,201 @@
 #app {
   background-color: #f6f6f6;
+  height: auto;
 }
 
 .home {
-  padding-top: 88px;
+  padding: 88px 0 50px;
 
   .nav_bar {
+    background: linear-gradient(45deg, rgba(255, 4, 93, 1) 0%, rgba(255, 0, 126, 1) 100%);
+
     .nav_bar_left {
       opacity: 0;
     }
   }
 
-  .at-tabs {
-    padding-top: 72px;
+  .swiper-container {
+    width: 100%;
+    height: auto;
 
-    .at-tabs__header {
-      position: fixed;
-      top: 88px;
-      left: 0;
-      padding: 0 20px;
-      z-index: 1;
-      background-color: #ff0239;
+    .home_img {
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
 
-      .at-tabs__item {
-        padding: 23px 72px 23px 0;
-        flex: none;
-        color: #ffffff;
+    .swiper-pagination {
+      .swiper-pagination-bullet {
+        width: 20px;
+        height: 20px;
+        opacity: 1;
+        background: #ffffff;
+      }
 
-        &.at-tabs__item--active {
-          font-weight: bold;
+      .swiper-pagination-bullet-active {
+        background-image: linear-gradient(45deg, #f9045d 0%, #ff007e 100%);
+      }
+    }
+  }
+
+  .year_member_privilege {
+    width: 100%;
+    height: auto;
+    vertical-align: top;
+  }
+
+  .home_column_group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 94.67%;
+    height: 170px;
+    padding: 50px 0;
+    margin: auto;
+
+    .home_column {
+      width: 350px;
+      height: 100%;
+      border-radius: 15px;
+    }
+  }
+
+  .home_special {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 94.67%;
+    height: 590px;
+    padding: 30px 20px;
+    margin: 0 auto 50px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    overflow-x: auto;
+
+    .home_special_group {
+      width: 825px;
+      height: 230px;
+
+      .home_special_good {
+        float: left;
+        width: 150px;
+        height: 230px;
+        margin-right: 15px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 30px;
+        color: #ff0000;
+
+        .home_special_good_img {
+          width: 150px;
+          height: 150px;
+          border-radius: 10px 10px 0px 0px;
+          vertical-align: middle;
         }
 
-        .at-tabs__item-underline {
-          width: 16%;
-          height: 4px;
-          background-color: #ffffff;
-          border-radius: 2PX;
-          left: 40px;
+        .home_special_good_name {
+          margin: 12px 0;
+          font-size: 22px;
+          color: #000000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .home_special_open {
+        float: left;
+        width: 150px;
+        height: 230px;
+        margin-right: 15px;
+        background: url(https://hmpd.hongmenpd.com/H5/image/special_more.png) no-repeat;
+        background-size: cover;
+      }
+    }
+
+    .home_special_group1 {
+      width: 100%;
+      height: 230px;
+    }
+  }
+
+  .home_good {
+    width: 94.67%;
+    height: 430px;
+    margin: 0 auto 50px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    font-size: 30px;
+
+    .home_good_top {
+      display: flex;
+      flex-direction: row;
+
+      .home_good_img {
+        width: 533px;
+        height: 355px;
+        margin: 0 10px 30px 0;
+        background-color: #000000;
+        border-top-left-radius: 8px;
+      }
+
+      .home_good_right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 30px;
+
+        .home_good_right_price {
+          margin-top: 40px;
+          color: #ff0000;
+
+          .home_good_price_symbol {
+            margin-right: 10px;
+            font-size: 26px;
+          }
+
+          .home_good_price {
+            font-size: 38px;
+            font-weight: bold;
+          }
+        }
+
+        .home_good_original {
+          margin: 26px 0 20px;
+          color: #cccccc;
+          text-decoration: line-through;
+        }
+
+        .home_good_benefit {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 154px;
+          height: 42px;
+          background-image: linear-gradient(-45deg, #ff0000 0%, #ff477b 100%);
+          text-align: center;
+          font-size: 26px;
+          line-height: 42px;
+          color: #ffffff;
+
+          .home_good_benefit_text {
+            min-width: 44px;
+          }
+
+          .home_good_benefit_num {
+            flex: 1;
+          }
         }
       }
     }
 
-    .at-tabs__body {
-      .at-tabs-pane {
-        .year_member_privilege {
-          width: 100%;
-          height: auto;
-          vertical-align: middle;
-        }
-      }
+    .home_good_title {
+      text-indent: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

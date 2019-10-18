@@ -59,20 +59,14 @@ export default class DoctorDetail extends Component {
         this.props.onGetMemberInfo({ code: getUrlKey("code") });
       if (this.props.memberInfo !== undefined && this.props.memberInfo.uid) {
         setTimeout(() => {
-          let { id } = this.$router.params;
-          let { details } = this.state;
-          setCahce("url", {
-            url: getCahce("cid")
-              ? "doctorDetail?id=" + id + "&cid=" + getCahce("cid").cid
-              : "doctorDetail?id=" + id
-          });
+          setCahce("url", { url: "doctorDetail?id=" + this.state.details.id });
           if (
-            !details.appointment_type &&
+            !this.state.details.appointment_type &&
             getCahce("isdoctorPay") &&
             getCahce("isdoctorPay").isPay
           ) {
             Taro.navigateTo({ url: "/pages/doctor_pay/index" });
-          } else if (doctor_data.appointment_type) {
+          } else if (this.state.details.appointment_type) {
             Taro.showToast({
               title: "您已预约，请下载APP查看",
               icon: "none"
@@ -109,7 +103,7 @@ export default class DoctorDetail extends Component {
 
   // 返回首页
   onJump() {
-    Taro.redirectTo({ url: "/pages/home/index" });
+    Taro.redirectTo({ url: "/pages/enjoy_doctor/index" });
   }
 
   // 查看资质认证

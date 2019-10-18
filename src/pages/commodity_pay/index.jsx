@@ -3,10 +3,13 @@ import { View, Image, Text } from "@tarojs/components";
 import { AtButton } from "taro-ui";
 import { Navbar } from "@/components/index";
 import { image_domain } from "@/constants/counter";
+import OperatedModel from "@/models/operated_goods";
 import { getCahce } from "@/utils/cache";
+import { onBridgeReady } from "@/utils/utils";
 
 import "./index.less";
 
+const operatedModel = new OperatedModel();
 export default class CommodityPay extends Component {
   state = {
     info: {}
@@ -30,7 +33,42 @@ export default class CommodityPay extends Component {
     Taro.redirectTo({ url: "/pages/home/index" });
   }
 
-  onConfirmPay() {}
+  onConfirmPay() {
+    this.submissionOrder();
+  }
+
+  // 提交订单
+  submissionOrder() {
+    operatedModel.submissionOrder(this.state.info).then(res => {
+      this.BridgeReady(res);
+    });
+  }
+  // 调取微信支付
+  BridgeReady(res) {
+    onBridgeReady(res).then(result => {
+      if (result.err_msg == "get_brand_wcpay_request:ok") {
+        Taro.showToast({
+          title: "支付成功",
+          icon: "none",
+          success: () => {
+            setTimeout(() => {
+              Taro.redirectTo({ url: "/pages/my/index" });
+            }, 1000);
+          }
+        });
+      } else {
+        Taro.showToast({
+          title: "支付失败",
+          icon: "none",
+          success: () => {
+            setTimeout(() => {
+              Taro.redirectTo({ url: "/pages/my/index" });
+            }, 1000);
+          }
+        });
+      }
+    });
+  }
 
   render() {
     let { info } = this.state;
