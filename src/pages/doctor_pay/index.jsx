@@ -50,7 +50,8 @@ export default class DoctorPay extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/my/index" });
+              // Taro.redirectTo({ url: "/pages/my/index" });
+              window.location.href = url_domain + "myOrder?sort_current=1";
             }, 1000);
           }
         });
@@ -60,7 +61,8 @@ export default class DoctorPay extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/my/index" });
+              // Taro.redirectTo({ url: "/pages/my/index" });
+              window.location.href = url_domain + "myOrder?sort_current=1";
             }, 1000);
           }
         });

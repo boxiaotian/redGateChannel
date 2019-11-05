@@ -2,7 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Image, Text } from "@tarojs/components";
 import { AtButton } from "taro-ui";
 import { Navbar } from "@/components/index";
-import { image_domain } from "@/constants/counter";
+import { url_domain, image_domain } from "@/constants/counter";
 import OperatedModel from "@/models/operated_goods";
 import { getCahce } from "@/utils/cache";
 import { onBridgeReady } from "@/utils/utils";
@@ -52,7 +52,8 @@ export default class CommodityPay extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/my/index" });
+              // Taro.redirectTo({ url: "/pages/my/index" });
+              window.location.href = url_domain + "myOrder?sort_current=0";
             }, 1000);
           }
         });
@@ -62,7 +63,8 @@ export default class CommodityPay extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/my/index" });
+              // Taro.redirectTo({ url: "/pages/my/index" });
+              window.location.href = url_domain + "myOrder?sort_current=0";
             }, 1000);
           }
         });
@@ -72,7 +74,6 @@ export default class CommodityPay extends Component {
 
   render() {
     let { info } = this.state;
-    console.log(info);
 
     return (
       <View className="commodity_pay">

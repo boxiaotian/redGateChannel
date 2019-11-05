@@ -94,7 +94,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: '/',
+    publicPath: './',
     staticDirectory: 'static',
     module: {
       postcss: {
@@ -138,7 +138,8 @@ const config = {
         '/pages/red_powder_vip/index': '/redPowderVip',
         '/pages/spree/index': '/spree',
         '/pages/my/index': '/my',
-        '/pages/my_order/index': '/myOrder'
+        '/pages/my_order/index': '/myOrder',
+        '/pages/newbie_guide/index': '/newbieGuide'
       }
     },
     esnextModules: ['taro-ui'],

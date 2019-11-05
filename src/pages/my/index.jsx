@@ -86,7 +86,8 @@ export default class My extends Component {
     if (this.props.memberInfo.vip) {
       Taro.navigateTo({ url: "/pages/my_order/index?sort_current=2" });
     } else {
-      Taro.navigateTo({ url: "/pages/red_door_package/index" });
+      // Taro.redirectTo({ url: "/pages/red_door_package/index" });
+      window.location.href = url_domain + "redDoorPackage";
     }
   }
 
@@ -97,9 +98,9 @@ export default class My extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+        window.location.href = "https://iiu.xyz/app.php/MjQ";
       } else {
-        window.location.href = "https://iiu.xyz.com/app.php/NA";
+        window.location.href = "https://iiu.xyz/app.php/NA";
       }
     }, 1000);
   }
@@ -109,18 +110,18 @@ export default class My extends Component {
     let { memberInfo } = this.props;
 
     return (
-      <View className="my">
-        <Navbar title="我的" onJump={this.onJump.bind(this)} />
-        <View className="my_content">
-          <View className="my_info">
-            <Image className="my_info_avatar" src={info.portrait} />
+      <View className='my'>
+        <Navbar title='我的' onJump={this.onJump.bind(this)} />
+        <View className='my_content'>
+          <View className='my_info'>
+            <Image className='my_info_avatar' src={info.portrait} />
             <Text>{info.name}</Text>
           </View>
-          <View className="my_order">
-            <View className="my_order_top">
+          <View className='my_order'>
+            <View className='my_order_top'>
               <Text>我的订单</Text>
               <Text
-                className="my_all_order"
+                className='my_all_order'
                 onClick={this.onAllOrder.bind(this)}
               >
                 查看全部
@@ -130,26 +131,26 @@ export default class My extends Component {
               onClick={this.onAllOrder.bind(this)}
               data={my_order_data}
               hasBorder={false}
-              columnNum="4"
+              columnNum='4'
             />
           </View>
         </View>
-        <View className="my_gift_package">
+        <View className='my_gift_package'>
           <Image
-            className="my_gift_package_img"
+            className='my_gift_package_img'
             src={image_domain + "crown.png"}
           />
           <Text style={{ marginLeft: "-36px" }}>
             购买礼包升级VIP享多种特权权限
           </Text>
-          <AtButton size="small" onClick={this.onPackage.bind(this)}>
+          <AtButton size='small' onClick={this.onPackage.bind(this)}>
             {memberInfo.vip ? "查看订单" : "立即购买"}
           </AtButton>
         </View>
         <AtList hasBorder={false}>
           <AtListItem
-            title="帮助与客服"
-            arrow="right"
+            title='帮助与客服'
+            arrow='right'
             onClick={this.onHelpService.bind(this)}
             hasBorder={false}
           />

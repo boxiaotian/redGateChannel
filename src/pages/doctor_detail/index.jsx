@@ -108,7 +108,7 @@ export default class DoctorDetail extends Component {
 
   // 查看资质认证
   onCertificate() {
-    buyDoctorModel.doctorDetailsProve(this.details.id).then(res1 => {
+    buyDoctorModel.doctorDetailsProve(this.state.details.id).then(res1 => {
       this.setState({ prove: res1 });
     });
     this.setState({

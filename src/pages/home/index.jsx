@@ -100,8 +100,8 @@ export default class Home extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
-            else window.location.href = "https://iiu.xyz.com/app.php/NA";
+              window.location.href = "https://iiu.xyz/app.php/MjQ";
+            else window.location.href = "https://iiu.xyz/app.php/NA";
           }, 1000);
         }
       });
@@ -116,9 +116,9 @@ export default class Home extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+        window.location.href = "https://iiu.xyz/app.php/MjQ";
       } else {
-        window.location.href = "https://iiu.xyz.com/app.php/NA";
+        window.location.href = "https://iiu.xyz/app.php/NA";
       }
     }, 1000);
   }
@@ -136,6 +136,8 @@ export default class Home extends Component {
       homeModel.specialField(this.state.special_page++).then(res => {
         this.setState({ special_list: this.state.special_list.concat(res) });
         if (res.length == 3) {
+          console.log("ads");
+
           this.setState({ isspecial: true, isoffer: false });
         } else {
           this.setState({ isspecial: false, isoffer: true }, () => {
@@ -150,7 +152,7 @@ export default class Home extends Component {
   goodsPreferential() {
     homeModel.goodsPreferential(this.state.offer_page++).then(res => {
       this.setState({ offer_list: this.state.offer_list.concat(res) });
-      if (res.length == 6) this.setState({ isoffer: true });
+      if (res.length == 10) this.setState({ isoffer: true });
       else this.setState({ isoffer: false });
     });
   }
@@ -170,7 +172,11 @@ export default class Home extends Component {
             {carousel_map.map(item => {
               return (
                 <SwiperItem key={item.id}>
-                  <Image className="home_img" src={item.img} />
+                  <Image
+                    className="home_img"
+                    src={item.img}
+                    mode="aspectFill"
+                  />
                 </SwiperItem>
               );
             })}

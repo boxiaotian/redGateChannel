@@ -66,9 +66,8 @@ export default class RedDoorPackage extends Component {
                 success: () => {
                   setTimeout(() => {
                     if (isAndroid())
-                      window.location.href = "https://iiu.xyz.com/app.php/MjQ";
-                    else
-                      window.location.href = "https://iiu.xyz.com/app.php/NA";
+                      window.location.href = "https://iiu.xyz/app.php/MjQ";
+                    else window.location.href = "https://iiu.xyz/app.php/NA";
                   }, 1000);
                 }
               });
@@ -91,7 +90,7 @@ export default class RedDoorPackage extends Component {
 
   // 返回首页
   onJump() {
-    Taro.redirectTo({ url: "/pages/home/index" });
+    Taro.redirectTo({ url: "/pages/my/index" });
   }
 
   // 查看特权
@@ -121,8 +120,8 @@ export default class RedDoorPackage extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
-            else window.location.href = "https://iiu.xyz.com/app.php/NA";
+              window.location.href = "https://iiu.xyz/app.php/MjQ";
+            else window.location.href = "https://iiu.xyz/app.php/NA";
           }, 1000);
         }
       });
@@ -137,9 +136,9 @@ export default class RedDoorPackage extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+        window.location.href = "https://iiu.xyz/app.php/MjQ";
       } else {
-        window.location.href = "https://iiu.xyz.com/app.php/NA";
+        window.location.href = "https://iiu.xyz/app.php/NA";
       }
     }, 1000);
   }

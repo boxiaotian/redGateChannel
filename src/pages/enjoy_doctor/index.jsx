@@ -74,7 +74,6 @@ export default class EnjoyDoctor extends Component {
 
   render() {
     let { carousel_map, doctor_list } = this.state;
-    console.log(doctor_list);
 
     return (
       <View className="enjoy_doctor">

@@ -1,10 +1,10 @@
 export const ADD = 'ADD'
 export const MINUS = 'MINUS'
 //http://192.168.0.124:10086/#/  https://app.hongmenpd.com/H5/#/  https://hm.hongmenpd.com/H5/#/
-export const url_domain = 'http://192.168.0.124:10086/#/'
+export const url_domain = 'https://app.hongmenpd.com/H5/#/'
 // https://hmpd.hongmenpd.com/H5/image/  https://qiniu.hongmenpd.com/H5/images/
 export const image_domain = 'https://qiniu.hongmenpd.com/H5/images/'
-export const formal_domain = 'https://hm.hongmenpd.com/api/'  // https://app.hongmenpd.com/api/
+export const formal_domain = 'https://app.hongmenpd.com/api/'  // https://app.hongmenpd.com/api/
 export const package_privilege = [{  // 礼包特权
   image: image_domain + 'cashback.png',
   value: '消费返现'

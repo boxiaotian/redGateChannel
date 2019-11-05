@@ -151,6 +151,14 @@ export default class MyOrder extends Component {
     Taro.redirectTo({ url: "/pages/home/index" });
   }
 
+  // 申请退款
+  onRefund() {
+    Taro.showToast({
+      title: "请前往APP申请退款",
+      icon: "none"
+    });
+  }
+
   // 自营支付
   onOperatedPay(order_sn) {
     orderModel
@@ -272,28 +280,28 @@ export default class MyOrder extends Component {
     } = this.state;
 
     return (
-      <View className="my_order">
-        <Navbar title="我的订单" onJump={this.onJump.bind(this)}>
+      <View className='my_order'>
+        <Navbar title='我的订单' onJump={this.onJump.bind(this)}>
           <Image
-            className="nav_bar_home"
+            className='nav_bar_home'
             src={image_domain + "home.png"}
             onClick={this.onHome.bind(this)}
           />
         </Navbar>
-        <View className="my_order_tab">
-          <View className="my_order_sort">
+        <View className='my_order_tab'>
+          <View className='my_order_sort'>
             <AtTabBar
-              color="#ff093c"
-              selectedColor="#ffffff"
+              color='#ff093c'
+              selectedColor='#ffffff'
               tabList={sort_tab}
               onClick={this.onSort.bind(this)}
               current={sort_current}
             />
           </View>
-          <View className="my_order_status">
+          <View className='my_order_status'>
             <AtTabBar
-              color="#000000"
-              selectedColor="#ff093c"
+              color='#000000'
+              selectedColor='#ff093c'
               tabList={status_tab}
               onClick={this.onStatus.bind(this)}
               current={status_current}
@@ -301,42 +309,42 @@ export default class MyOrder extends Component {
           </View>
         </View>
         {sort_current == 0 && (
-          <View className="my_order_operated">
+          <View className='my_order_operated'>
             {operated_info.length ? (
               operated_info.map(item => {
                 return (
-                  <View className="my_order_operated_item" key={item.id}>
-                    <View className="my_order_operated_flex">
-                      <View className="my_order_operated_hospital">
-                        <Image className="hospital_img" src={item.logo} />
+                  <View className='my_order_operated_item' key={item.id}>
+                    <View className='my_order_operated_flex'>
+                      <View className='my_order_operated_hospital'>
+                        <Image className='hospital_img' src={item.logo} />
                         <Text>{item.name}</Text>
                       </View>
                       <Text style={{ color: "#ff093c" }}>
                         {this.operatedStatus(item.status)}
                       </Text>
                     </View>
-                    <View className="my_order_operated_content">
+                    <View className='my_order_operated_content'>
                       <Image
-                        className="my_order_operated_img"
+                        className='my_order_operated_img'
                         src={item.pic_url}
                       />
                       <View style={{ flex: "1" }}>
-                        <View className="my_order_operated_name">
+                        <View className='my_order_operated_name'>
                           {item.title}
                         </View>
-                        <View className="my_order_operated_time">
+                        <View className='my_order_operated_time'>
                           创建日：{item.time}
                         </View>
-                        <View className="my_order_operated_time">
+                        <View className='my_order_operated_time'>
                           结束日：{item.settlement_time}
                         </View>
                         <View
-                          className="my_order_operated_time"
+                          className='my_order_operated_time'
                           style={{ color: "#f03" }}
                         >
                           预估收益：¥{item.estimated}
                         </View>
-                        <View className="my_order_operated_bottom">
+                        <View className='my_order_operated_bottom'>
                           <Text style={{ color: "#333" }}>
                             {item.appointment_status
                               ? `预约金: ${item.pay_price_my}`
@@ -351,22 +359,23 @@ export default class MyOrder extends Component {
                       </View>
                     </View>
                     {item.offline_type != 0 && (
-                      <View className="operated_payment_method">
+                      <View className='operated_payment_method'>
                         付款方式：
-                        <Text className="payment_method_text">
+                        <Text className='payment_method_text'>
                           {item.offline_type == 1 ? "自付" : "机构付"}
                         </Text>
                       </View>
                     )}
-                    <View className="my_order_operated_price">
+                    <View className='my_order_operated_price'>
                       共{item.number}件商品 合计：￥
-                      <Text className="operated_price">{item.pay_price}</Text>
+                      <Text className='operated_price'>{item.pay_price}</Text>
                     </View>
-                    <View className="my_order_operated_btn">
+                    <View className='my_order_operated_btn'>
                       {item.status == 1 && item.pay_status == 1 && (
                         <AtButton
-                          className="my_order_operated_pay_btn"
-                          type="secondary"
+                          className='my_order_operated_pay_btn'
+                          type='secondary'
+                          onClick={this.onRefund.bind(this)}
                           circle
                         >
                           申请退款
@@ -374,8 +383,8 @@ export default class MyOrder extends Component {
                       )}
                       {item.offline_type == 1 && item.appointment_status == 1 && (
                         <AtButton
-                          className="my_order_operated_pay_btn"
-                          type="secondary"
+                          className='my_order_operated_pay_btn'
+                          type='secondary'
                           onClick={this.onOperatedPay.bind(this, item.order_sn)}
                           circle
                         >
@@ -384,8 +393,8 @@ export default class MyOrder extends Component {
                       )}
                       {item.status == 0 && !item.pay_status && (
                         <AtButton
-                          className="my_order_operated_pay_btn"
-                          type="secondary"
+                          className='my_order_operated_pay_btn'
+                          type='secondary'
                           onClick={this.onOperatedPay.bind(this, item.order_sn)}
                           circle
                         >
@@ -397,9 +406,9 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className="no_order">
+              <View className='no_order'>
                 <Image
-                  className="no_order_img"
+                  className='no_order_img'
                   src={image_domain + "w_order.png"}
                 />
                 <Text>暂无订单～</Text>
@@ -408,43 +417,43 @@ export default class MyOrder extends Component {
           </View>
         )}
         {sort_current == 1 && (
-          <View className="my_order_group_buy">
+          <View className='my_order_group_buy'>
             {doctor_info.length ? (
               doctor_info.map(item => {
                 return (
-                  <View className="my_order_group_buy_item" key={item.id}>
-                    <View className="my_order_group_buy_flex">
-                      <Text className="order_numbering">
+                  <View className='my_order_group_buy_item' key={item.id}>
+                    <View className='my_order_group_buy_flex'>
+                      <Text className='order_numbering'>
                         订单编号：{item.order_sn}
                       </Text>
                       <Text style={{ color: "#ff093c" }}>
                         {this.giftStatus(item.status)}
                       </Text>
                     </View>
-                    <View className="my_order_group_buy_item_content">
+                    <View className='my_order_group_buy_item_content'>
                       <Image
-                        className="my_order_group_buy_img"
+                        className='my_order_group_buy_img'
                         src={item.pict_url}
                       />
                       <View>
                         <View>{item.name}</View>
-                        <View className="my_order_group_buy_item20">
+                        <View className='my_order_group_buy_item20'>
                           {item.brief}
                         </View>
                         <View
-                          className="my_order_group_buy_item20"
+                          className='my_order_group_buy_item20'
                           style={{ marginTop: "5px" }}
                         >
                           创建日：{item.time}
                         </View>
                       </View>
                     </View>
-                    <View className="my_order_group_buy_price">
+                    <View className='my_order_group_buy_price'>
                       <Text>金额：¥{item.appointment_price}</Text>
                       {!item.status && (
                         <AtButton
-                          className="my_order_group_buy_btn"
-                          type="secondary"
+                          className='my_order_group_buy_btn'
+                          type='secondary'
                           onClick={this.onGroupBuyPay.bind(this, item.order_sn)}
                           circle
                         >
@@ -456,9 +465,9 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className="no_order">
+              <View className='no_order'>
                 <Image
-                  className="no_order_img"
+                  className='no_order_img'
                   src={image_domain + "w_order.png"}
                 />
                 <Text>暂无订单～</Text>
@@ -475,37 +484,38 @@ export default class MyOrder extends Component {
           </View>
         )}
         {sort_current == 2 && (
-          <View className="my_order_gift">
-            {(gift_info.giftBage && gift_info.giftBage[0].length) ||
-            (gift_info.giftBageLarge && gift_info.giftBageLarge.length) ? (
+          <View className='my_order_gift'>
+            {(gift_info.giftBage && Object.keys(gift_info.giftBage).length) ||
+            (gift_info.giftBageLarge &&
+              Object.keys(gift_info.giftBageLarge).length) ? (
               gift_info.giftBage.map(item => {
                 return (
-                  <View className="my_order_gift_item" key={item.id}>
-                    <View className="my_order_gift_flex">
+                  <View className='my_order_gift_item' key={item.id}>
+                    <View className='my_order_gift_flex'>
                       <Text>订单编号: {item.order_sn}</Text>
                       <Text style={{ color: "#ff093c" }}>
                         {this.giftStatus(item.status)}
                       </Text>
                     </View>
-                    <View className="my_order_gift_flex">
-                      <View className="my_order_gift_content">
+                    <View className='my_order_gift_flex'>
+                      <View className='my_order_gift_content'>
                         <View>{item.gname}</View>
-                        <View className="my_order_gift20">
+                        <View className='my_order_gift20'>
                           {item.shortname}
                         </View>
                       </View>
                       <Text>¥{item.price}</Text>
                     </View>
-                    <View className="my_order_gift_flex">
-                      <Text className="my_order_gift20">
+                    <View className='my_order_gift_flex'>
+                      <Text className='my_order_gift20'>
                         创建日：{item.time}
                       </Text>
-                      <View className="my_order_gift_price">
+                      <View className='my_order_gift_price'>
                         <Text>金额：￥{item.price}</Text>
                         {item.status == 0 && (
                           <AtButton
-                            className="my_order_gift_btn"
-                            type="secondary"
+                            className='my_order_gift_btn'
+                            type='secondary'
                             onClick={this.onGiftPay.bind(this, item.order_sn)}
                             circle
                           >
@@ -518,55 +528,55 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className="no_order">
+              <View className='no_order'>
                 <Image
-                  className="no_order_img"
+                  className='no_order_img'
                   src={image_domain + "w_order.png"}
                 />
                 <Text>暂无订单～</Text>
               </View>
             )}
-            {gift_info.giftBageLarge && gift_info.giftBageLarge.length
-              ? gift_info.giftBageLarge.map(item => {
-                  return (
-                    <View className="my_order_gift_item" key={item.id}>
-                      <View className="my_order_gift_flex">
-                        <Text>订单编号: {item.order_sn}</Text>
-                        <Text style={{ color: "#ff093c" }}>
-                          {this.giftStatus(item.status)}
-                        </Text>
-                      </View>
-                      <View className="my_order_gift_flex">
-                        <View className="my_order_gift_content">
-                          <View>{item.gname}</View>
-                          <View className="my_order_gift20">
-                            {item.shortname}
-                          </View>
-                        </View>
-                        <Text>¥{item.price}</Text>
-                      </View>
-                      <View className="my_order_gift_flex">
-                        <Text className="my_order_gift20">
-                          创建日：{item.time}
-                        </Text>
-                        <View className="my_order_gift_price">
-                          <Text>金额：￥{item.price}</Text>
-                          {item.status == 0 && (
-                            <AtButton
-                              className="my_order_gift_btn"
-                              type="secondary"
-                              onClick={this.onGiftPay.bind(this, item.order_sn)}
-                              circle
-                            >
-                              去支付
-                            </AtButton>
-                          )}
-                        </View>
+            {gift_info.giftBageLarge &&
+              Object.keys(gift_info.giftBageLarge).length > 0 && (
+                <View className='my_order_gift_item'>
+                  <View className='my_order_gift_flex'>
+                    <Text>订单编号: {gift_info.giftBageLarge.order_sn}</Text>
+                    <Text style={{ color: "#ff093c" }}>
+                      {this.giftStatus(gift_info.giftBageLarge.status)}
+                    </Text>
+                  </View>
+                  <View className='my_order_gift_flex'>
+                    <View className='my_order_gift_content'>
+                      <View>{gift_info.giftBageLarge.gname}</View>
+                      <View className='my_order_gift20'>
+                        {gift_info.giftBageLarge.shortname}
                       </View>
                     </View>
-                  );
-                })
-              : null}
+                    <Text>¥{gift_info.giftBageLarge.price}</Text>
+                  </View>
+                  <View className='my_order_gift_flex'>
+                    <Text className='my_order_gift20'>
+                      创建日：{gift_info.giftBageLarge.time}
+                    </Text>
+                    <View className='my_order_gift_price'>
+                      <Text>金额：￥{gift_info.giftBageLarge.price}</Text>
+                      {gift_info.giftBageLarge.status == 0 && (
+                        <AtButton
+                          className='my_order_gift_btn'
+                          type='secondary'
+                          onClick={this.onGiftPay.bind(
+                            this,
+                            gift_info.giftBageLarge.order_sn
+                          )}
+                          circle
+                        >
+                          去支付
+                        </AtButton>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              )}
           </View>
         )}
       </View>

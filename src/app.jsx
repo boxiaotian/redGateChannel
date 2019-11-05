@@ -36,6 +36,7 @@ class App extends Component {
       "pages/login/index", // 登录注册
       "pages/my/index", // 我的
       "pages/my_order/index", // 我的订单
+      "pages/newbie_guide/index", // 我的订单
       "pages/index/index"
     ],
     window: {

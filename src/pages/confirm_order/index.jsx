@@ -73,7 +73,6 @@ export default class ConfirmOrder extends Component {
     operatedModel
       .ordersConfirmation(this.$router.params.gid, this.props.memberInfo.token)
       .then(res => {
-        console.log(res);
         this.setState({ info: res });
       });
   }

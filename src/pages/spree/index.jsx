@@ -4,7 +4,7 @@ import { connect } from "@tarojs/redux";
 import { AtCountdown, AtButton } from "taro-ui";
 
 import { Navbar } from "@/components/index";
-import { image_domain } from "@/constants/counter";
+import { url_domain, image_domain } from "@/constants/counter";
 import PackageModel from "@/models/package";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
@@ -107,9 +107,9 @@ export default class Spree extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid()) {
-              window.location.href = "https://iiu.xyz.com/app.php/MjQ";
+              window.location.href = "https://iiu.xyz/app.php/MjQ";
             } else {
-              window.location.href = "https://iiu.xyz.com/app.php/NA";
+              window.location.href = "https://iiu.xyz/app.php/NA";
             }
           }, 1000);
         }
@@ -148,7 +148,8 @@ export default class Spree extends Component {
           title: "支付成功",
           icon: "none",
           success: () => {
-            Taro.redirectTo({ url: "/pages/my_order/index?sort_current=2" });
+            // Taro.redirectTo({ url: "/pages/my_order/index?sort_current=2" });
+            window.location.href = url_domain + "myOrder?sort_current=2";
           }
         });
       } else {

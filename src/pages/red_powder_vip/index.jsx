@@ -61,7 +61,8 @@ export default class RedPowderVip extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
-              Taro.redirectTo({ url: "/pages/my/index" });
+              // Taro.redirectTo({ url: "/pages/my/index" });
+              window.location.href = url_domain + "myOrder?sort_current=2";
             }, 1000);
           }
         });
