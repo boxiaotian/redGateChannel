@@ -18,12 +18,6 @@ export default class Home extends Component {
   };
   state = {
     app_id: "",
-    tab_list: [
-      { title: "自营商品" },
-      { title: "团购医生" },
-      { title: "超级礼包" }
-    ],
-    tab_current: 0,
     special_page: 0,
     offer_page: 0,
     isspecial: true,
@@ -100,8 +94,11 @@ export default class Home extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://iiu.xyz/app.php/MjQ";
-            else window.location.href = "https://iiu.xyz/app.php/NA";
+              window.location.href =
+                "http://app.mi.com/details?id=com.ticketapp&ref=search";
+            else
+              window.location.href =
+                "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
           }, 1000);
         }
       });
@@ -116,9 +113,11 @@ export default class Home extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://iiu.xyz/app.php/MjQ";
+        window.location.href =
+          "http://app.mi.com/details?id=com.ticketapp&ref=search";
       } else {
-        window.location.href = "https://iiu.xyz/app.php/NA";
+        window.location.href =
+          "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
       }
     }, 1000);
   }
@@ -161,8 +160,8 @@ export default class Home extends Component {
     let { carousel_map, special_list, offer_list } = this.state;
 
     return (
-      <View className="home">
-        <Navbar title="首页" />
+      <View className='home'>
+        <Navbar title='首页' />
         {carousel_map.length > 0 && (
           <Swiper
             circular={carousel_map.length > 1 ? true : false}
@@ -173,9 +172,9 @@ export default class Home extends Component {
               return (
                 <SwiperItem key={item.id}>
                   <Image
-                    className="home_img"
+                    className='home_img'
                     src={item.img}
-                    mode="aspectFill"
+                    mode='aspectFill'
                   />
                 </SwiperItem>
               );
@@ -187,14 +186,14 @@ export default class Home extends Component {
           src={image_domain + "year_member_privilege.png"}
         /> */}
         <View style={{ backgroundColor: "#ffffff" }}>
-          <View className="home_column_group">
+          <View className='home_column_group'>
             <Image
-              className="home_column"
+              className='home_column'
               src={image_domain + "reds_selection.png"}
               onClick={this.onFeatured.bind(this)}
             />
             <Image
-              className="home_column"
+              className='home_column'
               src={image_domain + "excellent_doctor_group.png"}
               onClick={this.onDoctors.bind(this)}
             />
@@ -203,7 +202,7 @@ export default class Home extends Component {
         {special_list.map(item => {
           return (
             <View
-              className="home_special"
+              className='home_special'
               key={item.id}
               style={{
                 backgroundImage: `url(${item.banner})`,
@@ -219,15 +218,15 @@ export default class Home extends Component {
                 {item.goods.map(item1 => {
                   return (
                     <View
-                      className="home_special_good"
+                      className='home_special_good'
                       onClick={this.ondetail.bind(this, item1.id)}
                       key={item1.id}
                     >
                       <Image
-                        className="home_special_good_img"
+                        className='home_special_good_img'
                         src={item1.pict_url}
                       />
-                      <View className="home_special_good_name">
+                      <View className='home_special_good_name'>
                         {item1.title}
                       </View>
                       <View>¥ {item1.after_money}</View>
@@ -236,7 +235,7 @@ export default class Home extends Component {
                 })}
                 {item.goods.length == 4 && (
                   <View
-                    className="home_special_open"
+                    className='home_special_open'
                     onClick={this.onSpecial.bind(this, item.id)}
                   />
                 )}
@@ -247,45 +246,45 @@ export default class Home extends Component {
         {offer_list.map(item => {
           return (
             <View
-              className="home_good"
+              className='home_good'
               onClick={this.ondetail.bind(this, item.id)}
               key={item.id}
             >
-              <View className="home_good_top">
-                <Image className="home_good_img" src={item.pict_url} />
-                <View className="home_good_right">
+              <View className='home_good_top'>
+                <Image className='home_good_img' src={item.pict_url} />
+                <View className='home_good_right'>
                   <View>
-                    <View className="home_good_right_price">
-                      <Text className="home_good_price_symbol">¥</Text>
-                      <Text className="home_good_price">
+                    <View className='home_good_right_price'>
+                      <Text className='home_good_price_symbol'>¥</Text>
+                      <Text className='home_good_price'>
                         {item.after_money}
                       </Text>
                     </View>
-                    <View className="home_good_original">
+                    <View className='home_good_original'>
                       ￥{item.zk_final_price}
                     </View>
                     <View style={{ fontSize: "12px" }}>已售{item.volume}</View>
                   </View>
-                  <View className="home_good_benefit">
-                    <Text className="home_good_benefit_text">惠</Text>
-                    <Text className="home_good_benefit_num">
+                  <View className='home_good_benefit'>
+                    <Text className='home_good_benefit_text'>惠</Text>
+                    <Text className='home_good_benefit_num'>
                       ¥{item.discount_money}
                     </Text>
                   </View>
                 </View>
               </View>
-              <View className="home_good_title">{item.title}</View>
+              <View className='home_good_title'>{item.title}</View>
             </View>
           );
         })}
 
         <Image
-          className="my"
+          className='my'
           src={image_domain + "my.png"}
           onClick={this.onMy.bind(this)}
         />
         <Image
-          className="service"
+          className='service'
           src={image_domain + "customer_service.png"}
           onClick={this.onHelpService.bind(this)}
         />

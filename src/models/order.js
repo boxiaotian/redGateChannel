@@ -12,7 +12,7 @@ export default class OrderModel extends HTTP {
   orderHmPay(params) {
     return this.request({
       url: "Apipersonal/orderHmPay",
-      data: { yzdl: "yzdl", ...params }
+      data: { yzdl: "yzdl", type: 4, ...params }
     })
   }
 

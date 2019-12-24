@@ -66,8 +66,8 @@ export default class RedDoorPackage extends Component {
                 success: () => {
                   setTimeout(() => {
                     if (isAndroid())
-                      window.location.href = "https://iiu.xyz/app.php/MjQ";
-                    else window.location.href = "https://iiu.xyz/app.php/NA";
+                      window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
+                    else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
                   }, 1000);
                 }
               });
@@ -120,8 +120,8 @@ export default class RedDoorPackage extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "https://iiu.xyz/app.php/MjQ";
-            else window.location.href = "https://iiu.xyz/app.php/NA";
+              window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
+            else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
           }, 1000);
         }
       });
@@ -136,9 +136,9 @@ export default class RedDoorPackage extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "https://iiu.xyz/app.php/MjQ";
+        window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
       } else {
-        window.location.href = "https://iiu.xyz/app.php/NA";
+        window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
       }
     }, 1000);
   }
