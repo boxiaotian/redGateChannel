@@ -22,7 +22,7 @@ export default class PackageModel extends HTTP {
     })
   }
 
-  // 大礼包详情
+  // 管家大礼包详情
   giftBagHousekeeperCard() {
     return this.request({
       url: 'Apigiftbag/giftBagHousekeeperCard',
@@ -30,7 +30,7 @@ export default class PackageModel extends HTTP {
     })
   }
 
-  // 大礼包支付
+  // 管家大礼包支付
   orderGiftBagHousekeeperCard(params) {
     return this.request({
       url: 'Apigiftbag/orderGiftBagHousekeeperCard',
@@ -41,6 +41,22 @@ export default class PackageModel extends HTTP {
         source_type_share: 2,
         ...params
       }
+    })
+  }
+
+  // 运营商大礼包
+  giftBagOperator() {
+    return this.request({
+      url: 'Apigiftbag/giftBagOperator',
+      data: { yzdl: "yzdl" }
+    })
+  }
+
+  // 运营商大礼包支付
+  ordergiftBagOperator(params) {
+    return this.request({
+      url: 'Apigiftbag/ordergiftBagOperator',
+      data: { yzdl: "yzdl", type: 4, source_type: 2, ...params }
     })
   }
 }

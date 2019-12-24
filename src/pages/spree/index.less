@@ -1,6 +1,10 @@
 #app {
-  background-color: #B3180D;
+  background-image: url("https://qiniu.hongmenpd.com/H5/images/housekeeper1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   line-height: 1;
+  width: 100vw;
+  min-height: 100vh;
 
   .spree {
     display: flex;
@@ -8,33 +12,24 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    padding: 88px 0;
-    background: linear-gradient(0deg, #B3180D 0%, #DA463C 100%);
 
-    .nav_bar {
-      background-color: #ffffff;
-      color: #000000;
-
-      .nav_bar_left {
-        opacity: 0;
-      }
-    }
-
-    .taro-img {
-      width: 100%;
-      height: auto;
+    .housekeeper_top {
+      width: 610px;
+      height: 176px;
+      margin-top: 150px;
     }
 
     .spree_stock_tate {
-      min-width: 500px;
-      height: 50px;
-      padding: 0 40px;
-      margin-bottom: 20px;
-      background: #C93126;
-      border-radius: 25px;
-      font-size: 30px;
+      min-width: 320px;
+      height: 46px;
+      padding: 0 35px;
+      margin: 18px 0;
+      background: #f23136;
+      border-radius: 10px;
+      font-size: 26px;
       color: #ffffff;
-      line-height: 50px;
+      line-height: 46px;
+      text-align: center;
 
       .spree_stock {
         margin-right: 30px;
@@ -50,61 +45,36 @@
     }
 
     .spree_content {
-      position: relative;
       box-sizing: border-box;
-      width: 565px;
-      height: 735px;
-      padding: 100px 0;
-      background: url(https://qiniu.hongmenpd.com/H5/images/spree_box.png) no-repeat;
+      width: 750px;
+      height: 714px;
+      padding: 96px 0;
+      background: url("https://qiniu.hongmenpd.com/H5/images/housekeeper_center.png") no-repeat;
       background-size: cover;
       text-align: center;
-      color: #CB7D1D;
-      font-size: 30px;
+      color: #CE8609;
+      font-size: 48px;
 
-      .spree_content_title {
-        font-size: 42px;
-      }
 
-      .spree_content_pinyin {
-        margin: 18px 0 90px;
-        font-size: 20px;
-        font-weight: 300;
-        letter-spacing: 8px;
+      .spree_contain_package {
+        margin-top: 12px;
+        font-size: 28px;
       }
 
       .spree_price_group {
-        .spree_price_symbol {
-          font-weight: 300;
-        }
-
         .spree_price {
-          font-size: 72px;
-        }
-
-        .spree_price_decimal {
-          font-size: 48px;
+          font-size: 78px;
         }
       }
 
-      .spree_contain_package {
-        position: absolute;
-        left: 50%;
-        bottom: 100px;
-        transform: translateX(-50%);
-        color: #870000;
-      }
+    }
 
-      .at-button {
-        position: absolute;
-        left: 50%;
-        bottom: -46px;
-        transform: translateX(-50%);
-        width: 412px;
-        background-color: #FFD6C3;
-        border: none;
-        color: #870000;
-        font-size: 36px;
-      }
+    .at-button {
+      width: 540px;
+      height: 140px;
+      background: url("https://qiniu.hongmenpd.com/H5/images/housekeeper_btn.png") no-repeat;
+      background-size: cover;
+      border: none;
     }
   }
 }

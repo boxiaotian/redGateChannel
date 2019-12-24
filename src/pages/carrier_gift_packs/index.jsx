@@ -16,7 +16,7 @@ import {
   isAndroid
 } from "@/utils/utils";
 
-import "./index.less";
+import "./index.less?v=0.0.1";
 
 const packageModel = new PackageModel();
 const weiXinModel = new WeiXinModel();
@@ -33,9 +33,9 @@ const weiXinModel = new WeiXinModel();
     };
   }
 )
-export default class Spree extends Component {
+export default class CarrierGiftPacks extends Component {
   config = {
-    navigationBarTitleText: "值升管家大礼包"
+    navigationBarTitleText: "值升运营商大礼包"
   };
   state = {
     info: {}, // 大礼包详情
@@ -44,9 +44,7 @@ export default class Spree extends Component {
 
   componentWillMount() {
     if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
-    packageModel
-      .giftBagHousekeeperCard()
-      .then(res => this.setState({ info: res }));
+    packageModel.giftBagOperator().then(res => this.setState({ info: res }));
 
     // 公众号AppId
     weiXinModel.getConfig().then(res => this.setState({ app_id: res.app_id }));
@@ -57,8 +55,8 @@ export default class Spree extends Component {
       setTimeout(() => {
         if (this.props.memberInfo && this.props.memberInfo.uid) {
           weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-            if (res.grade_id == 1 && res.vip == 1) {
-              this.orderGiftBagHousekeeperCard(res.token);
+            if ((res.grade_id == 1 || res.grade_id == 2) && res.vip == 1) {
+              this.ordergiftBagOperator(res.token);
             } else if (res.grade_id == 1 && res.vip == 0) {
               Taro.showToast({
                 title: "您不是红粉VIP",
@@ -70,9 +68,9 @@ export default class Spree extends Component {
                   }, 1000);
                 }
               });
-            } else if (res.grade_id == 2 || res.grade_id == 3) {
+            } else if (res.grade_id == 3) {
               Taro.showToast({
-                title: "您已是管家或运营商",
+                title: "您已是运营商",
                 icon: "none"
               });
             }
@@ -94,19 +92,14 @@ export default class Spree extends Component {
 
   // 购买
   onConfirmPay() {
-    if (!this.state.info.status) {
-      Taro.showToast({
-        title: "大礼包活动已关闭",
-        icon: "none"
-      });
-    } else if (this.state.info.end_time == "0") {
+    if (this.state.info.end_time == "0") {
       Taro.showToast({
         title: "大礼包活动已结束",
         icon: "none"
       });
     } else if (this.state.info.number == 0) {
       Taro.showToast({
-        title: "VIP礼包已被抢空了",
+        title: "管家礼包已被抢空了",
         icon: "none"
       });
     } else if (this.state.info.num == 0) {
@@ -115,14 +108,14 @@ export default class Spree extends Component {
         icon: "none"
       });
     } else {
-      setCahce("url", { url: "spree" });
+      setCahce("url", { url: "carrierGiftPacks" });
       if (isWeiXin()) {
         // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
         let redirect_uri = urlEncode(window.location.href);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       } else {
         Taro.showToast({
-          title: "使用微信打开",
+          title: "请使用微信打开",
           icon: "none",
           success: () => {
             setTimeout(() => {
@@ -141,10 +134,10 @@ export default class Spree extends Component {
   }
 
   // 支付
-  orderGiftBagHousekeeperCard(token) {
+  ordergiftBagOperator(token) {
     if (getCahce("cid")) {
       packageModel
-        .orderGiftBagHousekeeperCard({
+        .ordergiftBagOperator({
           gid: this.state.info.id,
           source_type_id:
             getCahce("cid") && getCahce("cid").cid
@@ -152,9 +145,7 @@ export default class Spree extends Component {
               : "HB322085",
           token
         })
-        .then(res => {
-          this.BridgeReady(res);
-        });
+        .then(res => this.BridgeReady(res));
     } else {
       Taro.showToast({
         title: "该礼包只能通过分享购买",
@@ -187,10 +178,10 @@ export default class Spree extends Component {
   render() {
     let { info } = this.state;
     return (
-      <View className="spree">
+      <View className="carrier_gift_packs">
         <Image
-          className="housekeeper_top"
-          src={image_domain + "housekeeper_top.png"}
+          className="operator_top"
+          src={image_domain + "operator_top-min1.png"}
         />
         <View className="spree_stock_tate">
           <Text>倒计时：</Text>
@@ -204,15 +195,15 @@ export default class Spree extends Component {
             seconds={info.second}
           />
         </View>
-        <View className="spree_content">
+        <View className="operator_center">
           <View className="spree_price_group">
             <Text>¥ </Text>
             <Text className="spree_price">
-              {info.price ? info.price : "5980.00"}
+              {info.price ? info.price : "59600.00"}
             </Text>
           </View>
           <View className="spree_contain_package">
-            包含{info.number != undefined ? info.number : 20}个VIP礼包
+            包含{info.number != undefined ? info.number : 20}个管家礼包
           </View>
         </View>
         <AtButton

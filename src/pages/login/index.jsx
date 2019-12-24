@@ -126,7 +126,7 @@ export default class Login extends Component {
             code:
               getCahce("cid") && getCahce("cid").cid
                 ? getCahce("cid").cid
-                : "HN888888"
+                : "HB322085"
           };
         } else {
           params = {
@@ -136,7 +136,7 @@ export default class Login extends Component {
             code:
               getCahce("cid") && getCahce("cid").cid
                 ? getCahce("cid").cid
-                : "HN888888"
+                : "HB322085"
           };
         }
         weiXinModel.register(params).then(res => {
@@ -158,7 +158,7 @@ export default class Login extends Component {
 
     return (
       <View className="login">
-        <Image className="login_logo" src={image_domain + "logo.png"} />
+        <Image className="login_logo" src={image_domain + "logo1.png"} />
         <AtInput
           title="手机号码"
           placeholder="输入手机号码"

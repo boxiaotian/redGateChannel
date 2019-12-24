@@ -137,6 +137,7 @@ const config = {
         '/pages/privilege/index': '/privilege',
         '/pages/red_powder_vip/index': '/redPowderVip',
         '/pages/spree/index': '/spree',
+        '/pages/carrier_gift_packs/index': '/carrierGiftPacks',
         '/pages/my/index': '/my',
         '/pages/my_order/index': '/myOrder',
         '/pages/newbie_guide/index': '/newbieGuide'
@@ -144,7 +145,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.0.124'
+      host: '192.168.0.105'
     }
   }
 }

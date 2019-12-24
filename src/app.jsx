@@ -32,7 +32,8 @@ class App extends Component {
       "pages/red_door_package/index", // 小礼包
       "pages/privilege/index", // 六大权益
       "pages/red_powder_vip/index", // 小礼包支付
-      "pages/spree/index", // 大礼包
+      "pages/spree/index", // 管家大礼包
+      "pages/carrier_gift_packs/index", // 运营商大礼包
       "pages/login/index", // 登录注册
       "pages/my/index", // 我的
       "pages/my_order/index", // 我的订单
