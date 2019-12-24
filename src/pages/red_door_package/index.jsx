@@ -166,7 +166,7 @@ export default class RedDoorPackage extends Component {
               onClick={this.onPrivilege.bind(this)}
               data={package_privilege}
               hasBorder={false}
-              columnNum={3}
+              columnNum={4}
             />
           </View>
         </View>
@@ -198,18 +198,18 @@ export default class RedDoorPackage extends Component {
             </View>
           </View>
           <View className="package_content">
-            <View>{info.name}</View>
-            <View className="package_introduction">{info.shortname}</View>
+            {/* <View>{info.name}</View>
+            <View className="package_introduction">{info.shortname}</View> */}
           </View>
         </View>
         <View className="package_details">
-          <AtTabBar
+          {/* <AtTabBar
             tabList={detail_tab}
             onClick={this.onDetailTab.bind(this)}
             current={details_current}
             color="#666666"
-            selectedColor="#000000"
-          />
+            selectedColor="#000000" 
+          /> */}
           {details_current ? (
             <View>
               {info.detail_project &&
