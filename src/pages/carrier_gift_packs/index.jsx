@@ -35,7 +35,7 @@ const weiXinModel = new WeiXinModel();
 )
 export default class CarrierGiftPacks extends Component {
   config = {
-    navigationBarTitleText: "值升运营商大礼包"
+    navigationBarTitleText: "直升运营商大礼包"
   };
   state = {
     info: {}, // 大礼包详情
