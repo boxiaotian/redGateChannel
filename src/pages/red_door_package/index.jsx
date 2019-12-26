@@ -97,6 +97,16 @@ export default class RedDoorPackage extends Component {
   onPrivilege(item, index) {
     Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
   }
+  
+  //  vip礼包兑换权益
+  onPrivilege(item, index) {
+    Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
+  }
+
+    //  vip礼包兑换权益
+    onExchange() {
+      Taro.navigateTo({ url: "/pages/red_gift_exchange/index?"});
+    }
 
   // 详情切换
   onDetailTab(details_current) {
@@ -211,14 +221,18 @@ export default class RedDoorPackage extends Component {
             selectedColor="#000000" 
           /> */}
           {details_current ? (
-            <View>
+            <View 
+            onClick={this.onExchange.bind(this)}
+            >
               {info.detail_project &&
                 info.detail_project.map(item => {
                   return <Image key={item.value} src={item.value} />;
                 })}
             </View>
           ) : (
-            <View>
+            <View
+            onClick={this.onExchange.bind(this)}
+            >
               {info.detail_Image_text &&
                 info.detail_Image_text.map(item => {
                   return <Image key={item.value} src={item.value} />;

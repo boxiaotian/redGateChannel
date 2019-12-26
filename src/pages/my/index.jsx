@@ -35,8 +35,8 @@ export default class My extends Component {
   componentWillMount() {
     Taro.removeStorageSync("cid");
     if (getCahce("appid")) {
-      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
+      let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
+      // let redirect_uri = urlEncode(window.location.href); // 正式
       if (!getUrlKey("code")) {
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
           getCahce("appid").appid
@@ -67,8 +67,8 @@ export default class My extends Component {
   }
 
   onJump() {
-    // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-    window.location.href = url_domain + "home";
+    Taro.redirectTo({ url: "/pages/red_door_package/index" });
+    // window.location.href = url_domain + "home";
   }
 
   onAllOrder(item, index) {
@@ -86,8 +86,8 @@ export default class My extends Component {
     if (this.props.memberInfo.vip) {
       Taro.navigateTo({ url: "/pages/my_order/index?sort_current=2" });
     } else {
-      // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-      window.location.href = url_domain + "redDoorPackage";
+      Taro.redirectTo({ url: "/pages/red_door_package/index" });
+      // window.location.href = url_domain + "redDoorPackage";
     }
   }
 

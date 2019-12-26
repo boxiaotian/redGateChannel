@@ -140,12 +140,14 @@ const config = {
         '/pages/carrier_gift_packs/index': '/carrierGiftPacks',
         '/pages/my/index': '/my',
         '/pages/my_order/index': '/myOrder',
-        '/pages/newbie_guide/index': '/newbieGuide'
+        '/pages/newbie_guide/index': '/newbieGuide',
+        '/pages/red_gift_exchange/index': '/redGiftExchange',
+        '/pages/red_gift_exchange_detail/index': '/redGifExchangeDetail',
       }
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.1.95'
+      host: '192.168.4.161'
     }
   }
 }

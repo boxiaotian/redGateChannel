@@ -27,7 +27,7 @@ export default class HTTP {
         'content-type': 'application/json'
       },
       success: (result) => {
-        // console.log(result)
+        console.log(result)
         Taro.hideLoading()
         if (result.statusCode === HTTP_STATUS.NOT_FOUND) {
           Taro.showToast({

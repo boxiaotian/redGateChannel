@@ -59,4 +59,12 @@ export default class PackageModel extends HTTP {
       data: { yzdl: "yzdl", type: 4, source_type: 2, ...params }
     })
   }
+
+  // 礼包兑换列表
+  giftExchangeList(params) {
+    return this.request({
+      url: 'Apigiftbag/giftExchangeList',
+      data: { yzdl: "yzdl",page: 0, ...params }
+    })
+  }
 }
