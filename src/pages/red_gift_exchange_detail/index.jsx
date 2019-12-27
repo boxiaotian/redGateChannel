@@ -1,18 +1,21 @@
 import Taro, { Component } from "@tarojs/taro";
 import { connect } from "@tarojs/redux";
-import { View, Image, Text, Swiper, SwiperItem } from "@tarojs/components";
+import { View, Image, Text } from "@tarojs/components";
 import { AtButton, AtDivider } from "taro-ui";
-import { Navbar } from "@/components";
-import OperatedModel from "@/models/operated_goods";
+import { CustomNavBar } from "@/components";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { setCahce } from "@/utils/cache";
 import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
+import { share_icon } from "@/constants/counter";
+import { onBridgeReady } from "@/utils/utils";
+import PackageModel from "@/models/package";
 
 import "./index.less";
 
-const operatedModel = new OperatedModel();
+const packageModel = new PackageModel();
 const weiXinModel = new WeiXinModel();
+
 @connect(
   store => {
     return { memberInfo: store.user.memberInfo };
@@ -28,97 +31,88 @@ const weiXinModel = new WeiXinModel();
 export default class RedGifExchangeDetail extends Component {
   state = {
     app_id: "",
-    opacity: 0,
     details: {},
-    current: 1 // 轮播图当前下标
+    exchange: 0 // 是否已兑换  1已经兑换
   };
 
   componentWillMount() {
     let item = getUrlKey("item");
+    let exchange = getUrlKey("exchange");
+    console.log(exchange);
+
     if (item) {
       item = JSON.parse(item);
       console.log(item);
       this.setState({
-        details: item
+        details: item,
+        exchange: exchange
       });
     }
   }
 
-  onPageScroll(obj) {
-    if (obj.scrollTop == 0) {
-      this.setState({ opacity: 0 });
-    } else if (obj.scrollTop > 0 && obj.scrollTop < 22) {
-      this.setState({ opacity: 0.25 });
-    } else if (obj.scrollTop > 22 && obj.scrollTop < 44) {
-      this.setState({ opacity: 0.5 });
-    } else if (obj.scrollTop > 44 && obj.scrollTop < 66) {
-      this.setState({ opacity: 0.75 });
-    } else if (obj.scrollTop > 66) {
-      this.setState({ opacity: 1 });
-    }
-  }
-
-  // 返回首页
+  // 返回
   onJump() {
-    Taro.redirectTo({ url: "/pages/home/index" });
-    // Taro.navigateBack({ delta: 1 });
+    // Taro.redirectTo({ url: "/pages/home/index" });
+    Taro.navigateBack({ delta: 1 });
   }
 
-  // 轮播图
-  onSwiper(obj) {
-    this.setState({ current: obj.detail.current + 1 });
+  // 立即兑换
+  onPay() {
+    packageModel
+      .giftPackageExchange({
+        token: this.props.memberInfo.token,
+        geid: this.state.details.id
+      })
+      .then(res => {
+        this.BridgeReady(res);
+      });
   }
 
-  // 确认订单
-  onPay() {}
-
-  // 商品详情
-  goodsHmDetails() {
-    operatedModel.goodsHmDetails(this.$router.params.gid).then(res => {
-      this.setState({ details: res });
+  // 调取微信支付
+  BridgeReady(res) {
+    onBridgeReady(res).then(result => {
+      if (result.err_msg == "get_brand_wcpay_request:ok") {
+        Taro.showToast({
+          title: "支付成功,请前往APP查看",
+          icon: "none"
+        });
+      } else {
+        Taro.showToast({
+          title: "支付失败",
+          icon: "none"
+        });
+      }
     });
   }
 
   render() {
-    let { opacity, details, current } = this.state;
+    let { details } = this.state;
 
     return (
       <View className="product_details">
-        <View className="product_details_navbar" style={{ opacity: opacity }}>
-          <Navbar title="商品详情" onJump={this.onJump.bind(this)} />
-        </View>
+        <CustomNavBar
+          title=""
+          onJump={this.onJump.bind(this)}
+          style={{
+            position: "absolute",
+            backgroundColor: "rgba(0, 0, 0, 0)"
+          }}
+        />
         <View style={{ position: "relative" }}>
-        <Image mode="center" className="product_details_img" src={details.pict_url} />
-          {/* {Object.keys(details).length && (
-            <Swiper
-              indicatorColor="rgba(255, 255, 255, 0)"
-              indicatorActiveColor="#ff0000"
-              onChange={this.onSwiper.bind(this)}
-              circular={details.small_images.length > 1 ? true : false}
-              autoplay
-              indicatorDots
-            >
-              {details.small_images &&
-                details.small_images.map(item => {
-                  return (
-                    <SwiperItem key={item}>
-                      <Image className="product_details_img" src={item.value} />
-                    </SwiperItem>
-                  );
-                })}
-            </Swiper>
-          )} */}
-          {/* <View className="product_detail_img_group">
-            {current} / {details.small_images && details.small_images.length}
-          </View> */}
+          <Image
+            mode="widthFix"
+            className="product_details_img"
+            src={details.pict_url}
+          />
         </View>
         <View className="product_details_top">
           <View>
-           <Text className="">礼包价</Text>
-            <Text className="product_after_money"> ¥{details.after_money}</Text>
-            <Text className="product_final_price">
-              ¥{details.zk_final_price}
+            <Text className="product_final_prices">礼包价 ¥ </Text>
+            <Text className="product_after_money">
+              {" "}
+              {details.zk_final_price && details.zk_final_price}
             </Text>
+            {/* <Text className="product_final_price"> {details.zk_final_price && details.zk_final_price}</Text> */}
           </View>
           <View className="product_title">{details.title}</View>
           <View className="product_volume">已售 {details.volume}</View>
@@ -137,17 +131,13 @@ export default class RedGifExchangeDetail extends Component {
         </View>
         <View className="product_detail_pay">
           <View className="product_detail_pay_left">
-            {details.appointment_money_status ? (
+            {details.zk_final_price && details.zk_final_price >= 0 ? (
               <View>
-                <View className="product_appointment_money">
-                  预约金：¥
-                  <Text className="product_appointment_money_num">
-                    {` ${details.appointment_money}`}
-                  </Text>
-                </View>
-                <View className="product_price_reach">
-                  到院再付：¥{details.price_reach}
-                </View>
+                <Text>会员资格 + </Text>
+                <Text className="rnb"> ¥ </Text>
+                <Text className="product_appointment_money_num">
+                  {details.zk_final_price}
+                </Text>
               </View>
             ) : (
               <View>
@@ -155,12 +145,16 @@ export default class RedGifExchangeDetail extends Component {
               </View>
             )}
           </View>
-          <AtButton
-            className="pay_btn"
-            onClick={this.onPay.bind(this, details.id)}
-          >
-            立即兑换
-          </AtButton>
+          {this.state.exchange === "1" ? (
+            <AtButton className="pay_btn">权益已使用</AtButton>
+          ) : (
+            <AtButton
+              className="pay_btn"
+              onClick={this.onPay.bind(this, details.id)}
+            >
+              立即兑换
+            </AtButton>
+          )}
         </View>
       </View>
     );

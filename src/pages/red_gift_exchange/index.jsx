@@ -34,7 +34,8 @@ export default class RedGiftExchange extends Component {
     list: [],
     page: 0,
     isspecial: true,
-    isoffer: false // 为true 则是列表还未加载完
+    isoffer: false , // 为true 则是列表还未加载完
+    exchange : 0 , // 是否已兑换
   };
 
   componentWillMount() {
@@ -48,7 +49,7 @@ export default class RedGiftExchange extends Component {
       .giftExchangeList({ token: this.state.info.token, page: this.state.page })
       .then(res => {
         console.log("礼包兑换列表", res);
-        this.setState({ list: this.state.list.concat(res.list) });
+        this.setState({ list: this.state.list.concat(res.list) , exchange : res.exchange });
         if (res.list.length == 10) this.setState({ isoffer: true });
         else this.setState({ isoffer: false });
       });
@@ -73,7 +74,7 @@ export default class RedGiftExchange extends Component {
   onPage(item) {
     console.log(item);
     
-    Taro.redirectTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)});
+    Taro.redirectTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)  + "&exchange=" + this.state.exchange });
   }
 
   render() {

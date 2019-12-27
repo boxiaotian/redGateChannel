@@ -42,3 +42,6 @@ export const order_status = [{ // 我的订单
   image: image_domain + 'completed.png',
   value: '已完成'
 }]
+
+// 分享图标
+export const share_icon = image_domain + 'share_icon.png';

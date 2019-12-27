@@ -11,41 +11,9 @@
     z-index: 2;
   }
 
-  .swiper-container {
+  .product_details_img {
     width: 100%;
-    height: 746px;
-
-    .product_details_img {
-      width: 100%;
-      height: 746px;
-      vertical-align: middle;
-    }
-
-    .swiper-pagination {
-      bottom: 36px;
-
-      .swiper-pagination-bullet {
-        width: 10px;
-        height: 10px;
-        border: solid 1PX #ff0000;
-        box-sizing: border-box;
-      }
-    }
-  }
-
-  .product_detail_img_group {
-    position: absolute;
-    right: 30px;
-    bottom: 30px;
-    width: 126px;
-    height: 44px;
-    background-color: #7b7b7b;
-    border-radius: 22px;
-    z-index: 1;
-    font-size: 36px;
-    line-height: 44px;
-    color: #ffffff;
-    text-align: center;
+    max-height: 746px;
   }
 
   .product_details_top {
@@ -61,7 +29,7 @@
     .product_after_money {
       display: inline-block;
       margin: 16px 50px 30px 0;
-      font-size: 60px;
+      font-size: 58px;
       font-weight: bold;
       color: #ff0000;
     }
@@ -71,48 +39,21 @@
       text-decoration: line-through;
     }
 
+    .product_final_prices {
+      color: #FC4441;
+      font-size: 28px;
+    }
+
     .product_title {
       line-height: 44px;
+      font-size: 28px;
+      color: #333333;
     }
 
     .product_volume {
       margin-top: 20px;
-      font-size: 24px;
-      color: #8e8e8e;
-    }
-  }
-
-  .product_details_center {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    min-height: 188px;
-    padding: 25px 30px;
-    margin: 20px 0;
-    background-color: #ffffff;
-    box-sizing: border-box;
-    font-size: 24px;
-    line-height: 26px;
-    color: #666666;
-
-    .product_hospital_logo {
-      min-width: 80px;
-      width: 80px;
-      height: 80px;
-      margin-right: 25px;
-      border-radius: 50%
-    }
-
-    .product_hospitals {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      .product_hospital_name {
-        font-size: 30px;
-        font-weight: bold;
-        color: #000000;
-      }
+      font-size: 28px;
+      color: #666666;
     }
   }
 
@@ -131,7 +72,8 @@
   }
 
   .product_detail {
-    margin: 20px 0;
+    padding-top: 20px;
+    margin: 0 0 20px 0;
 
     .product_detail_img {
       width: 100%;
@@ -157,27 +99,18 @@
       flex-direction: column;
       justify-content: center;
       box-sizing: border-box;
-      width: 50%;
+      width: calc(100% - 198px);
       padding-left: 30px;
+      color: #ff0000;
 
-      .product_appointment_money {
-        margin-bottom: 24px;
-        font-size: 24px;
-        background: url(https://qiniu.hongmenpd.com/H5/images/prompt.png) no-repeat left 16px;
-        background-size: 5%;
-        text-indent: 40px;
-
-        .product_appointment_money_num {
-          font-size: 36px;
-          font-weight: bold;
-          color: #ff0000;
-        }
+      .product_appointment_money_num {
+        font-size: 42px;
       }
 
-      .product_price_reach {
-        font-size: 24px;
-        color: #999999;
+      .rnb {
+        font-size: 30px;
       }
+
     }
 
     .pay_btn {
