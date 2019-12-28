@@ -35,7 +35,7 @@ const weiXinModel = new WeiXinModel();
 )
 export default class Spree extends Component {
   config = {
-    navigationBarTitleText: "值升管家大礼包"
+    navigationBarTitleText: "直升管家大礼包"
   };
   state = {
     info: {}, // 大礼包详情

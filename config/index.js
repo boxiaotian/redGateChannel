@@ -142,12 +142,12 @@ const config = {
         '/pages/my_order/index': '/myOrder',
         '/pages/newbie_guide/index': '/newbieGuide',
         '/pages/red_gift_exchange/index': '/redGiftExchange',
-        '/pages/red_gift_exchange_detail/index': '/redGifExchangeDetail',
+        ' ': '/redGifExchangeDetail',
       }
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.4.161'
+      host: '192.168.4.125'
     }
   }
 }
