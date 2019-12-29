@@ -72,8 +72,6 @@ export default class RedGiftExchange extends Component {
 
   // x详情
   onPage(item) {
-    console.log(item);
-    
     Taro.redirectTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)  + "&exchange=" + this.state.exchange });
   }
 

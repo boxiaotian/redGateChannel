@@ -7,10 +7,9 @@ import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { setCahce } from "@/utils/cache";
 import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
-import { share_icon } from "@/constants/counter";
+import { url_domain } from "@/constants/counter";
 import { onBridgeReady } from "@/utils/utils";
 import PackageModel from "@/models/package";
-
 import "./index.less";
 
 const packageModel = new PackageModel();
@@ -64,7 +63,21 @@ export default class RedGifExchangeDetail extends Component {
         geid: this.state.details.id
       })
       .then(res => {
-        this.BridgeReady(res);
+        console.log("立即兑换",res);
+        if (this.state.details.zk_final_price > 0) {
+          this.BridgeReady(res);
+        }else{
+          Taro.showToast({
+            title: "兑换成功",
+            icon: "none",
+            success: () => {
+              setTimeout(() => {
+                Taro.navigateTo({ url: "/pages/red_gift_exchange/index?"});
+                // window.location.href = url_domain + "redGiftExchange";
+              }, 1000);
+            }
+          });
+        }
       });
   }
 
