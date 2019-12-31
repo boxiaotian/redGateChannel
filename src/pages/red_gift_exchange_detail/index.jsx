@@ -51,8 +51,8 @@ export default class RedGifExchangeDetail extends Component {
 
   // 返回
   onJump() {
-    // Taro.redirectTo({ url: "/pages/home/index" });
-    Taro.navigateBack({ delta: 1 });
+    Taro.navigateTo({ url: "/pages/red_gift_exchange/index" });
+    // Taro.navigateBack({ delta: 1 });
   }
 
   // 立即兑换
@@ -60,7 +60,8 @@ export default class RedGifExchangeDetail extends Component {
     packageModel
       .giftPackageExchange({
         token: this.props.memberInfo.token,
-        geid: this.state.details.id
+        geid: this.state.details.id,
+        openid : this.props.memberInfo
       })
       .then(res => {
         console.log("立即兑换",res);

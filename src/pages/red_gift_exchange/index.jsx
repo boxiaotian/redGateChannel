@@ -67,12 +67,12 @@ export default class RedGiftExchange extends Component {
 
   // 返回首页
   onJump() {
-    Taro.redirectTo({ url: "/pages/my/index" });
+    Taro.navigateTo({ url: "/pages/red_door_package/index" });
   }
 
   // x详情
   onPage(item) {
-    Taro.redirectTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)  + "&exchange=" + this.state.exchange });
+    Taro.navigateTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)  + "&exchange=" + this.state.exchange });
   }
 
   render() {
