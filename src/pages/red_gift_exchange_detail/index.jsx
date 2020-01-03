@@ -35,18 +35,26 @@ export default class RedGifExchangeDetail extends Component {
   };
 
   componentWillMount() {
-    let item = getUrlKey("item");
+    let id = getUrlKey("id");
     let exchange = getUrlKey("exchange");
-    console.log(exchange);
-
-    if (item) {
-      item = JSON.parse(item);
-      console.log(item);
-      this.setState({
-        details: item,
-        exchange: exchange
+    Taro.getStorage({ key: "GiftExchangeList" })
+      .then(res => {
+        if (res.errMsg === "getStorage:ok") {
+          for (let index = 0; index < res.data.length; index++) {
+            if (id == res.data[index].id) {
+              this.setState({
+                details: res.data[index]
+              });
+            }
+          }
+        }
+      })
+      .catch(e => {
+        console.log(e);
       });
-    }
+      this.setState({
+        exchange
+      })
   }
 
   // 返回
@@ -61,19 +69,19 @@ export default class RedGifExchangeDetail extends Component {
       .giftPackageExchange({
         token: this.props.memberInfo.token,
         geid: this.state.details.id,
-        openid : this.props.memberInfo
+        openid: this.props.memberInfo.openid
       })
       .then(res => {
-        console.log("立即兑换",res);
+        console.log("立即兑换", res);
         if (this.state.details.zk_final_price > 0) {
           this.BridgeReady(res);
-        }else{
+        } else {
           Taro.showToast({
             title: "兑换成功",
             icon: "none",
             success: () => {
               setTimeout(() => {
-                Taro.navigateTo({ url: "/pages/red_gift_exchange/index?"});
+                Taro.navigateTo({ url: "/pages/red_gift_exchange/index" });
                 // window.location.href = url_domain + "redGiftExchange";
               }, 1000);
             }

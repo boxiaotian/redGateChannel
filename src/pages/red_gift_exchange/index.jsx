@@ -34,8 +34,8 @@ export default class RedGiftExchange extends Component {
     list: [],
     page: 0,
     isspecial: true,
-    isoffer: false , // 为true 则是列表还未加载完
-    exchange : 0 , // 是否已兑换
+    isoffer: false, // 为true 则是列表还未加载完
+    exchange: 0 // 是否已兑换
   };
 
   componentWillMount() {
@@ -49,9 +49,19 @@ export default class RedGiftExchange extends Component {
       .giftExchangeList({ token: this.state.info.token, page: this.state.page })
       .then(res => {
         console.log("礼包兑换列表", res);
-        this.setState({ list: this.state.list.concat(res.list) , exchange : res.exchange });
+        this.setState({
+          list: this.state.list.concat(res.list),
+          exchange: res.exchange
+        },()=>{
+          console.log( this.state.list);
+          Taro.setStorage({
+            key: "GiftExchangeList",
+            data: this.state.list
+          }).then(res => console.log(res));
+        });
         if (res.list.length == 10) this.setState({ isoffer: true });
         else this.setState({ isoffer: false });
+
       });
   }
 
@@ -72,7 +82,13 @@ export default class RedGiftExchange extends Component {
 
   // x详情
   onPage(item) {
-    Taro.navigateTo({ url: "/pages/red_gift_exchange_detail/index?item=" + JSON.stringify(item)  + "&exchange=" + this.state.exchange });
+    Taro.navigateTo({
+      url:
+        "/pages/red_gift_exchange_detail/index?id=" +
+        item.id +
+        "&exchange=" +
+        this.state.exchange
+    });
   }
 
   render() {
@@ -84,20 +100,29 @@ export default class RedGiftExchange extends Component {
           title="vip礼包兑换权益"
           color="#000"
           onJump={this.onJump.bind(this)}
-          style={{  backgroundColor: "#fff" ,color:"#000" }}
+          style={{ backgroundColor: "#fff", color: "#000" }}
         />
         <View className="main">
           {list.map((item, index) => {
             return (
               <View className="listbox">
-                <Image mode="aspectFill" className="listimg" src={item.pict_url} />
+                <Image
+                  mode="aspectFill"
+                  className="listimg"
+                  src={item.pict_url}
+                />
                 <View className="rightmain">
                   <View className="top">
                     <View className="r_left">
                       <View className="listtitle">{item.title}</View>
                       <View className="lsum">已约{item.volume}人 </View>
                     </View>
-                    <View className="lexchange" onClick={this.onPage.bind(this,item)} >立即兑换</View>
+                    <View
+                      className="lexchange"
+                      onClick={this.onPage.bind(this, item)}
+                    >
+                      立即兑换
+                    </View>
                   </View>
                   <View className="Qualifications">
                     会员资格 + ￥{item.zk_final_price}
