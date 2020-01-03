@@ -23,7 +23,7 @@ const weiXinModel = new WeiXinModel();
     };
   }
 )
-export default class RedGiftExchange extends Component {
+export default class GiftRedExchange extends Component {
   config = {
     onReachBottomDistance: 50
   };
@@ -87,8 +87,9 @@ export default class RedGiftExchange extends Component {
     });
   }
 
+
   render() {
-    let { info, list } = this.state;
+    let {list } = this.state;
 
     return (
       <View className="gift_exchange">

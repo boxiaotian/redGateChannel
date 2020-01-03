@@ -141,8 +141,10 @@ const config = {
         '/pages/my/index': '/my',
         '/pages/my_order/index': '/myOrder',
         '/pages/newbie_guide/index': '/newbieGuide',
-        '/pages/red_gift_exchange/index': '/redGiftExchange',
-        ' ': '/redGifExchangeDetail',
+        // '/pages/red_gift_exchange/index': '/redGiftExchange',
+        // '/pages/red_gift_exchange_detail/index': '/redGifExchangeDetail',
+        '/pages/gift_red_exchange_detail/index': '/giftRedExchangeDetail',
+        '/pages/gift_red_exchange/index': '/giftRedExchange',
       }
     },
     esnextModules: ['taro-ui'],

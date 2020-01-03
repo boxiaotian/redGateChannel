@@ -36,7 +36,7 @@ export default class RedDoorPackage extends Component {
     package_privilege, // 礼包特权
     detail_tab: [{ title: "图文详情" }, { title: "项目详情" }],
     details_current: 0,
-    app_id: ""
+    app_id: "" , 
   };
 
   componentWillMount() {
@@ -102,13 +102,8 @@ export default class RedDoorPackage extends Component {
   }
   
   //  vip礼包兑换权益
-  onPrivilege(item, index) {
-    Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
-  }
-
-    //  vip礼包兑换权益
-    onExchange() {
-      
+  onExchange() {
+      // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
       if (this.state.app_id) {
         // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
         let redirect_uri = urlEncode(window.location.href); // 正式
@@ -119,10 +114,10 @@ export default class RedDoorPackage extends Component {
           this.props.onGetMemberInfo &&
             this.props.onGetMemberInfo({ code: getUrlKey("code") });
           setTimeout(() => {
-            if (this.props.memberInfo && this.props.memberInfo.uid) {
+            if (this.props.memberInfo && this.props.memberInfo.token) {
               weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-                this.setState({ info: res });
-                Taro.navigateTo({ url: "/pages/red_gift_exchange/index"});
+                // this.setState({ info: res });
+                Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
               });
             } else {
               Taro.showToast({
