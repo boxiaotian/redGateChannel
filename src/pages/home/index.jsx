@@ -7,6 +7,9 @@ import WeiXinModel from "@/models/weixin";
 import { setCahce } from "@/utils/cache";
 import { isWeiXin, isAndroid } from "@/utils/utils";
 
+
+
+
 import "./index.less";
 
 const homeModel = new HomeModel();
@@ -84,25 +87,26 @@ export default class Home extends Component {
 
   // 我的
   onMy() {
-    if (isWeiXin()) {
-      Taro.navigateTo({ url: "/pages/my/index?appid=" + this.state.app_id });
-      setCahce("appid", { appid: this.state.app_id });
-    } else {
-      Taro.showToast({
-        title: "请下载APP或使用微信打开",
-        icon: "none",
-        success: () => {
-          setTimeout(() => {
-            if (isAndroid())
-              window.location.href =
-                "http://app.mi.com/details?id=com.ticketapp&ref=search";
-            else
-              window.location.href =
-                "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
-          }, 1000);
-        }
-      });
-    }
+    // if (isWeiXin()) {
+    //   Taro.navigateTo({ url: "/pages/my/index?appid=" + this.state.app_id });
+    //   setCahce("appid", { appid: this.state.app_id });
+    // } else {
+    //   Taro.showToast({
+    //     title: "请下载APP或使用微信打开",
+    //     icon: "none",
+    //     success: () => {
+    //       setTimeout(() => {
+    //         if (isAndroid())
+    //           window.location.href =
+    //             "http://app.mi.com/details?id=com.ticketapp&ref=search";
+    //         else
+    //           window.location.href =
+    //             "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
+    //       }, 1000);
+    //     }
+    //   });
+    // }
+    Taro.navigateTo({ url: "/pages/my/index" });
   }
 
   // 联系客服
@@ -288,6 +292,7 @@ export default class Home extends Component {
           src={image_domain + "customer_service.png"}
           onClick={this.onHelpService.bind(this)}
         />
+      
       </View>
     );
   }
