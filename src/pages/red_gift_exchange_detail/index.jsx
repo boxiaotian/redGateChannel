@@ -65,12 +65,17 @@ export default class RedGifExchangeDetail extends Component {
 
   // 立即兑换
   onPay() {
+    let cid = getCahce("cid");
+    let params = {
+      token: this.props.memberInfo.token,
+      geid: this.state.details.id,
+      openid: this.props.memberInfo.openid
+    }
+    if (cid) {
+      params.source_type_id = cid
+    }
     packageModel
-      .giftPackageExchange({
-        token: this.props.memberInfo.token,
-        geid: this.state.details.id,
-        openid: this.props.memberInfo.openid
-      })
+      .giftPackageExchange(params)
       .then(res => {
         console.log("立即兑换", res);
         if (this.state.details.zk_final_price > 0) {

@@ -42,7 +42,7 @@ export default class Notes extends Component {
 
 
     componentWillMount() {
-        // if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
+        if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
         // setCahce("cid", { cid: 'JLZI3RUD' })
         // 卡券列表
        this.getList();

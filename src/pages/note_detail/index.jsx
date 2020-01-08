@@ -97,11 +97,15 @@ export default class Login extends Component {
     }
 
     notePay() {
-        console.log({
-            token: this.props.memberInfo.token,
-            id: this.$router.params.id,
-            source_type_id: this.props.memberInfo.openid
-        });
+        let cid = getCahce("cid");
+        let params = {
+          token: this.props.memberInfo.token,
+          id: this.$router.params.id,
+          source_type_id: this.props.memberInfo.openid
+        }
+        if (cid) {
+          params.cid = cid
+        }
         noteModel
             .cardPay({
                 token: this.props.memberInfo.token,
