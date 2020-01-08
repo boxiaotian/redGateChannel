@@ -39,8 +39,14 @@ class App extends Component {
       "pages/my_order/index", // 我的订单
       "pages/newbie_guide/index", // 我的订单
       "pages/index/index",
-      "pages/red_gift_exchange/index", // vip礼包兑换权益
-      "pages/red_gift_exchange_detail/index", // vip礼包兑换权益详情
+      // "pages/red_gift_exchange/index", // vip礼包兑换权益
+      // "pages/red_gift_exchange_detail/index", // vip礼包兑换权益详情
+      "pages/gift_red_exchange_detail/index",
+      "pages/gift_red_exchange/index",
+      "pages/notes/index", //卡卷列表
+      "pages/note_detail/index", //卡卷详情
+      "pages/note_hsptl/index", //卡卷医院列表查询
+      "pages/note_expound/index", //卡卷 权益/详情 说明
     ],
     window: {
       backgroundTextStyle: "light",

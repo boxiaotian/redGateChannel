@@ -10,6 +10,7 @@ import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
 import { url_domain } from "@/constants/counter";
 import { onBridgeReady } from "@/utils/utils";
 import PackageModel from "@/models/package";
+
 import "./index.less";
 
 const packageModel = new PackageModel();
@@ -27,7 +28,7 @@ const weiXinModel = new WeiXinModel();
     };
   }
 )
-export default class RedGifExchangeDetail extends Component {
+export default class GiftRedExchangeDetail extends Component {
   state = {
     app_id: "",
     details: {},
@@ -76,13 +77,13 @@ export default class RedGifExchangeDetail extends Component {
         if (this.state.details.zk_final_price > 0) {
           this.BridgeReady(res);
         } else {
+          this.setState({
+            exchange :  "1"
+          })
           Taro.showToast({
             title: "兑换成功",
             icon: "none",
             success: () => {
-              this.setState({
-                exchange : 1
-              })
               setTimeout(() => {
                 Taro.navigateTo({ url: "/pages/gift_red_exchange/index" });
                 // window.location.href = url_domain + "redGiftExchange";
@@ -98,7 +99,7 @@ export default class RedGifExchangeDetail extends Component {
     onBridgeReady(res).then(result => {
       if (result.err_msg == "get_brand_wcpay_request:ok") {
         this.setState({
-          exchange : 1
+          exchange : "1"
         })
         Taro.showToast({
           title: "支付成功,请前往APP查看",
@@ -112,6 +113,7 @@ export default class RedGifExchangeDetail extends Component {
       }
     });
   }
+
 
   render() {
     let { details } = this.state;

@@ -1,21 +1,30 @@
 import Taro, { Component } from "@tarojs/taro";
 import "./index.less";
 import { View } from "@tarojs/components";
-import { AtIcon } from "taro-ui";
+import { AtIcon, AtSearchBar } from "taro-ui";
 
 export default class Navbar extends Component {
   static defaultProps = {
     title: "",
-    color: "#fff"
+    color: "#fff",
+    searchText: "搜一下",
+    searchValue: ''
   };
 
   // 跳转页面
   onJump() {
     this.props.onJump && this.props.onJump();
   }
+  onChange() {
+    this.props.onChange && this.props.onChange();
+  }
+  onActionClick() {
+    this.props.onActionClick && this.props.onActionClick();
+  }
+ 
 
   render() {
-    let { title, color } = this.props;
+    let { title, color, searchText, searchValue } = this.props;
 
     return (
       <View className="nav_bar">
@@ -28,6 +37,14 @@ export default class Navbar extends Component {
           />
           {this.props.children}
         </View>
+        {/* <View className="nav_bar_search">
+          <AtSearchBar
+            actionName={searchText}
+            value={searchValue}
+            onChange={this.onChange.bind(this)}
+            onActionClick={this.onActionClick.bind(this)}
+          />
+        </View> */}
         {title}
       </View>
     );

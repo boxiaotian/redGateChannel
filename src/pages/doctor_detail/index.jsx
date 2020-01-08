@@ -176,7 +176,7 @@ export default class DoctorDetail extends Component {
     return (
       <View className="doctor_details">
         <View className="doctor_details_navbar" style={{ opacity: opacity }}>
-          <Navbar title={details.name} onJump={this.onJump.bind(this)} />
+          <Navbar  title={details.name} onJump={this.onJump.bind(this)} />
         </View>
         {Object.keys(details).length && (
           <Swiper
@@ -244,7 +244,7 @@ export default class DoctorDetail extends Component {
           </View>
         </View>
         <View className="doctor_details_bottom">
-          <View>医生预约，火热进行中...</View>
+          <View>，火热进行中...</View>
           <View>
             {details.user &&
               details.user.map(item => {
