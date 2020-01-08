@@ -106,21 +106,17 @@ export default class Login extends Component {
         if (cid) {
           params.cid = cid
         }
-        noteModel
-            .cardPay({
-                token: this.props.memberInfo.token,
-                id: this.$router.params.id,
-                source_type_id: this.props.memberInfo.openid
-            })
+        noteModel.cardPay(params)
             .then(res => {
-                if (res.code == 1) {
-                    this.BridgeReady(res);
-                } else {
-                    Taro.showToast({
-                        title: res.msg,
-                        icon: "none",
-                    });
-                }
+                console.log("res",res);
+                this.BridgeReady(res);
+                // if (res.code == 1) {
+                // } else {
+                //     Taro.showToast({
+                //         title: res.msg +"",
+                //         icon: "none",
+                //     });
+                // }
             })
     }
     // 调取微信支付
