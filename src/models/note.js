@@ -20,4 +20,11 @@ export default class NoteModel extends HTTP {
       data: { yzdl: "yzdl", ...params }
     });
   }
+   // 卡券列表 - 提交订单
+   cardPay(params) {
+    return this.request({
+      url: "Apicouponcard/cardPay",
+      data: { yzdl: "yzdl", source_type: 2,pay_type: 4, ...params }
+    });
+  }
 }

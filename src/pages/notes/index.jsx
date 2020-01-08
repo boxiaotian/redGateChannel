@@ -27,63 +27,52 @@ const weiXinModel = new WeiXinModel();
     }
 )
 
-export default class index extends Component {
+export default class Notes extends Component {
+    config = {
+        onReachBottomDistance: 50
+      };
+
     state = {
         app_id: "",
         info: this.props.memberInfo,
         page: 0,
+        isoffer: false,
         note_list: []
     };
 
 
     componentWillMount() {
-        if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
+        // if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
+        // setCahce("cid", { cid: 'JLZI3RUD' })
         // 卡券列表
-        noteModel.noteList({  page: this.state.page }).then(res => {
-
-            this.setState({ note_list: this.state.note_list.concat(res.data) });
-            
-        });
+       this.getList();
         // 公众号AppId
         weiXinModel.getConfig().then(res => {
             this.setState({ app_id: res.app_id });
+           
         });
-        // if (getUrlKey("code")) {
-        //     this.props.onGetMemberInfo &&
-        //       this.props.onGetMemberInfo({ code: getUrlKey("code") });
-        //     if (this.props.memberInfo !== undefined && this.props.memberInfo.uid) {
-        //       setTimeout(() => {
-        //         setCahce("url", { url: "doctorDetail?id=" + this.state.details.id });
-        //         if (
-        //           !this.state.details.appointment_type &&
-        //           getCahce("isdoctorPay") &&
-        //           getCahce("isdoctorPay").isPay
-        //         ) {
-        //           Taro.navigateTo({ url: "/pages/doctor_pay/index" });
-        //         } else if (this.state.details.appointment_type) {
-        //           Taro.showToast({
-        //             title: "您已预约，请下载APP查看",
-        //             icon: "none"
-        //           });
-        //         }
-        //       }, 1000);
-        //     } else {
-        //       Taro.showToast({
-        //         title: "请登录注册",
-        //         icon: "none",
-        //         success: () => {
-        //           setTimeout(() => {
-        //             Taro.redirectTo({ url: "/pages/login/index" });
-        //           }, 1000);
-        //         }
-        //       });
-        //     }
-        //   }
 
+    }
+    getList(){
+        noteModel.noteList({  page: this.state.page }).then(res => {
+
+            this.setState({ note_list: this.state.note_list.concat(res.data) });
+            if (res.data.length == 10) this.setState({ isoffer: true });
+            else this.setState({ isoffer: false });
+        });
     }
     onJump() {
         Taro.redirectTo({ url: "/pages/home/index" });
     }
+     // 滑动到底部
+  onReachBottom() {
+    if (this.state.isoffer) {
+      this.setState({
+        page: this.state.page + 1
+      });
+      this.getList();
+    }
+  }
      // 卡券详情
      onDetail(id) {
       Taro.navigateTo({ url: "/pages/note_detail/index?id=" + id });

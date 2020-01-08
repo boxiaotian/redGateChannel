@@ -104,12 +104,12 @@ export default class Login extends Component {
         weiXinModel.codelogin(params).then(res => {
           setCahce("member_info", res);
           window.location.href =
-            url_domain + (getCahce("url") ? getCahce("url").url : "home");
-          // Taro.redirectTo({
-          //   url: getCahce("url")
-          //     ? `/pages/${getCahce("url").url}/index`
-          //     : "/pages/red_door_package/index"
-          // });
+            // url_domain + (getCahce("url") ? getCahce("url").url : "home");
+          Taro.redirectTo({
+            url: getCahce("url")
+              ? `/pages/${getCahce("url").url}/index`
+              : "/pages/noteDetail/index"
+          });
         });
       } else {
         if (isWeiXin()) {
@@ -142,12 +142,12 @@ export default class Login extends Component {
         weiXinModel.register(params).then(res => {
           setCahce("member_info", res);
           window.location.href =
-            url_domain + (getCahce("url") ? getCahce("url").url : "home");
-          // Taro.redirectTo({
-          //   url: getCahce("url")
-          //     ? `/pages/${getCahce("url").url}/index`
-          //     : "/pages/red_door_package/index"
-          // });
+            // url_domain + (getCahce("url") ? getCahce("url").url : "home");
+          Taro.redirectTo({
+            url: getCahce("url")
+              ? `/pages/${getCahce("url").url}/index`
+              : "/pages/noteDetail/index"
+          });
         });
       }
     }

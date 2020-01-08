@@ -39,8 +39,8 @@ class App extends Component {
       "pages/my_order/index", // 我的订单
       "pages/newbie_guide/index", // 我的订单
       "pages/index/index",
-      // "pages/red_gift_exchange/index", // vip礼包兑换权益
-      // "pages/red_gift_exchange_detail/index", // vip礼包兑换权益详情
+      "pages/red_gift_exchange/index", // vip礼包兑换权益
+      "pages/red_gift_exchange_detail/index", // vip礼包兑换权益详情
       "pages/gift_red_exchange_detail/index",
       "pages/gift_red_exchange/index",
       "pages/notes/index", //卡卷列表

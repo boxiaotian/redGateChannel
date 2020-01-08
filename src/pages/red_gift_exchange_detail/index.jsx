@@ -1,4 +1,4 @@
-import Taro, { Component } from "@tarojs/taro";
+import Taro, { Component, removeStorage } from "@tarojs/taro";
 import { connect } from "@tarojs/redux";
 import { View, Image, Text } from "@tarojs/components";
 import { AtButton, AtDivider } from "taro-ui";
@@ -74,7 +74,15 @@ export default class RedGifExchangeDetail extends Component {
       .then(res => {
         console.log("立即兑换", res);
         if (this.state.details.zk_final_price > 0) {
-          this.BridgeReady(res);
+          if(res.code == 1){
+            this.BridgeReady(res);
+          }else{
+            Taro.showToast({
+              title: res.msg,
+              icon: "none",
+            });
+          }
+         
         } else {
           Taro.showToast({
             title: "兑换成功",
