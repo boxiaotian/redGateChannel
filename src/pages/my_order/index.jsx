@@ -274,7 +274,8 @@ export default class MyOrder extends Component {
     orderModel
       .orderUserCard({
         status: this.state.status_current,
-        token: this.props.memberInfo.token
+        token: this.props.memberInfo.token,
+        page: this.state.page++
       })
       .then(res => {
         // console.log("DD",res.data.length);
@@ -303,6 +304,11 @@ export default class MyOrder extends Component {
     else if (status == 2) return "已完成";
     else if (status == 3) return "退款中";
     else if (status == 4) return "退款成功";
+  }
+   // 票券订单状态
+   cardStatus(status) {
+    if (status) return "已使用";
+    else return "待使用";
   }
   // 团购与礼包订单状态
   giftStatus(status) {
@@ -536,7 +542,7 @@ export default class MyOrder extends Component {
                     <View className='my_order_gift_flex'>
                       <Text>订单编号: {item.order_sn}</Text>
                       <Text style={{ color: "#ff093c" }}>
-                        {this.giftStatus(item.status)}
+                        {this.cardStatus(item.status)}
                       </Text>
                     </View>
                     <View className='my_order_gift_flex'>
@@ -554,16 +560,6 @@ export default class MyOrder extends Component {
                       </Text>
                       <View className='my_order_gift_price'>
                         <Text>金额：￥{item.price}</Text>
-                        {item.status == 0 && (
-                          <AtButton
-                            className='my_order_gift_btn'
-                            type='secondary'
-                            onClick={this.onCardPay.bind(this, item.order_sn, item.id)}
-                            circle
-                          >
-                            去支付
-                          </AtButton>
-                        )}
                       </View>
                     </View>
                   </View>
