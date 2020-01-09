@@ -61,14 +61,14 @@ export default class NoteDetail extends Component {
 
     getwx() {
         if (this.state.app_id) {
-            // let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-             let redirect_uri = urlEncode(window.location.href); // 正式
+             let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+             //let redirect_uri = urlEncode(window.location.href); // 正式
             if (!getUrlKey("code")) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
             } else {
                 console.log(getUrlKey("code"), "getUrlKey()");
                 console.log("this.props1111", this.props.memberInfo);
-                setCahce("url", { url: "noteDetail" });
+                setCahce("url", { url: "noteDetail?cid="+getUrlKey("cid") +"&id="+ getUrlKey("id")});
                 this.props.onGetMemberInfo && this.props.onGetMemberInfo({ code: getUrlKey("code") })
                 setTimeout(() => {
                     console.log("kaishi000000",this.props.memberInfo);
