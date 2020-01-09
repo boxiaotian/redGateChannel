@@ -149,7 +149,7 @@ export default class RedDoorPackage extends Component {
     setCahce("packagePay", { gid: info.id, price: info.price });
 
     if (isWeiXin()) {
-      // let redirect_uri = urlEncode("chttps://hm.hongmenpd.com/H5/H5/wxauth.php");
+      // let redirect_uri = urlEncode("chttps://hm.hongmenpd.com/H5/wxauth.php");
       let redirect_uri = urlEncode(window.location.href);
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {

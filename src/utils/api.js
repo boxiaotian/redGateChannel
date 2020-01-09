@@ -18,6 +18,9 @@ export default class HTTP {
       title: '加载中...',
       icon: 'loading',
     })
+    console.log("url",url);
+    console.log(JSON.stringify(data));
+    
     Taro.request({
       url: formal_domain + url,
       data: JSON.stringify(data),
@@ -27,7 +30,7 @@ export default class HTTP {
         'content-type': 'application/json'
       },
       success: (result) => {
-        console.log("result",result)
+        console.log(url,"result",result)
         Taro.hideLoading()
         if (result.statusCode === HTTP_STATUS.NOT_FOUND) {
           Taro.showToast({

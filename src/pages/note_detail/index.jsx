@@ -28,7 +28,7 @@ import "./index.less";
         };
     }
 )
-export default class Login extends Component {
+export default class NoteDetail extends Component {
     state = {
         details: {},
         info: this.props.memberInfo,
@@ -40,56 +40,60 @@ export default class Login extends Component {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
         if (getUrlKey("id")) {
             setCahce("id", { id: getUrlKey("id") })
+            console.log( getUrlKey("id"));
+            
             this.setState({ id: getUrlKey("id") })
         };
-
+        console.log(this.props.memberInfo, "111111");
         // 公众号AppId
         weiXinModel.getConfig().then(res => {
             this.setState({ app_id: res.app_id }, () => {
-                if (!this.props.memberInfo.token || !getUrlKey("code")) {
-                    if (this.state.app_id) {
-                        setCahce("url", { url: "noteDetail?id=" + this.$router.params.id + "cid=" + getUrlKey("cid") });
-                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php?id="+ this.$router.params.id + "cid=" + getUrlKey("cid"));
-                        // let redirect_uri = urlEncode(window.location.href);
-                        if (!getUrlKey("code")) {
-                            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-                        } else {
-                            setCahce("url", { url: "noteDetail?id=" + this.$router.params.id + "cid=" + getUrlKey("cid") });
-                            this.props.onGetMemberInfo &&
-                                this.props.onGetMemberInfo({ code: getUrlKey("code") });
-                            setTimeout(() => {
-                                if (this.props.memberInfo && this.props.memberInfo.token) {
-                                    weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-                                        this.setState({ info: res },()=>{
-                                            this.noteDetail();
-                                        });
-                                        // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
-                                      });
-                                } else {
-                                    Taro.showToast({
-                                        title: "请登录注册",
-                                        icon: "none",
-                                        success: () => {
-                                            setTimeout(() => {
-                                                Taro.redirectTo({ url: "/pages/login/index" });
-                                            }, 1000);
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        }
-                    }
-
+                console.log(this.props.memberInfo, "this.props.memberInfo");
+                if (this.props.memberInfo && this.props.memberInfo.token) {
+                    this.noteDetail()
                 } else {
-                    // 卡券列表
-                    console.log("fffff");
-
-                    this.noteDetail();
+                    // 未登录 
+                    console.log("未登录", getUrlKey("code"));
+                    this.getwx()
                 }
             });
         });
-
     }
+
+    getwx() {
+        if (this.state.app_id) {
+            let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+            //  let redirect_uri = urlEncode(window.location.href); // 正式
+            if (!getUrlKey("code")) {
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+            } else {
+                console.log(getUrlKey("code"), "getUrlKey()");
+                console.log("this.props1111", this.props.memberInfo);
+                setCahce("url", { url: "noteDetail" });
+                this.props.onGetMemberInfo && this.props.onGetMemberInfo({ code: getUrlKey("code") })
+                setTimeout(() => {
+                    console.log("kaishi000000",this.props.memberInfo);
+                    if (this.props.memberInfo && this.props.memberInfo.token) {
+                        weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+                            console.log(res, "res");
+                            this.setState({ info: res });
+                        });
+                    } else {
+                           Taro.showToast({
+                             title: "请登录注册",
+                             icon: "none",
+                             success: () => {
+                               setTimeout(() => {
+                                 Taro.redirectTo({ url: "/pages/login/index" });
+                               }, 1000);
+                             }
+                           });
+                    }
+                }, 1000);
+            }
+        }
+    }
+
     //卡券详情
     noteDetail() {
         let note_data = {};
@@ -107,26 +111,20 @@ export default class Login extends Component {
 
     onPay() {
         let cid = getCahce("cid");
+        // console.log(cid);
         let params = {
             token: this.props.memberInfo.token,
             id: this.$router.params.id,
             source_type_id: this.props.memberInfo.openid
         }
         if (cid) {
-            params.cid = cid
+            params.cid = cid.cid
         }
-       
+
         noteModel.cardPay(params)
             .then(res => {
                 console.log("res", res);
                 this.BridgeReady(res);
-                // if (res.code == 1) {
-                // } else {
-                //     Taro.showToast({
-                //         title: res.msg +"",
-                //         icon: "none",
-                //     });
-                // }
             })
     }
     // 调取微信支付
