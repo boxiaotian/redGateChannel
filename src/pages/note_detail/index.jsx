@@ -33,8 +33,7 @@ export default class NoteDetail extends Component {
         details: {},
         info: this.props.memberInfo,
         app_id: "",
-        page: 0,
-        id: 1
+        id: this.$router.params.id
     };
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
@@ -98,10 +97,10 @@ export default class NoteDetail extends Component {
     noteDetail() {
         let note_data = {};
         noteModel
-            .noteDetails({ id: this.$router.params.id, token: this.state.info.token, page: this.state.page })
+            .noteDetails({ id: this.state.id, token: this.state.info.token,})
             .then(res => {
                 note_data = res;
-                this.setState({ details: note_data, id: this.$router.params.id });
+                this.setState({ details: note_data, id: this.state.id });
             });
     }
     // 返回
@@ -114,7 +113,7 @@ export default class NoteDetail extends Component {
         // console.log(cid);
         let params = {
             token: this.props.memberInfo.token,
-            id: this.$router.params.id,
+            id: this.state.id,
             source_type_id: this.props.memberInfo.openid
         }
         if (cid) {
