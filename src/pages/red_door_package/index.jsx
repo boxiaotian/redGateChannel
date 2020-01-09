@@ -134,8 +134,8 @@ export default class RedDoorPackage extends Component {
           }, 1000);
         }
       }
-    }
   }
+  
 
   // 详情切换
   onDetailTab(details_current) {
