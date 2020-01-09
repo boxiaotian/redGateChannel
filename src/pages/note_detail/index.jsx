@@ -34,19 +34,63 @@ export default class Login extends Component {
         info: this.props.memberInfo,
         app_id: "",
         page: 0,
-        id: ""
+        id: 1
     };
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
-        if (this.$router.params.id) this.noteDetail();
-        // Taro.redirectTo({ url: "/pages/home/index" });
+        if (getUrlKey("id")) {
+            setCahce("id", { id: getUrlKey("id") })
+            this.setState({ id: getUrlKey("id") })
+        };
+
         // 公众号AppId
         weiXinModel.getConfig().then(res => {
-            this.setState({ app_id: res.app_id });
+            this.setState({ app_id: res.app_id }, () => {
+                if (!this.props.memberInfo.token || !getUrlKey("code")) {
+                    if (this.state.app_id) {
+                        setCahce("url", { url: "noteDetail?id=" + this.$router.params.id + "cid=" + getUrlKey("cid") });
+                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php?id="+ this.$router.params.id + "cid=" + getUrlKey("cid"));
+                        // let redirect_uri = urlEncode(window.location.href);
+                        if (!getUrlKey("code")) {
+                            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+                        } else {
+                            setCahce("url", { url: "noteDetail?id=" + this.$router.params.id + "cid=" + getUrlKey("cid") });
+                            this.props.onGetMemberInfo &&
+                                this.props.onGetMemberInfo({ code: getUrlKey("code") });
+                            setTimeout(() => {
+                                if (this.props.memberInfo && this.props.memberInfo.token) {
+                                    weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+                                        this.setState({ info: res },()=>{
+                                            this.noteDetail();
+                                        });
+                                        // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
+                                      });
+                                } else {
+                                    Taro.showToast({
+                                        title: "请登录注册",
+                                        icon: "none",
+                                        success: () => {
+                                            setTimeout(() => {
+                                                Taro.redirectTo({ url: "/pages/login/index" });
+                                            }, 1000);
+                                        }
+                                    });
+                                }
+                            }, 1000);
+                        }
+                    }
+
+                } else {
+                    // 卡券列表
+                    console.log("fffff");
+
+                    this.noteDetail();
+                }
+            });
         });
 
-
     }
+    //卡券详情
     noteDetail() {
         let note_data = {};
         noteModel
@@ -60,55 +104,21 @@ export default class Login extends Component {
     onJump() {
         Taro.redirectTo({ url: "/pages/notes/index" });
     }
+
     onPay() {
-        if (!this.props.memberInfo.token) {
-            if (this.state.app_id) {
-                let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
-                // let redirect_uri = urlEncode(window.location.href); // 
-                // console.log(getUrlKey("code"))//
-                if (!getUrlKey("code")) {
-                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-                } else {
-                    
-                    setCahce("url", { url: "noteDetail" });
-                    this.props.onGetMemberInfo &&
-                        this.props.onGetMemberInfo({ code: getUrlKey("code") });
-                    setTimeout(() => {
-                        if (this.props.memberInfo && this.props.memberInfo.token) {
-                            this.notePay();
-                        } else {
-                            Taro.showToast({
-                                title: "请登录注册",
-                                icon: "none",
-                                success: () => {
-                                    setTimeout(() => {
-                                        Taro.redirectTo({ url: "/pages/login/index" });
-                                    }, 1000);
-                                }
-                            });
-                        }
-                    }, 1000);
-                }
-            }
-
-        } else {
-            this.notePay()
-        }
-    }
-
-    notePay() {
         let cid = getCahce("cid");
         let params = {
-          token: this.props.memberInfo.token,
-          id: this.$router.params.id,
-          source_type_id: this.props.memberInfo.openid
+            token: this.props.memberInfo.token,
+            id: this.$router.params.id,
+            source_type_id: this.props.memberInfo.openid
         }
         if (cid) {
-          params.cid = cid
+            params.cid = cid
         }
+       
         noteModel.cardPay(params)
             .then(res => {
-                console.log("res",res);
+                console.log("res", res);
                 this.BridgeReady(res);
                 // if (res.code == 1) {
                 // } else {

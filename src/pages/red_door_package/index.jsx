@@ -105,8 +105,8 @@ export default class RedDoorPackage extends Component {
   onExchange() {
       // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
       if (this.state.app_id) {
-        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
-        // let redirect_uri = urlEncode(window.location.href); // 正式
+       // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
+        let redirect_uri = urlEncode(window.location.href); // 正式
         if (!getUrlKey("code")) {
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
         } else {

@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
+import { View, Text, Image ,RichText } from "@tarojs/components";
 import { Navbar } from "@/components/index";
 import { AtButton } from "taro-ui";
 import { AtIcon } from "taro-ui";
@@ -33,7 +33,9 @@ export default class index extends Component {
                 </View>
                 <View className="note_expound_container">
                     <View className="note_expound_title">{info.title}</View>
-                    <View className="note_expound_content">{info.usemust}</View>
+                    <View className="note_expound_content" > 
+                    <RichText className='text' nodes= {info.usemust} />
+                    </View>
                 </View>
 
 

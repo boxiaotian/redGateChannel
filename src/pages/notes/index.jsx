@@ -48,7 +48,8 @@ export default class Notes extends Component {
             this.setState({ app_id: res.app_id }, () => {
                 if (!this.props.memberInfo.token) {
                     if (this.state.app_id) {
-                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
+                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+                        // let redirect_uri = urlEncode(window.location.href);
                         if (!getUrlKey("code")) {
                             window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
                         } else {
