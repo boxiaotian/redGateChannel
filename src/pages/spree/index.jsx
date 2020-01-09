@@ -117,7 +117,7 @@ export default class Spree extends Component {
     } else {
       setCahce("url", { url: "spree" });
       if (isWeiXin()) {
-        // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+        // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
         let redirect_uri = urlEncode(window.location.href);
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       } else {

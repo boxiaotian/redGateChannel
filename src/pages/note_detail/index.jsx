@@ -49,7 +49,7 @@ export default class Login extends Component {
                 if (!this.props.memberInfo.token || !getUrlKey("code")) {
                     if (this.state.app_id) {
                         setCahce("url", { url: "noteDetail?id=" + this.$router.params.id + "cid=" + getUrlKey("cid") });
-                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php?id="+ this.$router.params.id + "cid=" + getUrlKey("cid"));
+                        let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php?id="+ this.$router.params.id + "cid=" + getUrlKey("cid"));
                         // let redirect_uri = urlEncode(window.location.href);
                         if (!getUrlKey("code")) {
                             window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;

@@ -6,6 +6,6 @@
 第二个：新建页路径简写
 第三个： 本地服务器IP localhost
 
- // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php");
+ // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
       let redirect_uri = urlEncode(window.location.href);
 

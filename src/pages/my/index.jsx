@@ -35,7 +35,7 @@ export default class My extends Component {
   componentWillMount() {
     Taro.removeStorageSync("cid");
     if (getCahce("appid")) {
-      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
+      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php"); // 开发
       let redirect_uri = urlEncode(window.location.href); // 正式
       if (!getUrlKey("code")) {
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
