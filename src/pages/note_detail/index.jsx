@@ -33,7 +33,7 @@ export default class NoteDetail extends Component {
         details: {},
         info: this.props.memberInfo,
         app_id: "",
-        id: this.$router.params.id
+        id: this.$router.params.id || getUrlKey("id"),
     };
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
@@ -60,14 +60,15 @@ export default class NoteDetail extends Component {
     }
 
     componentDidMount(){
-        console.log("new catch");
-        this.noteDetail();
+        if (this.props.memberInfo && this.props.memberInfo.token) {
+            this.noteDetail()
+        }
     }
 
     getwx() {
         if (this.state.app_id) {
-             let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-             //let redirect_uri = urlEncode(window.location.href); // 正式
+             //let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+             let redirect_uri = urlEncode(window.location.href); // 正式
             if (!getUrlKey("code")) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
             } else {
@@ -81,6 +82,7 @@ export default class NoteDetail extends Component {
                         weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
                             console.log(res, "res");
                             this.setState({ info: res });
+                            this.noteDetail()
                         });
                     } else {
                            Taro.showToast({

@@ -51,43 +51,52 @@ export default class RedDoorPackage extends Component {
 
     // 公众号AppId
     weiXinModel.getConfig().then(res => {
-      this.setState({ app_id: res.app_id });
+      this.setState({ app_id: res.app_id },()=>{
+        this.getwx()
+      });
     });
 
-    // if (getUrlKey("code")) {
-    //   this.props.onGetMemberInfo &&
-    //     this.props.onGetMemberInfo({ code: getUrlKey("code") });
-    //   setTimeout(() => {
-    //     if (this.props.memberInfo != undefined && this.props.memberInfo.uid) {
-    //       weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-    //         if (res.grade_id && res.vip) {
-    //           Taro.showToast({
-    //             title: "您已是红粉VIP,请前往APP查看",
-    //             icon: "none",
-    //             success: () => {
-    //               setTimeout(() => {
-    //                 if (isAndroid())
-    //                   window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
-    //                 else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
-    //               }, 1000);
-    //             }
-    //           });
-    //         } else Taro.navigateTo({ url: "/pages/red_powder_vip/index" });
-    //       });
-    //     } else {
-    //       Taro.showToast({
-    //         title: "请登录注册",
-    //         icon: "none",
-    //         success: () => {
-    //           setTimeout(() => {
-    //             Taro.redirectTo({ url: "/pages/login/index" });
-    //           }, 1000);
-    //         }
-    //       });
-    //     }
-    //   }, 1000);
-    // }
   }
+
+  componentDidMount(){
+        // 礼包详情
+        packageModel.giftBag().then(res => {
+          let proportion = (res.salenum / (res.salenum + res.num)) * 100;
+          this.setState({ info: res, proportion });
+        });
+  }
+
+  getwx() {
+    if (this.state.app_id) {
+         //let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+         let redirect_uri = urlEncode(window.location.href); // 正式
+        if (!getUrlKey("code")) {
+            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+        } else {
+            setCahce("url", { url: "redDoorPackage?cid="+getUrlKey("cid") +"&id="+ getUrlKey("id")});
+            this.props.onGetMemberInfo && this.props.onGetMemberInfo({ code: getUrlKey("code") })
+            setTimeout(() => {
+                console.log("kaishi000000",this.props.memberInfo);
+                if (this.props.memberInfo && this.props.memberInfo.token) {
+                    // weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+                    //     console.log(res, "res");
+                    //     // this.setState({ info: res });
+                    // });
+                } else {
+                       Taro.showToast({
+                         title: "请登录注册",
+                         icon: "none",
+                         success: () => {
+                           setTimeout(() => {
+                             Taro.redirectTo({ url: "/pages/login/index" });
+                           }, 1000);
+                         }
+                       });
+                }
+            }, 1000);
+        }
+    }
+}
 
   // 返回首页
   onJump() {

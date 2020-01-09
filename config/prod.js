@@ -14,10 +14,6 @@ module.exports = {
      *     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
      * }
      */
-  },  
-  output: { // 解决js在浏览器缓存
-    filename: 'js/[name].[hash:8].js',
-    chunkFilename: 'js/[name].[chunkhash:8].js'
   }
 
 }
