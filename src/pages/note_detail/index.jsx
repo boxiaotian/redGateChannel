@@ -59,6 +59,11 @@ export default class NoteDetail extends Component {
         });
     }
 
+    componentDidMount(){
+        console.log("new catch");
+        this.noteDetail();
+    }
+
     getwx() {
         if (this.state.app_id) {
              let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
