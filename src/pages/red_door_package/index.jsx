@@ -36,7 +36,8 @@ export default class RedDoorPackage extends Component {
     package_privilege, // 礼包特权
     detail_tab: [{ title: "图文详情" }, { title: "项目详情" }],
     details_current: 0,
-    app_id: "" , 
+    app_id: "",
+    endtime : new Date().getTime(),
   };
 
   componentWillMount() {
@@ -100,40 +101,40 @@ export default class RedDoorPackage extends Component {
   onPrivilege(item, index) {
     Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
   }
-  
+
   //  vip礼包兑换权益
   onExchange() {
-      // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
-      if (this.state.app_id) {
-        let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
-        // let redirect_uri = urlEncode(window.location.href); // 正式
-        if (!getUrlKey("code")) {
-          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-        } else {
-          setCahce("url", { url: "redDoorPackage" });
-          this.props.onGetMemberInfo &&
-            this.props.onGetMemberInfo({ code: getUrlKey("code") });
-          setTimeout(() => {
-            if (this.props.memberInfo && this.props.memberInfo.token) {
-              weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-                // this.setState({ info: res });
-                // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
-              });
-            } else {
-              Taro.showToast({
-                title: "请登录注册",
-                icon: "none",
-                success: () => {
-                  setTimeout(() => {
-                    Taro.redirectTo({ url: "/pages/login/index" });
-                  }, 1000);
-                }
-              });
-            }
-          }, 1000);
-        }
+    // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
+    if (this.state.app_id) {
+      let redirect_uri = urlEncode("https://hm.hongmenpd.com/wxauth.php"); // 开发
+      // let redirect_uri = urlEncode(window.location.href); // 正式
+      if (!getUrlKey("code")) {
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+      } else {
+        setCahce("url", { url: "redDoorPackage" });
+        this.props.onGetMemberInfo &&
+          this.props.onGetMemberInfo({ code: getUrlKey("code") });
+        setTimeout(() => {
+          if (this.props.memberInfo && this.props.memberInfo.token) {
+            weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+              // this.setState({ info: res });
+              // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
+            });
+          } else {
+            Taro.showToast({
+              title: "请登录注册",
+              icon: "none",
+              success: () => {
+                setTimeout(() => {
+                  Taro.redirectTo({ url: "/pages/login/index" });
+                }, 1000);
+              }
+            });
+          }
+        }, 1000);
       }
     }
+  }
 
   // 详情切换
   onDetailTab(details_current) {
@@ -157,8 +158,11 @@ export default class RedDoorPackage extends Component {
         success: () => {
           setTimeout(() => {
             if (isAndroid())
-              window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
-            else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
+              window.location.href =
+                "http://app.mi.com/details?id=com.ticketapp&ref=search";
+            else
+              window.location.href =
+                "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
           }, 1000);
         }
       });
@@ -173,9 +177,11 @@ export default class RedDoorPackage extends Component {
     });
     setTimeout(() => {
       if (isAndroid()) {
-        window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
+        window.location.href =
+          "http://app.mi.com/details?id=com.ticketapp&ref=search";
       } else {
-        window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
+        window.location.href =
+          "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
       }
     }, 1000);
   }
@@ -186,9 +192,14 @@ export default class RedDoorPackage extends Component {
       proportion,
       package_privilege,
       detail_tab,
-      details_current
+      details_current,
+      endtime
     } = this.state;
-
+    let status = true;
+    if (endtime > info.end_time1 * 1000) {
+      status = false // 活动时间结束
+    }
+    
     return (
       <View className="red_door_package">
         <Navbar title="红门礼包" onJump={this.onJump.bind(this)} />
@@ -248,18 +259,14 @@ export default class RedDoorPackage extends Component {
             selectedColor="#000000" 
           /> */}
           {details_current ? (
-            <View 
-            onClick={this.onExchange.bind(this)}
-            >
+            <View onClick={this.onExchange.bind(this)}>
               {info.detail_project &&
                 info.detail_project.map(item => {
                   return <Image key={item.value} src={item.value} />;
                 })}
             </View>
           ) : (
-            <View
-            onClick={this.onExchange.bind(this)}
-            >
+            <View onClick={this.onExchange.bind(this)}>
               {info.detail_Image_text &&
                 info.detail_Image_text.map(item => {
                   return <Image key={item.value} src={item.value} />;
@@ -269,9 +276,13 @@ export default class RedDoorPackage extends Component {
         </View>
         <View className="package_pay">
           <View className="package_pay_title">限时特惠￥{info.price}/年</View>
-          <AtButton type="primary" onClick={this.onOpen.bind(this)}>
-            立即开通
-          </AtButton>
+          {info.num === 0 || !status ? (
+            <AtButton type="primary">活动已结束</AtButton>
+          ) : (
+            <AtButton type="primary" onClick={this.onOpen.bind(this)}>
+              立即开通
+            </AtButton>
+          )}
         </View>
         <Image
           className="service"
