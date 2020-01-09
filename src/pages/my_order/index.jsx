@@ -23,7 +23,7 @@ export default class MyOrder extends Component {
   state = {
     sort_tab: [
       { title: "自营订单" },
-      { title: "团购订单" },
+      { title: "票券订单" },
       { title: "礼包订单" }
     ],
     status_tab: [
@@ -38,7 +38,8 @@ export default class MyOrder extends Component {
     isrequest: true,
     operated_info: [], // 自营订单
     doctor_info: [], // 医生订单
-    gift_info: {} // 礼包订单
+    gift_info: {}, // 礼包订单
+    card_info: {} //票券订单
   };
 
   componentWillMount() {
@@ -52,11 +53,16 @@ export default class MyOrder extends Component {
         { title: "已支付" },
         { title: "已完成" }
       ];
-    } else if (sort_current == 1 || sort_current == 2) {
+    } else if ( sort_current == 2) {
       status_tab = [
         { title: "全部" },
         { title: "未支付" },
         { title: "已支付" }
+      ];
+    }else if(sort_current == 1) {
+      status_tab = [
+        { title: "待使用" },
+          { title: "已使用" }
       ];
     }
     this.setState(
@@ -68,7 +74,8 @@ export default class MyOrder extends Component {
       () => {
         Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
           if (this.state.sort_current == 0) this.orderHm();
-          else if (this.state.sort_current == 1) this.orderDoctor();
+          // else if (this.state.sort_current == 1) this.orderDoctor();
+            else if (this.state.sort_current == 1) this.orderCard();
           else if (this.state.sort_current == 2) this.orderGiftBagc();
         });
       }
@@ -78,7 +85,8 @@ export default class MyOrder extends Component {
   // 滑动到底部
   onReachBottom() {
     if (this.state.sort_current == 0) this.orderHm();
-    else if (this.state.sort_current == 1) this.orderDoctor();
+    // else if (this.state.sort_current == 1) this.orderDoctor();
+    else if (this.state.sort_current == 1) this.orderCard();
     else if (this.state.sort_current == 2) this.orderGiftBagc();
   }
 
@@ -93,11 +101,16 @@ export default class MyOrder extends Component {
           { title: "已支付" },
           { title: "已完成" }
         ];
-      } else if (sort_current == 1 || sort_current == 2) {
+      } else if (sort_current == 2) {
         status_tab = [
           { title: "全部" },
           { title: "未支付" },
           { title: "已支付" }
+        ];
+      }else if (sort_current == 1 ) {
+        status_tab = [
+          { title: "待使用" },
+          { title: "已使用" }
         ];
       }
       this.setState(
@@ -113,7 +126,8 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            else if (this.state.sort_current == 1) this.orderDoctor();
+            // else if (this.state.sort_current == 1) this.orderDoctor();
+            else if (this.state.sort_current == 1) this.orderCard();
             else if (this.state.sort_current == 2) this.orderGiftBagc();
           });
         }
@@ -135,7 +149,8 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            else if (this.state.sort_current == 1) this.orderDoctor();
+            // else if (this.state.sort_current == 1) this.orderDoctor();
+            else if (this.state.sort_current == 1) this.orderCard();
             else if (this.state.sort_current == 2) this.orderGiftBagc();
           });
         }
@@ -183,6 +198,19 @@ export default class MyOrder extends Component {
       .orderGiftBagcPay({
         token: this.props.memberInfo.token,
         order_sn
+      })
+      .then(res => {
+        this.BridgeReady(res);
+      });
+  }
+  // 票券支付
+  onCardPay(order_sn, id) {
+    orderModel
+      .orderUserCardPay({
+        token: this.props.memberInfo.token,
+        order_sn,
+        id,
+        source_type_id: this.props.memberInfo.openid
       })
       .then(res => {
         this.BridgeReady(res);
@@ -239,7 +267,21 @@ export default class MyOrder extends Component {
         });
     }
   }
+ 
 
+// 票券订单
+  orderCard() {
+    orderModel
+      .orderUserCard({
+        status: this.state.status_current,
+        token: this.props.memberInfo.token
+      })
+      .then(res => {
+        // console.log("DD",res.data.length);
+        
+        this.setState({ card_info: res });
+      });
+  }
   // 礼包订单
   orderGiftBagc() {
     orderModel
@@ -276,7 +318,8 @@ export default class MyOrder extends Component {
       status_current,
       operated_info,
       doctor_info,
-      gift_info
+      gift_info,
+      card_info
     } = this.state;
 
     return (
@@ -416,7 +459,7 @@ export default class MyOrder extends Component {
             )}
           </View>
         )}
-        {sort_current == 1 && (
+        {/* {sort_current == 1 && (
           <View className='my_order_group_buy'>
             {doctor_info.length ? (
               doctor_info.map(item => {
@@ -481,6 +524,60 @@ export default class MyOrder extends Component {
               />
               <Text>暂无订单～</Text>
             </View> */}
+          {/* </View>
+        )} */} 
+        
+         {sort_current == 1 && (
+          <View className='my_order_gift'>
+            {(card_info.data && Object.keys(card_info.data).length) ? (
+              card_info.data.map(item => {
+                return (
+                  <View className='my_order_gift_item' key={item.id}>
+                    <View className='my_order_gift_flex'>
+                      <Text>订单编号: {item.order_sn}</Text>
+                      <Text style={{ color: "#ff093c" }}>
+                        {this.giftStatus(item.status)}
+                      </Text>
+                    </View>
+                    <View className='my_order_gift_flex'>
+                      <View className='my_order_gift_content'>
+                        <View>{item.name}</View>
+                        <View className='my_order_gift20'>
+                          {item.shortname}
+                        </View>
+                      </View>
+                      <Text>¥{item.price}</Text>
+                    </View>
+                    <View className='my_order_gift_flex'>
+                      <Text className='my_order_gift20'>
+                        创建日：{item.createtime}
+                      </Text>
+                      <View className='my_order_gift_price'>
+                        <Text>金额：￥{item.price}</Text>
+                        {item.status == 0 && (
+                          <AtButton
+                            className='my_order_gift_btn'
+                            type='secondary'
+                            onClick={this.onCardPay.bind(this, item.order_sn, item.id)}
+                            circle
+                          >
+                            去支付
+                          </AtButton>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                );
+              })
+            ) : (
+              <View className='no_order'>
+                <Image
+                  className='no_order_img'
+                  src={image_domain + "w_order.png"}
+                />
+                <Text>暂无订单～</Text>
+              </View>
+            )}
           </View>
         )}
         {sort_current == 2 && (

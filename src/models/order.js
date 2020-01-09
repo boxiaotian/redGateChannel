@@ -31,6 +31,22 @@ export default class OrderModel extends HTTP {
       data: { yzdl: "yzdl", type: 4, ...params }
     })
   }
+  //卡券订单 ///api/Apicouponcard/userCard
+  orderUserCard(params) {
+    return this.request({
+      url: "Apicouponcard/userCard",
+      data: { yzdl: "yzdl", ...params }
+    })
+  }
+
+  // 卡券订单支付
+  orderUserCardPay(params) {
+    return this.request({
+      url: "Apicouponcard/cardPay",
+      data: { yzdl: "yzdl", source_type: 2,pay_type: 4, ...params }
+    });
+  }
+
   // 礼包订单
   orderGiftBagc(params) {
     return this.request({

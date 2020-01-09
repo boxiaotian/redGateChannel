@@ -39,7 +39,6 @@ export default class Login extends Component {
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
         if (this.$router.params.id) this.noteDetail();
-        console.log(this.$router.params)
         // Taro.redirectTo({ url: "/pages/home/index" });
         // 公众号AppId
         weiXinModel.getConfig().then(res => {
@@ -70,6 +69,7 @@ export default class Login extends Component {
                 if (!getUrlKey("code")) {
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
                 } else {
+                    
                     setCahce("url", { url: "noteDetail" });
                     this.props.onGetMemberInfo &&
                         this.props.onGetMemberInfo({ code: getUrlKey("code") });
