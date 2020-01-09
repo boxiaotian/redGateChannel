@@ -54,42 +54,39 @@ export default class RedDoorPackage extends Component {
       this.setState({ app_id: res.app_id });
     });
 
-    // console.log(this.props.memberInfo ,"this.props.memberInfo");
-    // setCahce("member_info",{})
-    // if (getUrlKey("code")) {
-    //   this.props.onGetMemberInfo &&
-    //     this.props.onGetMemberInfo({ code: getUrlKey("code") });
-    //     setTimeout(() => {
-    //     if (this.props.memberInfo != undefined && this.props.memberInfo.uid) {
-    //       weiXinModel.selectUser(228).then(res => {
-    //         setCahce("member_info", res);
-    //         // if (res.grade_id && res.vip) {
-    //         //   Taro.showToast({
-    //         //     title: "您已是红粉VIP,请前往APP查看",
-    //         //     icon: "none",
-    //         //     success: () => {
-    //         //       setTimeout(() => {
-    //         //         if (isAndroid())
-    //         //           window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
-    //         //         else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
-    //         //       }, 1000);
-    //         //     }
-    //         //   });
-    //         // } else Taro.navigateTo({ url: "/pages/red_powder_vip/index" });
-    //       });
-    //     } else {
-    //       Taro.showToast({
-    //         title: "请登录注册",
-    //         icon: "none",
-    //         success: () => {
-    //           setTimeout(() => {
-    //             Taro.redirectTo({ url: "/pages/login/index" });
-    //           }, 1000);
-    //         }
-    //       });
-    //     }
-    //   }, 1000);
-    // }
+    if (getUrlKey("code")) {
+      this.props.onGetMemberInfo &&
+        this.props.onGetMemberInfo({ code: getUrlKey("code") });
+      setTimeout(() => {
+        if (this.props.memberInfo != undefined && this.props.memberInfo.uid) {
+          weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+            if (res.grade_id && res.vip) {
+              Taro.showToast({
+                title: "您已是红粉VIP,请前往APP查看",
+                icon: "none",
+                success: () => {
+                  setTimeout(() => {
+                    if (isAndroid())
+                      window.location.href = "http://app.mi.com/details?id=com.ticketapp&ref=search";
+                    else window.location.href = "https://apps.apple.com/cn/app/%E7%BA%A2%E9%97%A8%E9%A2%91%E5%88%B0/id1485553352";
+                  }, 1000);
+                }
+              });
+            } else Taro.navigateTo({ url: "/pages/red_powder_vip/index" });
+          });
+        } else {
+          Taro.showToast({
+            title: "请登录注册",
+            icon: "none",
+            success: () => {
+              setTimeout(() => {
+                Taro.redirectTo({ url: "/pages/login/index" });
+              }, 1000);
+            }
+          });
+        }
+      }, 1000);
+    }
   }
 
   // 返回首页
@@ -102,12 +99,11 @@ export default class RedDoorPackage extends Component {
     Taro.navigateTo({ url: "/pages/privilege/index?id=" + index });
   }
 
-  //  vip礼包兑换权益
+  //  
   onExchange() {
-      // Taro.navigateTo({ url: "/pages/gift_red_exchange/index"});
       if (this.state.app_id) {
-       // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-        let redirect_uri = urlEncode(window.location.href); // 正式
+       let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+        // let redirect_uri = urlEncode(window.location.href); // 正式
         if (!getUrlKey("code")) {
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
         } else {
@@ -149,8 +145,8 @@ export default class RedDoorPackage extends Component {
     setCahce("packagePay", { gid: info.id, price: info.price });
 
     if (isWeiXin()) {
-      // let redirect_uri = urlEncode("chttps://hm.hongmenpd.com/H5/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
+      let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php");
+      // let redirect_uri = urlEncode(window.location.href);
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {
       Taro.showToast({
