@@ -13,7 +13,7 @@ import { isAndroid, getUrlKey, urlEncode } from "@/utils/utils";
 import "./index.less";
 
 const weiXinModel = new WeiXinModel();
-
+//dddddddd
 @connect(
   store => {
     return { memberInfo: store.user.memberInfo };
