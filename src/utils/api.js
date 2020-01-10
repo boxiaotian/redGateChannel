@@ -18,9 +18,7 @@ export default class HTTP {
       title: '加载中...',
       icon: 'loading',
     })
-    console.log("url",url);
-    console.log(JSON.stringify(data));
-    
+    console.log(url+"====",JSON.stringify(data));
     Taro.request({
       url: formal_domain + url,
       data: JSON.stringify(data),

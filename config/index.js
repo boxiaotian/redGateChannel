@@ -151,7 +151,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.4.168'
+      host: '192.168.4.180'
     },
     output: {
       filename: 'js/[name].[hash:8].js',
