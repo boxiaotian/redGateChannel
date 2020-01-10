@@ -67,8 +67,8 @@ export default class NoteDetail extends Component {
 
     getwx() {
         if (this.state.app_id) {
-             //let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-             let redirect_uri = urlEncode(window.location.href); // 正式
+             let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+            // let redirect_uri = urlEncode(window.location.href); // 正式
             if (!getUrlKey("code")) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
             } else {
@@ -133,22 +133,33 @@ export default class NoteDetail extends Component {
                 this.BridgeReady(res);
             })
     }
-    // 调取微信支付
-    BridgeReady(res) {
-        onBridgeReady(res).then(result => {
-            if (result.err_msg == "get_brand_wcpay_request:ok") {
-                Taro.showToast({
-                    title: "支付成功,请前往APP查看",
-                    icon: "none"
-                });
-            } else {
-                Taro.showToast({
-                    title: "支付失败",
-                    icon: "none"
-                });
-            }
+   
+      // 调取微信支付
+  BridgeReady(res) {
+    onBridgeReady(res).then(result => {
+      if (result.err_msg == "get_brand_wcpay_request:ok") {
+        Taro.showToast({
+          title: "支付成功",
+          icon: "none",
+          success: () => {
+            setTimeout(() => {
+              window.location.href = url_domain + "myOrder?sort_current=1";
+            }, 1000);
+          }
         });
-    }
+      } else {
+        Taro.showToast({
+          title: "支付失败",
+          icon: "none",
+          success: () => {
+            setTimeout(() => {
+              window.location.href = url_domain + "noteDetail?cid="+getUrlKey("cid") +"&id="+ getUrlKey("id");
+            }, 1000);
+          }
+        });
+      }
+    });
+  }
     onUsage(type) {
         let { details } = this.state;
         let params = {
