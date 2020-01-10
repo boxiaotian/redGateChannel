@@ -5,122 +5,131 @@
 
 .my {
   padding-top: 88px;
+  .my_navbar {
+    position: fixed;
+    z-index: 102;
+    .nav_bar {
+      background-color: #fff;
+      color: #333;
+      font-size: 32px;
+    }
+  }
 
   .my_content {
     box-sizing: border-box;
-    position: relative;
+    padding: 100px 28px;
     width: 100%;
-    height: 350px;
-    padding: 60px 20px;
-    margin-bottom: 130px;
-    background: url(https://qiniu.hongmenpd.com/H5/images/my_bg.png) no-repeat;
-    background-size: cover;
-
-    .my_info {
-      font-size: 36px;
-      color: #ffffff;
-
-      .my_info_avatar {
-        vertical-align: middle;
-        width: 100px;
-        height: 100px;
-        margin-right: 50px;
-        background: #ffffff;
-        border-radius: 50%;
-      }
-    }
-
-    .my_order {
-      box-sizing: border-box;
-      position: absolute;
-      bottom: -110px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 94%;
-      height: 250px;
-      padding: 26px;
-      background-color: #ffffff;
-      border-radius: 8px;
-
-      .my_order_top {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 30px;
-        font-size: 30px;
-        color: #010101;
-
-        .my_all_order {
-          font-size: 24px;
-          color: #4c4c4c;
+    height: 460px;
+    background-color: #FE3F86;
+    background-image: linear-gradient(#FE3F86, #FC4441);
+      .my_content_detail {
+        height: 150px;
+        .my_icon {
+          width: 148px;
+          height: 148px;
+          border-radius: 50%;
+          background-color: #fff;
+          float: left;
         }
-      }
-
-      .at-grid {
-        .at-grid__flex {
-          .at-grid__flex-item {
-            .at-grid-item__content {
-              .at-grid-item__content-inner {
-                .content-inner__icon {
-                  .content-inner__img {
-                    width: 44px;
-                    height: 40px;
-                  }
-                }
-
-                .content-inner__text {
-                  font-size: 24px;
-                  color: #666666;
+        .my_info {
+            width: 100%;
+            height: 100%;
+            padding-left: 170px;
+            color: #fff;
+            .my_name {
+              font-size: 36px;
+              font-weight: 400;
+              display: flex;
+              align-items: center;
+              .my_pride {
+                width: 85px;
+                height: 26px;
+                border-radius: 20px;
+                background-color: #FFC23B;
+                margin-left: 11px;
+                .my_pride_img {
+                    width: 31px;
+                    height:31px;
+                    border-radius: 50%;
+                    background-color: #fff;
+                    margin-top: -3px;
                 }
               }
             }
+          
+        }
+       
+      }
+      .my_content_money {
+        @height: 296px;
+        margin-bottom: -300px;
+        width: 100%;
+        height: @height;
+        border-radius: 20px 20px 0 0;
+        overflow: hidden;
+        margin-top: 80px;
+        .my_money_up {
+          box-sizing: border-box;
+          height: @height/2;
+          background-color: #333;
+          padding: 30px 44px 15px;
+          .amount {
+            display: flex;
+            align-items: center;
+            .balance {
+              color: #fff;
+              font-size: 28px;
+            }
+            .money {
+              color: #F8DBB4;
+              font-size: 48px;
+              margin-left: 9px;
+            }
+          }
+          .settle {
+            color: #fff;
+            font-size: 22px;
+            margin-top: 29px;
+          }
+        }
+        .my_money_down {
+          background-color: #fff;
+          height: @height/2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .Profit {
+            display: flex;
+              flex-direction: column;
+              align-items: center;
+              margin: 100px;
+              color: #333;
+              font-size: 24px;
+              .num {
+                font-size: 42px;
+                margin-bottom: 6px;
+              }
+          }
+          .line {
+            height: 40px;
+            border: 1px solid #666;
           }
         }
       }
+
+  }
+  .bodyCon {
+    margin-top: 184px;
+    padding: 0 14px;
+    .packgift {
+      box-sizing: border-box;
+      background-color: #FFEEC4;
+      width: 100%;
+      height: 98px;
+      border-radius: 8px;
+      padding: 15px;
+  
     }
   }
-
-  .my_gift_package {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: 94%;
-    height: 82px;
-    margin: 20px auto;
-    padding: 0 28px;
-    background: linear-gradient(45deg, #ffe8b7 0%, #e9ce93 100%);
-    border-radius: 8px;
-    font-size: 28px;
-    color: #885E24;
-
-    .my_gift_package_img {
-      width: 24px;
-      height: 24px;
-      margin-right: 28px;
-    }
-
-    .at-button {
-      width: 120px;
-      height: 40px;
-      margin: 0;
-      border: solid 1PX #885E24;
-      font-size: 22px;
-      line-height: 40px;
-      color: #885E24;
-    }
-  }
-
-  .at-list {
-    width: 94%;
-    margin: auto;
-    border-radius: 8px;
-
-    .at-list__item {
-      font-size: 30px;
-      color: #010101;
-    }
-  }
+ 
 }

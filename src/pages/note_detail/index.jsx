@@ -53,7 +53,7 @@ export default class NoteDetail extends Component {
                 } else {
                     // 未登录 
                     console.log("未登录", getUrlKey("code"));
-                    this.getwx()
+                    this.getwx()  
                 }
             });
         });

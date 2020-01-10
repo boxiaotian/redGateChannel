@@ -39,10 +39,25 @@ export default class My extends Component {
                 <Text className="balance">余额</Text>
                 <Text className="money">399.00</Text>
               </View>
-              <View className="settle"></View>
+              <View className="settle">
+              每月25日结算上月收入
+              </View>
             </View>
-            <View className="my_money_down"></View>
+            <View className="my_money_down">
+                <View className="Profit">
+                   <View className="num">0.00</View>
+                   <View>本月预估</View>
+                </View>
+                <View className="line"></View>
+                <View className="Profit">
+                   <View  className="num">0.00</View>
+                   <View>今日收益</View>
+                </View>
+            </View>
           </View>
+        </View>
+        <View className="bodyCon">
+            <View className="packgift"></View>
         </View>
       </View>
     )
