@@ -45,3 +45,17 @@ export const order_status = [{ // 我的订单
 
 // 分享图标
 export const share_icon = image_domain + 'share_icon.png';
+
+export const my_key = [{
+  image: image_domain + 'effort.png',
+  value: '收益'
+},{
+  image: image_domain + 'order.png',
+  value: '订单'
+},{
+  image: image_domain + 'follower.png',
+  value: '粉丝'
+},{
+  image: image_domain + 'card.png',
+  value: '卡券'
+}]

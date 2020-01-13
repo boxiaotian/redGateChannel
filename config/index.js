@@ -139,6 +139,7 @@ const config = {
         '/pages/spree/index': '/spree',
         '/pages/carrier_gift_packs/index': '/carrierGiftPacks',
         '/pages/my/index': '/my',
+        '/pages/my_effort/index': '/myEffort',
         '/pages/my_order/index': '/myOrder',
         '/pages/newbie_guide/index': '/newbieGuide',
         '/pages/gift_red_exchange_detail/index': '/giftRedExchangeDetail',
@@ -151,7 +152,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.4.180'
+      host: '192.168.4.168'
     },
     output: {
       filename: 'js/[name].[hash:8].js',

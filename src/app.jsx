@@ -36,6 +36,7 @@ class App extends Component {
       "pages/carrier_gift_packs/index", // 运营商大礼包
       "pages/login/index", // 登录注册
       "pages/my/index", // 我的
+      "pages/my_effort/index", // 我的收益
       "pages/my_order/index", // 我的订单
       "pages/newbie_guide/index", // 我的订单
       "pages/index/index",

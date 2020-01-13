@@ -1,6 +1,7 @@
 #app {
   background-color: #f6f6f6;
   line-height: 1;
+  padding-bottom: 120px;
 }
 
 .my {
@@ -17,7 +18,7 @@
 
   .my_content {
     box-sizing: border-box;
-    padding: 100px 28px;
+    padding: 100px 14px;
     width: 100%;
     height: 460px;
     background-color: #FE3F86;
@@ -36,27 +37,55 @@
             height: 100%;
             padding-left: 170px;
             color: #fff;
+            font-weight: 100;
             .my_name {
               font-size: 36px;
               font-weight: 400;
               display: flex;
+              flex-direction: row;
               align-items: center;
-              .my_pride {
-                width: 85px;
-                height: 26px;
-                border-radius: 20px;
-                background-color: #FFC23B;
-                margin-left: 11px;
-                .my_pride_img {
-                    width: 31px;
-                    height:31px;
-                    border-radius: 50%;
-                    background-color: #fff;
-                    margin-top: -3px;
-                }
+              margin-bottom: 16px;
+              .name {
+                margin-right: 11px;
               }
+                .my_pride_img {
+                  height: 34px;
+                  width: 100px;
+                }
             }
-          
+            .prog_text {
+              font-size: 22px;
+              margin: 16px 0 10px;
+            }
+          .at-progress {
+            width: 260px;
+            margin-bottom: 10px;
+            .at-progress__outer-inner {
+              background-color: #343638;
+
+            }
+          }
+          .code_container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .code {
+              font-size: 26px;
+              margin-right: 20px;
+            }
+            .note_copy_btn {
+              color: #333333;
+              background-color: rgba(225, 225, 225, 0);
+              width: 68px;
+              font-size: 20px;
+              height: 32px;
+              line-height: 30px;
+              border: 1px solid #fff;
+              display: inline-block;
+              margin: 0;
+             }
+          }
+         
         }
        
       }
@@ -128,7 +157,54 @@
       height: 98px;
       border-radius: 8px;
       padding: 15px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .vip_img {
+        width: 30px;
+        height: 24px;
+        color: #FCB536;
+      }
+      .packgift_title {
+        font-size: 28px;
+        color: #956720;
+        margin-left: 6px;
+      }
+      .buy_packgift_btn {
+        width: 148px;
+        height: 48px;
+        font-size: 26px;
+        color: #956720;
+        line-height: 46px;
+        background-color:  #FFEEC4;
+        border-color: #956720;
+        margin-right: -8px;
+      }
   
+    }
+    .key {
+      box-sizing: border-box;
+      padding: 30px;
+      width: 100%;
+      height: 168px;
+      background-color: #fff;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 22px;
+      color: #333;
+      .key_item {
+       text-align: center;
+        .key_item_img {
+          width: 38px;
+          height: 38px;
+          margin-bottom: 5px;
+        }
+      }
+     
     }
   }
  
