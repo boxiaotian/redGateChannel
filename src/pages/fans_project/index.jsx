@@ -60,6 +60,9 @@ export default class FansProject extends Component {
     onJump() {
         Taro.navigateBack({ delta: 1 });
     }
+    onFinshed(){
+        Taro.redirectTo({ url: "/pages/fans_edit/index" });
+    }
     handleChange() {
 
     }
@@ -207,7 +210,7 @@ export default class FansProject extends Component {
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
-                        <AtButton  formType='submit' className="submitBtn">完成</AtButton>
+                        <AtButton  formType='submit' className="submitBtn" onClick={this.onFinshed.bind(this)}>完成</AtButton>
                     </AtForm>
                 </View>
             </View >

@@ -3,17 +3,47 @@ import { View, Button, Text, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtButton } from "taro-ui";
 import { Navbar } from "@/components/index";
+import EffortModel from "@/models/effort";
 
 import { image_domain } from "@/constants/counter";
 
 import "./index.less";
 
+const EffortModel = new EffortModel();
+@connect(
+    store => {
+      return { memberInfo: store.user.memberInfo };
+    },
+    dispatch => {
+      return {
+        onGetMemberInfo(params) {
+          dispatch(getMemberInfo(params));
+        }
+      };
+    }
+  )
 export default class MyEffort extends Component {
-    state = {};
-
+    state = {
+        effort_info: {},
+        info: this.props.memberInfo,
+      };
+      componentWillMount() {
+        this.onEffortInfo();
+      }
+      onEffortInfo() {
+        let effort_data = {};
+        EffortModel
+          .myProfit({
+            token: this.state.info.token
+          })
+          .then(res => {
+            effort_data = res;
+            this.setState({ effort_info: effort_data });
+          });
+      }
     // 返回
     onJump() {
-        Taro.redirectTo({ url: "/pages/notes/index" });
+        Taro.redirectTo({ url: "/pages/my/index" });
     }
     render() {
         return (
@@ -31,11 +61,11 @@ export default class MyEffort extends Component {
                             <View className="effort_detail_num">680.00</View>
                         </View>
                         <View className="effort_detail_item" >
-                            <View className="effort_detail_title">可提现金额(元)</View>
+                            <View className="effort_detail_title">上月合计收益(元)</View>
                             <View className="effort_detail_num">680.00</View>
                         </View>
                         <View className="effort_detail_item" >
-                            <View className="effort_detail_title">可提现金额(元)</View>
+                            <View className="effort_detail_title">本月收益预估(元)</View>
                             <View className="effort_detail_num">680.00</View>
                         </View>
                     </View>

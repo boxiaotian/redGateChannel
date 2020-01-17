@@ -60,6 +60,10 @@ export default class FansMeans extends Component {
     onJump() {
         Taro.navigateBack({ delta: 1 });
     }
+    //下一步-个人项目
+    onFansProject() {
+        Taro.navigateTo({ url: "/pages/fans_project/index" });
+    }
     handleChange() {
 
     }
@@ -121,7 +125,7 @@ export default class FansMeans extends Component {
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
-                        <AtButton  formType='submit' className="submitBtn">下一步</AtButton>
+                        <AtButton  formType='submit' className="submitBtn" onClick={this.onFansProject.bind(this)}>下一步</AtButton>
                     </AtForm>
                 </View>
             </View >

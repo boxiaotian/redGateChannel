@@ -40,7 +40,6 @@ export default class NoteDetail extends Component {
         if (getUrlKey("id")) {
             setCahce("id", { id: getUrlKey("id") })
             console.log( getUrlKey("id"));
-            
             this.setState({ id: getUrlKey("id") })
         };
         console.log(this.props.memberInfo, "111111");

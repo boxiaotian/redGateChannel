@@ -67,6 +67,14 @@ export default class FansInfo extends Component {
     onJump() {
         Taro.navigateBack({ delta: 1 });
     }
+     //下一步个人资产
+      //个人资产
+    onFansMeans() {
+        Taro.navigateTo({ url: "/pages/fans_means/index" });
+    }
+     onFansMeans() {
+        Taro.navigateTo({ url: "/pages/fans_means/index" });
+    }
     handleChange() {
 
     }
@@ -206,7 +214,7 @@ export default class FansInfo extends Component {
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
-                        <AtButton formType='submit' className="submitBtn">下一步</AtButton>
+                        <AtButton formType='submit' className="submitBtn" onClick={this.onFansMeans.bind(this)}>下一步</AtButton>
                     </AtForm>
                 </View>
             </View >
