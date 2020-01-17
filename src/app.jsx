@@ -42,6 +42,8 @@ class App extends Component {
       "pages/fans_order/index", // 粉丝订单
       "pages/fans_edit/index", // 粉丝详情编辑
       "pages/fans_project/index", // 粉丝个人项目编辑
+      "pages/fans_info/index", // 粉丝个人资料编辑
+      "pages/fans_means/index", // 粉丝个人资产编辑
       "pages/newbie_guide/index", // 我的订单
       "pages/index/index",
       "pages/gift_red_exchange_detail/index",

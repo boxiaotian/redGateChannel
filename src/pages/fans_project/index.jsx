@@ -207,7 +207,7 @@ export default class FansProject extends Component {
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
-                        {/* <AtButton formType='submit'>完成</AtButton> */}
+                        <AtButton  formType='submit' className="submitBtn">完成</AtButton>
                     </AtForm>
                 </View>
             </View >

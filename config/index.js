@@ -145,6 +145,8 @@ const config = {
         '/pages/fans_order/index': '/fansOrder',
         '/pages/fans_edit/index': '/fansEdit',
         '/pages/fans_project/index': '/fansProject',
+        '/pages/fans_info/index': '/fansInfo',
+        '/pages/fans_means/index': '/fansMeans',
         '/pages/newbie_guide/index': '/newbieGuide',
         '/pages/gift_red_exchange_detail/index': '/giftRedExchangeDetail',
         '/pages/gift_red_exchange/index': '/giftRedExchange',
@@ -156,7 +158,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.3.40'
+      host: '192.168.1.105'
     },
     output: {
       filename: 'js/[name].[hash:8].js',
