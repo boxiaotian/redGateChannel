@@ -23,14 +23,14 @@ export default class MyOrder extends Component {
   state = {
     sort_tab: [
       { title: "自营订单" },
-      { title: "票券订单" },
       { title: "礼包订单" }
     ],
     status_tab: [
       { title: "全部" },
       { title: "未支付" },
-      { title: "已支付" },
-      { title: "已完成" }
+      { title: "未使用" },
+      { title: "已完成" },
+      { title: "退款/售后" }
     ],
     sort_current: 0,
     status_current: 0,
@@ -50,19 +50,15 @@ export default class MyOrder extends Component {
       status_tab = [
         { title: "全部" },
         { title: "未支付" },
-        { title: "已支付" },
-        { title: "已完成" }
+        { title: "未使用" },
+        { title: "已完成" },
+        { title: "退款/售后" }
       ];
-    } else if ( sort_current == 2) {
+    } else if (sort_current == 1) {
       status_tab = [
         { title: "全部" },
         { title: "未支付" },
-        { title: "已支付" }
-      ];
-    }else if(sort_current == 1) {
-      status_tab = [
-        { title: "待使用" },
-          { title: "已使用" }
+        { title: "未使用" }
       ];
     }
     this.setState(
@@ -74,9 +70,7 @@ export default class MyOrder extends Component {
       () => {
         Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
           if (this.state.sort_current == 0) this.orderHm();
-          // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-          else if (this.state.sort_current == 2) this.orderGiftBagc();
+          else if (this.state.sort_current == 1) this.orderGiftBagc();
         });
       }
     );
@@ -85,9 +79,7 @@ export default class MyOrder extends Component {
   // 滑动到底部
   onReachBottom() {
     if (this.state.sort_current == 0) this.orderHm();
-    // else if (this.state.sort_current == 1) this.orderDoctor();
-    else if (this.state.sort_current == 1) this.orderCard();
-    else if (this.state.sort_current == 2) this.orderGiftBagc();
+    else if (this.state.sort_current == 1) this.orderGiftBagc();
   }
 
   // 切换订单分类
@@ -98,19 +90,15 @@ export default class MyOrder extends Component {
         status_tab = [
           { title: "全部" },
           { title: "未支付" },
-          { title: "已支付" },
-          { title: "已完成" }
+          { title: "未使用" },
+          { title: "已完成" },
+          { title: "退款/售后" }
         ];
-      } else if (sort_current == 2) {
+      } else if (sort_current == 1) {
         status_tab = [
           { title: "全部" },
           { title: "未支付" },
-          { title: "已支付" }
-        ];
-      }else if (sort_current == 1 ) {
-        status_tab = [
-          { title: "待使用" },
-          { title: "已使用" }
+          { title: "未使用" }
         ];
       }
       this.setState(
@@ -126,9 +114,7 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-            else if (this.state.sort_current == 2) this.orderGiftBagc();
+            else if (this.state.sort_current == 1) this.orderGiftBagc();
           });
         }
       );
@@ -149,9 +135,7 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-            else if (this.state.sort_current == 2) this.orderGiftBagc();
+            else if (this.state.sort_current == 1) this.orderGiftBagc();
           });
         }
       );
@@ -183,15 +167,6 @@ export default class MyOrder extends Component {
       });
   }
 
-  // 团购支付
-  onGroupBuyPay(order_sn) {
-    orderModel
-      .orderDoctorPay({ token: this.props.memberInfo.token, order_sn })
-      .then(res => {
-        this.BridgeReady(res);
-      });
-  }
-
   // 礼包支付
   onGiftPay(order_sn) {
     orderModel
@@ -204,18 +179,18 @@ export default class MyOrder extends Component {
       });
   }
   // 票券支付
-  onCardPay(order_sn, id) {
-    orderModel
-      .orderUserCardPay({
-        token: this.props.memberInfo.token,
-        order_sn,
-        id,
-        source_type_id: this.props.memberInfo.openid
-      })
-      .then(res => {
-        this.BridgeReady(res);
-      });
-  }
+  // onCardPay(order_sn, id) {
+  //   orderModel
+  //     .orderUserCardPay({
+  //       token: this.props.memberInfo.token,
+  //       order_sn,
+  //       id,
+  //       source_type_id: this.props.memberInfo.openid
+  //     })
+  //     .then(res => {
+  //       this.BridgeReady(res);
+  //     });
+  // }
 
   // 调取微信支付
   BridgeReady(res) {
@@ -267,9 +242,9 @@ export default class MyOrder extends Component {
         });
     }
   }
- 
 
-// 票券订单
+
+  // 票券订单
   orderCard() {
     orderModel
       .orderUserCard({
@@ -279,7 +254,7 @@ export default class MyOrder extends Component {
       })
       .then(res => {
         // console.log("DD",res.data.length);
-        
+
         this.setState({ card_info: res });
       });
   }
@@ -296,7 +271,7 @@ export default class MyOrder extends Component {
   }
 
   // 自营订单状态
-  // 状态  -1：取消订单  0：代付款  1：已付款  2：完成  3：退款中  4退款成功
+  // 状态  -1：已取消  0：代付款  1：已付款  2：已完成  3：退款中  4退款成功
   operatedStatus(status) {
     if (status == -1) return "已取消";
     else if (status == 0) return "未支付";
@@ -305,8 +280,28 @@ export default class MyOrder extends Component {
     else if (status == 3) return "退款中";
     else if (status == 4) return "退款成功";
   }
-   // 票券订单状态
-   cardStatus(status) {
+  // switch (status) {
+  //   case 0:
+  //     return "待付款";
+  //   case 1:
+  //     if (data.write_status == 0) {
+  //       return "未使用";
+  //     } else {
+  //       return "已使用";
+  //     }
+  //   case 2:
+  //     return "已完成";
+  //   case 3:
+  //     return "退款中";
+  //   case 4:
+  //     return "退款成功";
+  //   case -1:
+  //     return "已取消";
+  //   default:
+  //     return "";
+  // }
+  // 票券订单状态
+  cardStatus(status) {
     if (status) return "已使用";
     else return "待使用";
   }
@@ -340,7 +335,7 @@ export default class MyOrder extends Component {
         <View className='my_order_tab'>
           <View className='my_order_sort'>
             <AtTabBar
-              color='#ff093c'
+              color='#999999'
               selectedColor='#ffffff'
               tabList={sort_tab}
               onClick={this.onSort.bind(this)}
@@ -455,14 +450,14 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className='no_order'>
-                <Image
-                  className='no_order_img'
-                  src={image_domain + "w_order.png"}
-                />
-                <Text>暂无订单～</Text>
-              </View>
-            )}
+                <View className='no_order'>
+                  <Image
+                    className='no_order_img'
+                    src={image_domain + "w_order.png"}
+                  />
+                  <Text>暂无订单～</Text>
+                </View>
+              )}
           </View>
         )}
         {/* {sort_current == 1 && (
@@ -530,10 +525,10 @@ export default class MyOrder extends Component {
               />
               <Text>暂无订单～</Text>
             </View> */}
-          {/* </View>
-        )} */} 
-        
-         {sort_current == 1 && (
+        {/* </View>
+        )} */}
+
+        {/* {sort_current == 1 && (
           <View className='my_order_gift'>
             {(card_info.data && Object.keys(card_info.data).length) ? (
               card_info.data.map(item => {
@@ -566,69 +561,52 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className='no_order'>
-                <Image
-                  className='no_order_img'
-                  src={image_domain + "w_order.png"}
-                />
-                <Text>暂无订单～</Text>
-              </View>
-            )}
+                <View className='no_order'>
+                  <Image
+                    className='no_order_img'
+                    src={image_domain + "w_order.png"}
+                  />
+                  <Text>暂无订单～</Text>
+                </View>
+              )}
           </View>
-        )}
-        {sort_current == 2 && (
+        )} */}
+        {sort_current == 1 && (
           <View className='my_order_gift'>
             {(gift_info.giftBage && Object.keys(gift_info.giftBage).length) ||
-            (gift_info.giftBageLarge &&
-              Object.keys(gift_info.giftBageLarge).length) ? (
-              gift_info.giftBage.map(item => {
-                return (
-                  <View className='my_order_gift_item' key={item.id}>
-                    <View className='my_order_gift_flex'>
-                      <Text>订单编号: {item.order_sn}</Text>
-                      <Text style={{ color: "#ff093c" }}>
-                        {this.giftStatus(item.status)}
-                      </Text>
-                    </View>
-                    <View className='my_order_gift_flex'>
-                      <View className='my_order_gift_content'>
-                        <View>{item.gname}</View>
-                        <View className='my_order_gift20'>
-                          {item.shortname}
+              (gift_info.giftBageLarge &&
+                Object.keys(gift_info.giftBageLarge).length) ? (
+                gift_info.giftBage.map(item => {
+                  return (
+                    <View className="gift_order_item">
+                      <View className="gitf_item_left">
+                        <Image className="gift_item_img" />
+                        <View className="gift_item_detail">
+                          <View className="gift_detail_title">
+                            <Text className="name">饕餮少女</Text>
+                            <Image className="my_pride_img" src={image_domain + "lever3.png"} />
+                          </View>
+                          <View className="gift_detail_mobile">18774969356</View>
+                          <View className="gift_detail_date">2019-11-27 09:53:23</View>
                         </View>
                       </View>
-                      <Text>¥{item.price}</Text>
-                    </View>
-                    <View className='my_order_gift_flex'>
-                      <Text className='my_order_gift20'>
-                        创建日：{item.time}
-                      </Text>
-                      <View className='my_order_gift_price'>
-                        <Text>金额：￥{item.price}</Text>
-                        {item.status == 0 && (
-                          <AtButton
-                            className='my_order_gift_btn'
-                            type='secondary'
-                            onClick={this.onGiftPay.bind(this, item.order_sn)}
-                            circle
-                          >
-                            去支付
-                          </AtButton>
-                        )}
+                      <View className="gift_item_right">
+                        <View className="gift_detail_price">+399.00</View>
+                        <View className="gift_detail_gift">VIP红粉礼包</View>
+                        <View className="gift_detail_return">返现 ¥399</View>
                       </View>
                     </View>
-                  </View>
-                );
-              })
-            ) : (
-              <View className='no_order'>
-                <Image
-                  className='no_order_img'
-                  src={image_domain + "w_order.png"}
-                />
-                <Text>暂无订单～</Text>
-              </View>
-            )}
+                  );
+                })
+              ) : (
+                <View className='no_order'>
+                  <Image
+                    className='no_order_img'
+                    src={image_domain + "w_order.png"}
+                  />
+                  <Text>暂无订单～</Text>
+                </View>
+              )}
             {gift_info.giftBageLarge &&
               Object.keys(gift_info.giftBageLarge).length > 0 && (
                 <View className='my_order_gift_item'>
