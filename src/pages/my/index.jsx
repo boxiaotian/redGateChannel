@@ -41,6 +41,33 @@ export default class My extends Component {
         this.setState({ user_info: user_data });
       });
   }
+  //复制邀请码
+  copyCode () {
+    if (this.state.lever === 0) {
+      Taro.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      return false
+    }
+    Taro.setClipboardData({
+      data: this.state.user_info.code,
+      success (res) {
+        Taro.getClipboardData({
+          success (res) {
+            console.log(res.data) 
+          }
+        })
+      }
+    })
+    // Taro.setClipboardData(this.state.user_info.code).then(
+    //   Taro.showToast({
+    //     title: '已复制邀请码',
+    //     icon: 'none'
+    //   })
+    // )
+   
+  }
   // 返回
   onJump() {
     Taro.redirectTo({ url: "/pages/home/index" });
@@ -88,6 +115,7 @@ export default class My extends Component {
               <View className="code_container">
                 <Text className="code">邀请码：{user_info.code}</Text>
                 <AtButton
+                  onClick={this.copyCode.bind(this)}
                   className="note_copy_btn"
                 >
                   复制
