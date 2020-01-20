@@ -34,12 +34,13 @@ export default class NoteDetail extends Component {
         info: this.props.memberInfo,
         app_id: "",
         id: this.$router.params.id || getUrlKey("id"),
+        type: this.$router.params.type || 3
     };
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
         if (getUrlKey("id")) {
             setCahce("id", { id: getUrlKey("id") })
-            console.log( getUrlKey("id"));
+            console.log(getUrlKey("id"));
             this.setState({ id: getUrlKey("id") })
         };
         console.log(this.props.memberInfo, "111111");
@@ -52,13 +53,13 @@ export default class NoteDetail extends Component {
                 } else {
                     // 未登录 
                     console.log("未登录", getUrlKey("code"));
-                    this.getwx()  
+                    this.getwx()
                 }
             });
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (this.props.memberInfo && this.props.memberInfo.token) {
             this.noteDetail()
         }
@@ -66,17 +67,17 @@ export default class NoteDetail extends Component {
 
     getwx() {
         if (this.state.app_id) {
-             let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
+            let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
             // let redirect_uri = urlEncode(window.location.href); // 正式
             if (!getUrlKey("code")) {
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
             } else {
                 console.log(getUrlKey("code"), "getUrlKey()");
                 console.log("this.props1111", this.props.memberInfo);
-                setCahce("url", { url: "noteDetail?cid="+getUrlKey("cid") +"&id="+ getUrlKey("id")});
+                setCahce("url", { url: "noteDetail?cid=" + getUrlKey("cid") + "&id=" + getUrlKey("id") });
                 this.props.onGetMemberInfo && this.props.onGetMemberInfo({ code: getUrlKey("code") })
                 setTimeout(() => {
-                    console.log("kaishi000000",this.props.memberInfo);
+                    console.log("kaishi000000", this.props.memberInfo);
                     if (this.props.memberInfo && this.props.memberInfo.token) {
                         weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
                             console.log(res, "res");
@@ -84,15 +85,15 @@ export default class NoteDetail extends Component {
                             this.noteDetail()
                         });
                     } else {
-                           Taro.showToast({
-                             title: "请登录注册",
-                             icon: "none",
-                             success: () => {
-                               setTimeout(() => {
-                                 Taro.redirectTo({ url: "/pages/login/index" });
-                               }, 1000);
-                             }
-                           });
+                        Taro.showToast({
+                            title: "请登录注册",
+                            icon: "none",
+                            success: () => {
+                                setTimeout(() => {
+                                    Taro.redirectTo({ url: "/pages/login/index" });
+                                }, 1000);
+                            }
+                        });
                     }
                 }, 1000);
             }
@@ -103,7 +104,7 @@ export default class NoteDetail extends Component {
     noteDetail() {
         let note_data = {};
         noteModel
-            .noteDetails({ id: this.state.id, token: this.state.info.token,})
+            .noteDetails({ id: this.state.id, token: this.state.info.token, })
             .then(res => {
                 note_data = res;
                 this.setState({ details: note_data, id: this.state.id });
@@ -132,33 +133,33 @@ export default class NoteDetail extends Component {
                 this.BridgeReady(res);
             })
     }
-   
-      // 调取微信支付
-  BridgeReady(res) {
-    onBridgeReady(res).then(result => {
-      if (result.err_msg == "get_brand_wcpay_request:ok") {
-        Taro.showToast({
-          title: "支付成功",
-          icon: "none",
-          success: () => {
-            setTimeout(() => {
-              window.location.href = url_domain + "myOrder?sort_current=1";
-            }, 1000);
-          }
+
+    // 调取微信支付
+    BridgeReady(res) {
+        onBridgeReady(res).then(result => {
+            if (result.err_msg == "get_brand_wcpay_request:ok") {
+                Taro.showToast({
+                    title: "支付成功",
+                    icon: "none",
+                    success: () => {
+                        setTimeout(() => {
+                            window.location.href = url_domain + "myOrder?sort_current=1";
+                        }, 1000);
+                    }
+                });
+            } else {
+                Taro.showToast({
+                    title: "支付失败",
+                    icon: "none",
+                    success: () => {
+                        setTimeout(() => {
+                            window.location.href = url_domain + "noteDetail?cid=" + getUrlKey("cid") + "&id=" + getUrlKey("id");
+                        }, 1000);
+                    }
+                });
+            }
         });
-      } else {
-        Taro.showToast({
-          title: "支付失败",
-          icon: "none",
-          success: () => {
-            setTimeout(() => {
-              window.location.href = url_domain + "noteDetail?cid="+getUrlKey("cid") +"&id="+ getUrlKey("id");
-            }, 1000);
-          }
-        });
-      }
-    });
-  }
+    }
     onUsage(type) {
         let { details } = this.state;
         let params = {
@@ -189,34 +190,44 @@ export default class NoteDetail extends Component {
                     <View className="note_detail_useage">
                         <Text>{details.title}项目使用</Text>
                     </View>
-                    {/* <View className="note_detail_exchange">
-                    <Text>兑换码：{details.code}</Text>
+                    {
+                       this.state.type == 1 && (
+                            <View className="note_detail_exchange">
+                                <Text>兑换码：{details.code}</Text>
 
-                    <AtButton
-                        className="note_copy_btn"
-                        type="primary"
-                        size="small"
-                        circle
-                    >
-                        复制
+                                <AtButton
+                                    className="note_copy_btn"
+                                    type="primary"
+                                    size="small"
+                                    circle
+                                >
+                                    复制
                     </AtButton>
-
-                </View> */}
-                    {/* <View className="note_detail_money">
-                    <Text>分享可赚:¥{details.share}</Text>
-                    <Text>消费返现:¥{details.purchase}</Text>
-                </View> */}
-                    <View className="note_detail_buy">
-                        <AtButton
-                            className="note_buy_btn"
-                            type="primary"
-                            size="small"
-                            circle
-                            onClick={this.onPay.bind(this)}
-                        >
-                            立即购买
-                    </AtButton>
+                                
+                            
+        
                     </View>
+                    )}
+    
+                       {/* <View className="note_detail_money">
+                     <Text>分享可赚:¥{details.share}</Text>
+                     <Text>消费返现:¥{details.purchase}</Text>
+                 </View>  */}
+                    {
+                        this.state.type == 3 && (
+                            <View className="note_detail_buy">
+                                <AtButton
+                                    className="note_buy_btn"
+                                    type="primary"
+                                    size="small"
+                                    circle
+                                    onClick={this.onPay.bind(this)}
+                                >
+                                    立即购买
+                    </AtButton>
+                            </View>
+                        )
+                    }
                     <View className="note_detail_hosptl">
                         <Text>指定医院可用</Text>
                     </View>

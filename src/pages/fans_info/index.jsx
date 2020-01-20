@@ -97,17 +97,17 @@ export default class FansInfo extends Component {
                                 title='姓名'
                                 type='text'
                                 placeholder='请输入姓名'
-                                value={"请输入姓名"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
                         <View className="item_style">
                             <AtInput
                                 name='value'
-                                title='姓名'
+                                title='美容店店名'
                                 type='text'
-                                placeholder='美容店店名'
-                                value={"请输入店名"}
+                                placeholder='请输入店名'
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -129,7 +129,7 @@ export default class FansInfo extends Component {
                                 title='年龄'
                                 type='text'
                                 placeholder='请输入年龄'
-                                value={"价格，过不了分期"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -139,7 +139,7 @@ export default class FansInfo extends Component {
                                 title='职业'
                                 type='text'
                                 placeholder='请输入职业'
-                                value={"医生"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -161,7 +161,7 @@ export default class FansInfo extends Component {
                                 title='家庭成员'
                                 type='text'
                                 placeholder='请输入家庭成员'
-                                value={"医生"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -171,7 +171,7 @@ export default class FansInfo extends Component {
                                 title='兴趣爱好'
                                 type='text'
                                 placeholder='请输入兴趣爱好'
-                                value={"医生"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -193,7 +193,7 @@ export default class FansInfo extends Component {
                                 title='身体健康状况'
                                 type='text'
                                 placeholder='请输入身体健康状况'
-                                value={"医生"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -210,7 +210,7 @@ export default class FansInfo extends Component {
                                 title='推荐人姓名'
                                 type='text'
                                 placeholder='请输入请输入推荐人'
-                                value={"医生"}
+                                value={""}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>

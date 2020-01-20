@@ -50,7 +50,7 @@ export default class OrderModel extends HTTP {
   // 礼包订单
   orderGiftBagc(params) {
     return this.request({
-      url: "Apipersonal/orderGiftBagc",
+      url: "/Apipersonal/orderGiftBagc",
       data: { yzdl: "yzdl", ...params }
     })
   }

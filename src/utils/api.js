@@ -50,7 +50,8 @@ export default class HTTP {
         } else if (result.statusCode === HTTP_STATUS.SUCCESS) {
           let res = result.data
           if (res.code == 1) {
-            return resolve(res.list)
+            //收益接口格式无list字段，此处做兼容处理
+            return res.list?resolve(res.list):resolve(res)
           } else if (url == 'Apiwx/getMemberInfo') {
             if (res.code) return resolve(res.list)
           } else if (res.code == 101 || res.code == 103 || res.code == 206) {

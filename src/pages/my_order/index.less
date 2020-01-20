@@ -347,7 +347,61 @@
     }
     
   }
+  .my_order_gift {
+    color: #000000;
 
+    .my_order_gift_item {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 286px;
+      padding: 28px 24px;
+      margin: 20px 0;
+      background: #ffffff;
+      box-shadow: 0px 0px 15px 0px rgba(39, 39, 39, 0.17);
+      border-radius: 10px;
+
+      .my_order_gift_flex {
+        &:nth-child(2) {
+          align-items: flex-start;
+          width: 100%;
+          height: 50px;
+          padding: 30px 0;
+          margin: 27px 0 30px;
+          border-top: solid 2px #f6f6f6;
+          border-bottom: solid 2px #f6f6f6;
+        }
+
+        .my_order_gift_content {
+          line-height: 35px;
+        }
+
+        .my_order_gift20 {
+          font-size: 20px;
+          color: #999999;
+        }
+
+        .my_order_gift_price {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .my_order_gift_btn {
+            width: 124px;
+            height: 38px;
+            margin-left: 26px;
+            border: solid 1PX #999999;
+            border-radius: 19px;
+            font-size: 24px;
+            line-height: 38px;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
   .no_order {
     display: flex;
     flex-direction: column;

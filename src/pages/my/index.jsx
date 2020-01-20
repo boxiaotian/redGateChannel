@@ -55,7 +55,7 @@ export default class My extends Component {
   }
   //粉丝
   onFansEdit() {
-    Taro.navigateTo({ url: "/pages/fans_edit/index"});
+    Taro.navigateTo({ url: "/pages/fans_order/index"});
   }
   //卡券
   onNotes() {

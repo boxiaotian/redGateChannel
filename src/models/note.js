@@ -4,7 +4,7 @@ export default class NoteModel extends HTTP {
 
   noteList(params) {
     return this.request({
-      url: 'Apicouponcard/index',
+      url: 'Apicouponcard/userCard',
       data: { yzdl: "yzdl", ...params }
     });
   }

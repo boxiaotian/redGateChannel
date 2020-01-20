@@ -43,63 +43,21 @@ export default class Notes extends Component {
 
 
     componentWillMount() {
-        if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
-        // 公众号AppId
-        weiXinModel.getConfig().then(res => {
-            this.setState({ app_id: res.app_id }, () => {
-                if (!this.props.memberInfo.token) {
-                    if (this.state.app_id) {
-                        // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
-                        let redirect_uri = urlEncode(window.location.href);
-                        if (!getUrlKey("code")) {
-                            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-                        } else {
-                            setCahce("url", { url: "notes" });
-                            this.props.onGetMemberInfo &&
-                                this.props.onGetMemberInfo({ code: getUrlKey("code") });
-                            setTimeout(() => {
-                                if (this.props.memberInfo && this.props.memberInfo.token) {
-                                    this.getList();
-                                } else {
-                                    Taro.showToast({
-                                        title: "请登录注册",
-                                        icon: "none",
-                                        success: () => {
-                                            setTimeout(() => {
-                                                Taro.redirectTo({ url: "/pages/login/index" });
-                                            }, 1000);
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        }
-                    }
-
-                } else {
-                    // 卡券列表
-                    this.getList();
-                }
-            });
-        });
-
-
-        // 公众号AppId
-        weiXinModel.getConfig().then(res => {
-            this.setState({ app_id: res.app_id });
-
-        });
+        this.getList(0);
 
     }
-    getList() {
-        noteModel.noteList({ page: this.state.page }).then(res => {
+    getList(status) {
+        noteModel.noteList({ page: this.state.page, status, token: this.props.memberInfo.token, }).then(res => {
 
-            this.setState({ note_list: this.state.note_list.concat(res.data) });
+            this.setState({ note_list: res.data });
             if (res.data.length == 10) this.setState({ isoffer: true });
             else this.setState({ isoffer: false });
         });
     }
     onJump() {
-        Taro.redirectTo({ url: "/pages/home/index" });
+        Taro.navigateBack({
+            delta: 1 // 返回上一级页面。
+        });
     }
     // 滑动到底部
     onReachBottom() {
@@ -107,18 +65,19 @@ export default class Notes extends Component {
             this.setState({
                 page: this.state.page + 1
             });
-            this.getList();
+            this.getList(this.state.current);
         }
     }
     // 卡券详情
-    onDetail(id) {
-        Taro.navigateTo({ url: "/pages/note_detail/index?id=" + id });
+    onDetail(id, type) {
+        Taro.navigateTo({ url: "/pages/note_detail/index?id=" + id + "&type=" + type });
     }
     //顶部标签栏切换
     handleClick(value) {
         this.setState({
             current: value
         })
+        this.getList(value)
     }
 
     render() {
@@ -136,7 +95,7 @@ export default class Notes extends Component {
                             <View className="notes_container">
                                 {note_list.map(item => {
                                     return (
-                                        <View className="note" onClick={this.onDetail.bind(this, item.id)}>
+                                        <View className="note">
 
                                             <View className="note_img">
                                                 <Image
@@ -147,7 +106,7 @@ export default class Notes extends Component {
                                                 <View className={["dot", "dot-top"]}></View>
                                                 <View className={["dot", "dot-bottom"]}></View>
                                             </View>
-                                            <View className="note_detail">
+                                            <View className={["note_detail", this.state.current == 1&&("bgDis")]}>
                                                 <View className="note_detail_price">
                                                     <Text>¥{item.price}</Text>
                                                 </View>
@@ -161,16 +120,35 @@ export default class Notes extends Component {
                                                     <View className="note_text">分享可赚:¥{item.share}</View>
                                                     <View className="note_text">消费返现:¥{item.purchase}</View>
                                                 </View>
-                                                <View className="note_detail_buy">
-                                                    <AtButton
-                                                        className="note_buy_btn"
-                                                        type="primary"
-                                                        size="small"
-                                                        circle
-                                                    >
-                                                        立即购买
+                                                {
+                                                    this.state.current == 0 && (
+                                                        <View className="note_detail_buy"  onClick={this.onDetail.bind(this, item.card_id, 1)}>
+                                                            <AtButton
+                                                                className="note_buy_btn"
+                                                                type="primary"
+                                                                size="small"
+                                                                circle
+                                                            >
+                                                                立即使用
                                                      </AtButton>
-                                                </View>
+                                                        </View>
+                                                    )
+                                                }
+                                                {
+                                                    this.state.current == 1 && (
+                                                        <View className="note_detail_buy">
+                                                            <AtButton
+                                                                className="note_buy_btn"
+                                                                type="primary"
+                                                                size="small"
+                                                                circle
+                                                                disabled
+                                                            >
+                                                                已使用
+                                                             </AtButton>
+                                                        </View>
+                                                    )
+                                                }
                                             </View>
                                         </View>
 
@@ -186,7 +164,7 @@ export default class Notes extends Component {
                             <View className="notes_container">
                                 {note_list.map(item => {
                                     return (
-                                        <View className="note" onClick={this.onDetail.bind(this, item.id)}>
+                                        <View className="note">
 
                                             <View className="note_img">
                                                 <Image
@@ -211,7 +189,7 @@ export default class Notes extends Component {
                                                     <View className="note_text">分享可赚:¥{item.share}</View>
                                                     <View className="note_text">消费返现:¥{item.purchase}</View>
                                                 </View>
-                                                <View className="note_detail_buy">
+                                                <View className="note_detail_buy"  onClick={this.onDetail.bind(this, item.id, 3)}>
                                                     <AtButton
                                                         className="note_buy_btn"
                                                         type="primary"

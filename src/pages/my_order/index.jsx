@@ -43,7 +43,7 @@ export default class MyOrder extends Component {
   };
 
   componentWillMount() {
-    let { sort_current, status_current } = this.$router.params;
+    let { sort_current, status_current } = this.$router.params.length > 0 ? this.$router.params : this.state;
 
     let status_tab = [];
     if (sort_current == 0) {
@@ -266,6 +266,8 @@ export default class MyOrder extends Component {
         token: this.props.memberInfo.token
       })
       .then(res => {
+        console.log("rrr", res);
+
         this.setState({ gift_info: res });
       });
   }
@@ -574,39 +576,56 @@ export default class MyOrder extends Component {
         {sort_current == 1 && (
           <View className='my_order_gift'>
             {(gift_info.giftBage && Object.keys(gift_info.giftBage).length) ||
-              (gift_info.giftBageLarge &&
-                Object.keys(gift_info.giftBageLarge).length) ? (
-                gift_info.giftBage.map(item => {
-                  return (
-                    <View className="gift_order_item">
-                      <View className="gitf_item_left">
-                        <Image className="gift_item_img" />
-                        <View className="gift_item_detail">
-                          <View className="gift_detail_title">
-                            <Text className="name">饕餮少女</Text>
-                            <Image className="my_pride_img" src={image_domain + "lever3.png"} />
-                          </View>
-                          <View className="gift_detail_mobile">18774969356</View>
-                          <View className="gift_detail_date">2019-11-27 09:53:23</View>
+            (gift_info.giftBageLarge &&
+              Object.keys(gift_info.giftBageLarge).length) ? (
+              gift_info.giftBage.map(item => {
+                return (
+                  <View className='my_order_gift_item' key={item.id}>
+                    <View className='my_order_gift_flex'>
+                      <Text>订单编号: {item.order_sn}</Text>
+                      <Text style={{ color: "#ff093c" }}>
+                        {this.giftStatus(item.status)}
+                      </Text>
+                    </View>
+                    <View className='my_order_gift_flex'>
+                      <View className='my_order_gift_content'>
+                        <View>{item.gname}</View>
+                        <View className='my_order_gift20'>
+                          {item.shortname}
                         </View>
                       </View>
-                      <View className="gift_item_right">
-                        <View className="gift_detail_price">+399.00</View>
-                        <View className="gift_detail_gift">VIP红粉礼包</View>
-                        <View className="gift_detail_return">返现 ¥399</View>
+                      <Text>¥{item.price}</Text>
+                    </View>
+                    <View className='my_order_gift_flex'>
+                      <Text className='my_order_gift20'>
+                        创建日：{item.time}
+                      </Text>
+                      <View className='my_order_gift_price'>
+                        <Text>金额：￥{item.price}</Text>
+                        {item.status == 0 && (
+                          <AtButton
+                            className='my_order_gift_btn'
+                            type='secondary'
+                            onClick={this.onGiftPay.bind(this, item.order_sn)}
+                            circle
+                          >
+                            去支付
+                          </AtButton>
+                        )}
                       </View>
                     </View>
-                  );
-                })
-              ) : (
-                <View className='no_order'>
-                  <Image
-                    className='no_order_img'
-                    src={image_domain + "w_order.png"}
-                  />
-                  <Text>暂无订单～</Text>
-                </View>
-              )}
+                  </View>
+                );
+              })
+            ) : (
+              <View className='no_order'>
+                <Image
+                  className='no_order_img'
+                  src={image_domain + "w_order.png"}
+                />
+                <Text>暂无订单～</Text>
+              </View>
+            )}
             {gift_info.giftBageLarge &&
               Object.keys(gift_info.giftBageLarge).length > 0 && (
                 <View className='my_order_gift_item'>

@@ -1,11 +1,11 @@
 import HTTP from '@/utils/api'
 
-export default class Effort extends HTTP {
+export default class EffortModel extends HTTP {
 
   myProfit(params) {
     return this.request({
-      url: 'Apipersonal/myProfit',
-      data: { yzdl: "yzdl",type: 1,  ...params }
+      url: '/Apiprofit/myProfit',
+      data: { yzdl: "yzdl",  ...params }
     });
   }
 
