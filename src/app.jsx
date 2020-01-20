@@ -34,6 +34,7 @@ class App extends Component {
       "pages/red_powder_vip/index", // 小礼包支付
       "pages/spree/index", // 管家大礼包
       "pages/carrier_gift_packs/index", // 运营商大礼包
+      "pages/steward_ten_gift/index", // 运营商大礼包(10个/份)
       "pages/login/index", // 登录注册
       "pages/my/index", // 我的
       "pages/my_order/index", // 我的订单
