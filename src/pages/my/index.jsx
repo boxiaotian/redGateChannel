@@ -42,7 +42,7 @@ export default class My extends Component {
       });
   }
   //复制邀请码
-  copyCode () {
+  copyCode() {
     if (this.state.lever === 0) {
       Taro.showToast({
         title: '请先登录',
@@ -52,10 +52,10 @@ export default class My extends Component {
     }
     Taro.setClipboardData({
       data: this.state.user_info.code,
-      success (res) {
+      success(res) {
         Taro.getClipboardData({
-          success (res) {
-            console.log(res.data) 
+          success(res) {
+            console.log(res.data)
           }
         })
       }
@@ -66,27 +66,27 @@ export default class My extends Component {
     //     icon: 'none'
     //   })
     // )
-   
+
   }
   // 返回
   onJump() {
     Taro.redirectTo({ url: "/pages/home/index" });
   }
-//收益
+  //收益
   onMyEffort() {
-    Taro.navigateTo({ url: "/pages/my_effort/index"});
+    Taro.navigateTo({ url: "/pages/my_effort/index" });
   }
   //订单
   onMyOrder() {
-    Taro.navigateTo({ url: "/pages/my_order/index"});
+    Taro.navigateTo({ url: "/pages/my_order/index" });
   }
   //粉丝
   onFansEdit() {
-    Taro.navigateTo({ url: "/pages/fans_order/index"});
+    Taro.navigateTo({ url: "/pages/fans_order/index" });
   }
   //卡券
   onNotes() {
-    Taro.navigateTo({ url: "/pages/notes/index"});
+    Taro.navigateTo({ url: "/pages/notes/index" });
   }
   render() {
     let { user_info } = this.state;
@@ -99,14 +99,29 @@ export default class My extends Component {
           <View className="my_content_detail">
             <View>
               <Image
-              className="my_icon"
+                className="my_icon"
                 src={user_info.portrait}
               />
             </View>
             <View className="my_info">
               <View className="my_name">
                 <Text className="name">{user_info.name}</Text>
-                <Image className="my_pride_img" src={user_info.grade_url} />
+                {user_info.grade_id == 0 && (
+                  <Image className="my_pride_img" src={image_domain + "lever1.png"} />
+                )
+                }
+                 {user_info.grade_id == 1 && (
+                  <Image className="my_pride_img" src={image_domain + "lever2.png"} />
+                )
+                }
+                 {user_info.grade_id == 2 && (
+                  <Image className="my_pride_img" src={image_domain + "lever3.png"} />
+                )
+                }
+                 {user_info.grade_id == 3 && (
+                  <Image className="my_pride_img" src={image_domain + "lever4.png"} />
+                )
+                }
               </View>
               <View className="prog_text">本月业绩达到</View>
               <AtProgress percent={25} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
@@ -160,7 +175,7 @@ export default class My extends Component {
                   </AtButton>
           </View>
           <View className="key">
-            <View className="key_item"  onClick={this.onMyEffort.bind(this)}>
+            <View className="key_item" onClick={this.onMyEffort.bind(this)}>
               <Image src={image_domain + "effort.png"} className="key_item_img" />
               <View >收益</View>
             </View>
