@@ -58,6 +58,7 @@ export default class ConfirmOrder extends Component {
       number: good_number,
       mobile: info.mobile,
       remarks: remark,
+      share_people: getCahce("cid") && getCahce("cid").cid ? getCahce("cid").cid : "",
       price: info.appointment_money_status
         ? info.appointment_money * good_number
         : (info.after_money - info.appointment_money).toFixed(2) * good_number,
@@ -139,13 +140,13 @@ export default class ConfirmOrder extends Component {
                 </View>
               </View>
             ) : (
-              <View>
-                全款付：¥
+                <View>
+                  全款付：¥
                 <Text style={{ fontWeight: "bold", color: "#ff0000" }}>
-                  {` ${info.after_money * good_number}`}
-                </Text>
-              </View>
-            )}
+                    {` ${info.after_money * good_number}`}
+                  </Text>
+                </View>
+              )}
           </View>
           <AtButton className="pay_btn" onClick={this.onPay.bind(this)}>
             立即购买
