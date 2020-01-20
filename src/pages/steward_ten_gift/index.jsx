@@ -45,50 +45,50 @@ export default class stewardTenGift extends Component {
     componentWillMount() {
         if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
         packageModel.giftBagOperator().then(res => this.setState({ info: res }));
-    
+
         // 公众号AppId
         weiXinModel.getConfig().then(res => this.setState({ app_id: res.app_id }));
-    
+
         if (getUrlKey("code")) {
-          this.props.onGetMemberInfo &&
-            this.props.onGetMemberInfo({ code: getUrlKey("code") });
-          setTimeout(() => {
-            if (this.props.memberInfo && this.props.memberInfo.uid) {
-              weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-                if ((res.grade_id == 1 || res.grade_id == 2) && res.vip == 1) {
-                  this.ordergiftBagOperator(res.token);
-                } else if (res.grade_id == 1 && res.vip == 0) {
-                  Taro.showToast({
-                    title: "您不是红粉VIP",
-                    icon: "none",
-                    success: () => {
-                      setTimeout(() => {
-                        window.location.href = url_domain + "redDoorPackage";
-                        // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-                      }, 1000);
-                    }
-                  });
-                } else if (res.grade_id == 3) {
-                  Taro.showToast({
-                    title: "您已是运营商",
-                    icon: "none"
-                  });
+            this.props.onGetMemberInfo &&
+                this.props.onGetMemberInfo({ code: getUrlKey("code") });
+            setTimeout(() => {
+                if (this.props.memberInfo && this.props.memberInfo.uid) {
+                    weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+                        if ((res.grade_id == 1 || res.grade_id == 2) && res.vip == 1) {
+                            this.ordergiftBagOperator(res.token);
+                        } else if (res.grade_id == 1 && res.vip == 0) {
+                            Taro.showToast({
+                                title: "您不是红粉VIP",
+                                icon: "none",
+                                success: () => {
+                                    setTimeout(() => {
+                                        window.location.href = url_domain + "redDoorPackage";
+                                        // Taro.redirectTo({ url: "/pages/red_door_package/index" });
+                                    }, 1000);
+                                }
+                            });
+                        } else if (res.grade_id == 3) {
+                            Taro.showToast({
+                                title: "您已是运营商",
+                                icon: "none"
+                            });
+                        }
+                    });
+                } else {
+                    Taro.showToast({
+                        title: "请登录注册",
+                        icon: "none",
+                        success: () => {
+                            setTimeout(() => {
+                                Taro.redirectTo({ url: "/pages/login/index" });
+                            }, 1000);
+                        }
+                    });
                 }
-              });
-            } else {
-              Taro.showToast({
-                title: "请登录注册",
-                icon: "none",
-                success: () => {
-                  setTimeout(() => {
-                    Taro.redirectTo({ url: "/pages/login/index" });
-                  }, 1000);
-                }
-              });
-            }
-          }, 1000);
+            }, 1000);
         }
-      }
+    }
 
     // 购买
     onConfirmPay() {
@@ -179,22 +179,34 @@ export default class stewardTenGift extends Component {
         let { info } = this.state;
         return (
             <View className="gift_con">
+                <View className="spree_stock_tate">
+                    <Text>倒计时：</Text>
+                    <AtCountdown
+                        isShowDay={info.day ? true : false}
+                        isShowHour
+                        format={{ day: "天", hours: ":", minutes: ":", seconds: "" }}
+                        day={info.day}
+                        hours={info.hour}
+                        minutes={info.minute}
+                        seconds={info.second}
+                    />
+                </View>
                 <View className="operator_center">
                     <View className="spree_price_group">
                         <Text>¥ </Text>
                         <Text className="spree_price">
-                            29800.00
+                        {info.price ? info.price : "29800.00"}
                         </Text>
                     </View>
                     <View className="spree_contain_package">
-                        包含10个管家礼包
+                        包含{info.number != undefined ? info.number : 10}个管家礼包
                      </View>
                 </View>
-                    <AtButton
-                        type="primary"
-                        onClick={this.onConfirmPay.bind(this)}
-                        circle
-                    />
+                <AtButton
+                    type="primary"
+                    onClick={this.onConfirmPay.bind(this)}
+                    circle
+                />
 
             </View>
         );
