@@ -10,6 +10,7 @@ import NoteModel from "@/models/note";
 import { onBridgeReady } from "@/utils/utils";
 import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
 import { url_domain } from "@/constants/counter";
+import { redirect_uri } from "@/constants/global"
 
 import WeiXinModel from "@/models/weixin";
 const noteModel = new NoteModel();
@@ -80,8 +81,6 @@ export default class NoteDetail extends Component {
   getwxcode = () => {
     if (isWeiXin()) {
       setCahce("url", { url: "noteDetail" });
-      // let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {
       Taro.showToast({

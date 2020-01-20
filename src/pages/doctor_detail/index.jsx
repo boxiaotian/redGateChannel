@@ -16,7 +16,8 @@ import BuyDoctorModel from "@/models/buy_doctors";
 import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { setCahce, getCahce } from "@/utils/cache";
-import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
+import { getUrlKey, isWeiXin } from "@/utils/utils";
+import { redirect_uri } from "@/constants/global"
 
 import "./index.less";
 
@@ -127,8 +128,6 @@ export default class DoctorDetail extends Component {
     let { app_id } = this.state;
 
     if (isWeiXin()) {
-      // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
-      let redirect_uri = urlEncode(window.location.href);
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       setCahce("isdoctorPay", { isPay: true });
     } else {

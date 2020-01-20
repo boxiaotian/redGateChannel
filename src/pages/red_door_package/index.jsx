@@ -10,6 +10,7 @@ import WeiXinModel from "@/models/weixin";
 import { getMemberInfo } from "@/redux/actions/user";
 import { getUrlKey, urlEncode, isWeiXin, isAndroid } from "@/utils/utils";
 import { getCahce, setCahce } from "@/utils/cache";
+import { redirect_uri } from "@/constants/global"
 
 import "./index.less";
 import { image_domain } from "@/constants/counter";
@@ -68,8 +69,6 @@ export default class RedDoorPackage extends Component {
 
   getwx() {
     if (this.state.app_id) {
-         //let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-         let redirect_uri = urlEncode(window.location.href); // 正式
         if (!getUrlKey("code")) {
             window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
         } else {
@@ -111,8 +110,6 @@ export default class RedDoorPackage extends Component {
   //  
   onExchange() {
       if (this.state.app_id) {
-      //  let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-        let redirect_uri = urlEncode(window.location.href); // 正式
         if (!getUrlKey("code")) {
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
         } else {
@@ -143,8 +140,6 @@ export default class RedDoorPackage extends Component {
   //  
   getlogin() {
       if (this.state.app_id) {
-      //  let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php"); // 开发
-        let redirect_uri = urlEncode(window.location.href); // 正式
         if (!getUrlKey("code")) {
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
         } else {
@@ -189,8 +184,6 @@ export default class RedDoorPackage extends Component {
     setCahce("packagePay", { gid: info.id, price: info.price });
 
     if (isWeiXin()) {
-      // let redirect_uri = urlEncode("http://hm.hongmenpd.com/H5/wxauth.php");
-      // let redirect_uri = urlEncode(window.location.href);
       // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
       this.getlogin()
     } else {

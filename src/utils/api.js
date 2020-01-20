@@ -51,7 +51,7 @@ export default class HTTP {
             return resolve(res.list)
           } else if (url == 'Apiwx/getMemberInfo') {
             if (res.code) return resolve(res.list)
-          } else if (res.code == 101 || res.code == 103 || res.code == 206) {
+          } else if (res.code == 101 || res.code == 103) {
             Taro.showToast({
               title: '用户信息过期',
               icon: 'none',
@@ -60,6 +60,11 @@ export default class HTTP {
                   Taro.redirectTo({ url: "/pages/login/index" })
                 }, 1000);
               }
+            })
+          } else if (res.code == 206) {
+            Taro.showToast({
+              title: '没有绑定微信',
+              icon: 'none'
             })
           } else {
             Taro.showToast({
