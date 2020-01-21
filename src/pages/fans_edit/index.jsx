@@ -35,7 +35,7 @@ export default class FansEdit extends Component {
         fansDetail: {}
     };
     componentWillMount() {
-        //this.onFansUserInfo();
+        this.onFansUserInfo();
         let key = this.state.id +"&"+this.state.info.id ;
         let fansDetail = this.state.fansDetail
         setCahce("fansDetail"+key, fansDetail)
@@ -45,7 +45,6 @@ export default class FansEdit extends Component {
         fansModel
             .fansUserInfo({
                 token: this.state.info.token,
-                page: this.state.page++,
                 status: this.state.status_current,
             })
             .then(res => {

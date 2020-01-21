@@ -31,14 +31,13 @@ export default class ProductDetail extends Component {
     app_id: "",
     opacity: 0,
     details: {},
-    current: 1 // 轮播图当前下标
+    current: 1, // 轮播图当前下标
   };
 
   componentWillMount() {
     if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
     if (this.$router.params.gid) this.goodsHmDetails();
     else Taro.redirectTo({ url: "/pages/home/index" });
-
     // 公众号AppId
     weiXinModel.getConfig().then(res => {
       this.setState({ app_id: res.app_id });
@@ -100,6 +99,9 @@ export default class ProductDetail extends Component {
     let { app_id } = this.state;
 
     if (isWeiXin()) {
+      setCahce("url", {
+        url: "productDetail?gid=" + this.state.details.id
+      });
       window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
     } else {
       Taro.showToast({
@@ -110,9 +112,13 @@ export default class ProductDetail extends Component {
   }
 
   // 商品详情
-  goodsHmDetails() {
-    operatedModel.goodsHmDetails(this.$router.params.gid).then(res => {
-      this.setState({ details: res });
+ async goodsHmDetails() {
+   await operatedModel.goodsHmDetails(this.$router.params.gid).then(res => {
+      this.setState({ details: res }, ()=>{
+        setCahce("url", {
+          url: "productDetail?gid=" + this.state.details.id
+        });
+      });
     });
   }
 

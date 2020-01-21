@@ -76,6 +76,7 @@ export default class stewardTenGift extends Component {
                         }
                     });
                 } else {
+                    setCahce("url", { url: "stewardTenGift" });
                     Taro.showToast({
                         title: "请登录注册",
                         icon: "none",

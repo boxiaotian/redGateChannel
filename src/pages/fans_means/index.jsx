@@ -56,7 +56,7 @@ export default class FansMeans extends Component {
     }
     componentWillMount() {
         let key = this.state.id + "&" + this.state.uid;
-        this.state.fansInfo = getCatch("fansDetail" + key)
+        this.state.fansMeans = getCatch("fansDetail" + key)
     }
 
     onChange = e => {
@@ -69,7 +69,9 @@ export default class FansMeans extends Component {
     }
     //下一步-个人项目
     onFansProject() {
-        Taro.navigateTo({ url: "/pages/fans_project/index" });
+        let key = this.state.id + "&" + this.state.uid;
+        setCatch("fansMeans" + key, this.state.fansMeans)
+        Taro.navigateTo({ url: "/pages/fans_project/index?uid=" + this.state.uid + "&id=" + this.state.id });
     }
     handleChange() {
 

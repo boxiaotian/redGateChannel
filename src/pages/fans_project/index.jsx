@@ -14,6 +14,9 @@ export default class FansProject extends Component {
     state = {
         info: [],
         checked: 0,
+        fansProject: {},
+        id: this.$router.params.id || getUrlKey("id"),
+        uid: this.$router.params.uid || getUrlKey("uid"),
         list: [
             {
                 value: '1',
@@ -52,6 +55,12 @@ export default class FansProject extends Component {
         ]
     }
 
+    componentWillMount() {
+        let key = this.state.id + "&" + this.state.uid;
+        this.state.fansProject = getCatch("fansDetail" + key)
+    }
+
+
     onChange = e => {
         this.setState({
             selectorChecked: this.state.selector[e.detail.value]
@@ -61,6 +70,8 @@ export default class FansProject extends Component {
         Taro.navigateBack({ delta: 1 });
     }
     onFinshed(){
+        let key = this.state.id + "&" + this.state.uid;
+        setCatch("fansProject" + key, this.state.fansProject)
         Taro.redirectTo({ url: "/pages/fans_edit/index" });
     }
     handleChange() {

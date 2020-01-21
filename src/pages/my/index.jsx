@@ -6,10 +6,15 @@ import { connect } from "@tarojs/redux";
 import { AtGrid, AtButton, AtProgress } from "taro-ui";
 import { Navbar } from "@/components/index";
 import UserMessageModel from "@/models/user_message";
-import { image_domain, my_key } from "@/constants/counter";
-
+import {  url_domain, image_domain, order_status } from "@/constants/counter";
+import { isAndroid, getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
+import WeiXinModel from "@/models/weixin";
+import { getMemberInfo } from "@/redux/actions/user";
+import { getCahce, setCahce } from "@/utils/cache";
+import { redirect_uri } from "@/constants/global"
 import "./index.less";
 
+const weiXinModel = new WeiXinModel();
 const userMessageModel = new UserMessageModel();
 @connect(
   store => {
@@ -28,10 +33,53 @@ export default class My extends Component {
     user_info: {},
     progressBar: {},
     info: this.props.memberInfo,
+    app_id: "",
   };
   componentWillMount() {
     this.onUserInfo();
+    Taro.removeStorageSync("cid");
+
+    if (!getUrlKey("code")) {
+      weiXinModel.getConfig().then(res => {
+        this.setState({ app_id: res.app_id }, () => {
+          this.getwxcode();
+        });
+      });
+    } else {
+      this.props.onGetMemberInfo &&
+        this.props.onGetMemberInfo({ code: getUrlKey("code") });
+      setTimeout(() => {
+        console.log("获取用户信息了", this.props.memberInfo);
+        if (this.props.memberInfo && this.props.memberInfo.token) {
+          weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
+            console.log(res, "res");
+          });
+        } else {
+          Taro.showToast({
+            title: "请登录注册",
+            icon: "none",
+            success: () => {
+              setTimeout(() => {
+                Taro.redirectTo({ url: "/pages/login/index" });
+              }, 1000);
+            }
+          });
+        }
+      }, 1500);
+    }
   }
+  // 第一步微信授权
+  getwxcode = () => {
+    if (isWeiXin()) {
+      setCahce("url", { url: "noteDetail" });
+      window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
+    } else {
+      Taro.showToast({
+        title: "请下载APP购买或使用微信打开",
+        icon: "none"
+      });
+    }
+  };
   //我的信息
   onUserInfo() {
     let user_data = {};

@@ -78,7 +78,8 @@ export default class FansInfo extends Component {
     //下一步个人资产
     //个人资产
     onFansMeans() {
-        setCatch("fansDetail" + key, this.state.fansInfo)
+        let key = this.state.id + "&" + this.state.uid;
+        setCatch("fansInfo" + key, this.state.fansInfo)
         Taro.navigateTo({ url: "/pages/fans_means/index?uid=" + this.state.uid + "&id=" + this.state.id });
     }
     handleChange() {
