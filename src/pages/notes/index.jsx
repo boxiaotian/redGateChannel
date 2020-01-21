@@ -58,7 +58,7 @@ export default class Notes extends Component {
                                 this.props.onGetMemberInfo({ code: getUrlKey("code") });
                             setTimeout(() => {
                                 if (this.props.memberInfo && this.props.memberInfo.token) {
-                                    this.getList();
+                                    this.getList(0);
                                 } else {
                                     Taro.showToast({
                                         title: "请登录注册",
