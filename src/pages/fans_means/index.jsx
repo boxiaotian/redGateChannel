@@ -14,6 +14,9 @@ export default class FansMeans extends Component {
     state = {
         info: [],
         checked: 0,
+        fansMeans: {},
+        id: this.$router.params.id || getUrlKey("id"),
+        uid: this.$router.params.uid || getUrlKey("uid"),
         list: [
             {
                 value: '1',
@@ -50,6 +53,10 @@ export default class FansMeans extends Component {
             '高',
             '高'
         ]
+    }
+    componentWillMount() {
+        let key = this.state.id + "&" + this.state.uid;
+        this.state.fansInfo = getCatch("fansDetail" + key)
     }
 
     onChange = e => {

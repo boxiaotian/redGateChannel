@@ -5,6 +5,7 @@ import { AtTabBar, AtForm, AtButton, AtInput, AtIcon, AtImagePicker } from "taro
 import { Navbar } from "@/components/index";
 import { image_domain } from "@/constants/counter";
 import { onBridgeReady } from "@/utils/utils";
+import { setCahce, getCahce } from "@/utils/cache";
 
 import "./index.less";
 
@@ -14,9 +15,12 @@ export default class FansInfo extends Component {
     state = {
         files: [{
             url: 'https://jimczj.gitee.io/lazyrepay/aragaki1.jpeg',
-          }],
+        }],
         info: [],
         checked: 0,
+        fansInfo: {},
+        id: this.$router.params.id || getUrlKey("id"),
+        uid: this.$router.params.uid || getUrlKey("uid"),
         list: [
             {
                 value: '1',
@@ -54,11 +58,15 @@ export default class FansInfo extends Component {
             '高'
         ]
     }
-    onChangePho (files) {
+    componentWillMount() {
+        let key = this.state.id + "&" + this.state.uid;
+        this.state.fansInfo = getCatch("fansDetail" + key)
+    }
+    onChangePho(files) {
         this.setState({
-          files
+            files
         })
-      }
+    }
     onChange = e => {
         this.setState({
             selectorChecked: this.state.selector[e.detail.value]
@@ -67,20 +75,22 @@ export default class FansInfo extends Component {
     onJump() {
         Taro.navigateBack({ delta: 1 });
     }
-     //下一步个人资产
-      //个人资产
+    //下一步个人资产
+    //个人资产
     onFansMeans() {
-        Taro.navigateTo({ url: "/pages/fans_means/index" });
-    }
-     onFansMeans() {
-        Taro.navigateTo({ url: "/pages/fans_means/index" });
+        setCatch("fansDetail" + key, this.state.fansInfo)
+        Taro.navigateTo({ url: "/pages/fans_means/index?uid=" + this.state.uid + "&id=" + this.state.id });
     }
     handleChange() {
 
     }
+    radioChange(event) {
+        console.log('radio发生change事件，携带value值为：', e.detail.value)
+      }
     onSubmit(event) {
     }
     render() {
+        let { fansInfo } = this.state
         return (
             <View className="fans_Project">
                 <View className="fans_navbar">
@@ -97,7 +107,7 @@ export default class FansInfo extends Component {
                                 title='姓名'
                                 type='text'
                                 placeholder='请输入姓名'
-                                value={""}
+                                value={fansInfo.name}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -107,20 +117,26 @@ export default class FansInfo extends Component {
                                 title='美容店店名'
                                 type='text'
                                 placeholder='请输入店名'
-                                value={""}
+                                value={fansInfo.shopname}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
                         <View className="item_com radio_style">
                             <View className="title">是否有陪同人</View>
-                            <RadioGroup>
-                                {this.state.list.map((item, i) => {
+                            <RadioGroup >
+                                {/* {this.state.list.map((item, i) => {
                                     return (
                                         <Label className="radio_item" for={i} key={i}>
                                             <Radio style='margin-left: 20rpx' value={item.value} checked={item.checked}>{item.text}</Radio>
                                         </Label>
                                     )
-                                })}
+                                })} */}
+                                <Label className="radio_item" >
+                                    <Radio style='margin-left: 20rpx' value={1} checked={fansInfo.isaccompany}>是</Radio>
+                                </Label>
+                                <Label className="radio_item">
+                                    <Radio style='margin-left: 20rpx' value={0} checked={!fansInfo.isaccompany}>否</Radio>
+                                </Label>
                             </RadioGroup>
                         </View>
                         <View className="item_style">
@@ -129,7 +145,7 @@ export default class FansInfo extends Component {
                                 title='年龄'
                                 type='text'
                                 placeholder='请输入年龄'
-                                value={""}
+                                value={fansInfo.age}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -139,7 +155,7 @@ export default class FansInfo extends Component {
                                 title='职业'
                                 type='text'
                                 placeholder='请输入职业'
-                                value={""}
+                                value={fansInfo.occupation}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -161,7 +177,7 @@ export default class FansInfo extends Component {
                                 title='家庭成员'
                                 type='text'
                                 placeholder='请输入家庭成员'
-                                value={""}
+                                value={fansInfo.family_member}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -171,7 +187,7 @@ export default class FansInfo extends Component {
                                 title='兴趣爱好'
                                 type='text'
                                 placeholder='请输入兴趣爱好'
-                                value={""}
+                                value={fansInfo.hobby}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -193,7 +209,7 @@ export default class FansInfo extends Component {
                                 title='身体健康状况'
                                 type='text'
                                 placeholder='请输入身体健康状况'
-                                value={""}
+                                value={fansInfo.healthy}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>
@@ -210,7 +226,7 @@ export default class FansInfo extends Component {
                                 title='推荐人姓名'
                                 type='text'
                                 placeholder='请输入请输入推荐人'
-                                value={""}
+                                value={fansInfo.recommender}
                                 onChange={this.handleChange.bind(this, 'value1')}
                             />
                         </View>

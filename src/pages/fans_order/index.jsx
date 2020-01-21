@@ -241,15 +241,14 @@ export default class fansOrder extends Component {
         else if (status == 4) return "退款成功";
     }
 
-    // 票券订单状态
-    cardStatus(status) {
-        if (status) return "已使用";
-        else return "待使用";
-    }
+   
     // 团购与礼包订单状态
     giftStatus(status) {
         if (status) return "已支付";
         else return "未支付";
+    }
+    onFansEdit(id) {
+        Taro.navigateTo({ url: "/pages/fans_edit/index?id=" + id });
     }
 
     render() {
@@ -300,14 +299,36 @@ export default class fansOrder extends Component {
                                     <View className="gift_item_detail">
                                         <View className="gift_detail_title">
                                             <Text className="name">{item.name}</Text>
-                                            <Image className="my_pride_img" src={image_domain + "lever3.png"} />
+                                            {item.grade_id == 0 && (
+                                                <Image className="my_pride_img" src={image_domain + "lever1.png"} />
+                                            )
+                                            }
+                                            {item.grade_id == 1 && (
+                                                <Image className="my_pride_img" src={image_domain + "lever2.png"} />
+                                            )
+                                            }
+                                            {item.grade_id == 2 && (
+                                                <Image className="my_pride_img" src={image_domain + "lever3.png"} />
+                                            )
+                                            }
+                                            {item.grade_id == 3 && (
+                                                <Image className="my_pride_img" src={image_domain + "lever4.png"} />
+                                            )
+                                            }
                                         </View>
                                         <View className="gift_detail_mobile">{item.mobile}</View>
                                         <View className="gift_detail_date">{item.creation_time}</View>
                                     </View>
                                 </View>
                                 <View className="gift_item_right">
-                                    <View className="gift_detail_edit">编辑资料</View>
+                                    {/* <View className="gift_detail_edit" onClick={this.onFansEdit.bind(this, item.id)}>编辑资料</View> */}
+                                    {/* {item.grade_id == 1 && item.vip == 0 ? (
+                                        <TouchableOpacity
+                                            onPress={() => this.giveGift(item.id)}
+                                            style={styles.boxzs}>
+                                            <Text style={styles.boxtxtzs}>赠送vip礼包</Text>
+                                        </TouchableOpacity>
+                                    ) : null} */}
                                 </View>
                             </View>
                         )
@@ -336,7 +357,7 @@ export default class fansOrder extends Component {
                                             <View className="fans_detail_name">{item.name}</View>
                                             <Image className="fans_detail_pride" src={image_domain + "lever3.png"} />
                                         </View>
-                                        <View className="fans_order_status">{item.status}</View>
+                                        <View className="fans_order_status">{this.operatedStatus(item.status)}</View>
                                     </View>
                                     <View className="fans_order">
                                         <View className="fans_order_img">
@@ -363,18 +384,18 @@ export default class fansOrder extends Component {
                             <View className='my_order_gift'>
                                 <View className="gift_order_item">
                                     <View className="gitf_item_left">
-                                        <Image className="gift_item_img" />
+                                        <Image className="gift_item_img" src={item.portrait}/>
                                         <View className="gift_item_detail">
                                             <View className="gift_detail_title">
-                                                <Text className="name">饕餮少女</Text>
+                                                <Text className="name">{item.name}</Text>
                                             </View>
-                                            <View className="gift_detail_mobile">18774969356</View>
-                                            <View className="gift_detail_date">2019-11-27 09:53:23</View>
+                                            <View className="gift_detail_mobile">{item.mobile}</View>
+                                            <View className="gift_detail_date">{item.time}</View>
                                         </View>
                                     </View>
                                     <View className="gift_item_right">
-                                        <View className="gift_detail_price">+399.00</View>
-                                        <View className="gift_detail_gift">VIP红粉礼包</View>
+                                        <View className="gift_detail_price">+{item.order_money}</View>
+                                        <View className="gift_detail_gift">{item.title}</View>
                                         <View className="gift_detail_return">返现￥{item.money}</View>
                                     </View>
                                 </View>

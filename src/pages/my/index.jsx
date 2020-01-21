@@ -1,3 +1,5 @@
+
+
 import Taro, { Component } from "@tarojs/taro";
 import { View, Button, Text, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
@@ -24,6 +26,7 @@ const userMessageModel = new UserMessageModel();
 export default class My extends Component {
   state = {
     user_info: {},
+    progressBar: {},
     info: this.props.memberInfo,
   };
   componentWillMount() {
@@ -39,6 +42,15 @@ export default class My extends Component {
       .then(res => {
         user_data = res;
         this.setState({ user_info: user_data });
+      });
+    userMessageModel
+      .progressBar({
+        token: this.state.info.token
+      })
+      .then(res => {
+        console.log(res, "ff");
+
+        this.setState({ progressBar: res });
       });
   }
   //复制邀请码
@@ -89,7 +101,7 @@ export default class My extends Component {
     Taro.navigateTo({ url: "/pages/notes/index" });
   }
   render() {
-    let { user_info } = this.state;
+    let { user_info, progressBar } = this.state;
     return (
       <View className="my">
         <View className="my_navbar">
@@ -110,32 +122,72 @@ export default class My extends Component {
                   <Image className="my_pride_img" src={image_domain + "lever1.png"} />
                 )
                 }
-                 {user_info.grade_id == 1 && (
+                {user_info.grade_id == 1 && (
                   <Image className="my_pride_img" src={image_domain + "lever2.png"} />
                 )
                 }
-                 {user_info.grade_id == 2 && (
+                {user_info.grade_id == 2 && (
                   <Image className="my_pride_img" src={image_domain + "lever3.png"} />
                 )
                 }
-                 {user_info.grade_id == 3 && (
+                {user_info.grade_id == 3 && (
                   <Image className="my_pride_img" src={image_domain + "lever4.png"} />
                 )
                 }
               </View>
-              <View className="prog_text">本月业绩达到</View>
-              <AtProgress percent={25} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
-              <View className="prog_text">购买VIP资格礼包</View>
-              <AtProgress percent={25} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
-              <View className="code_container">
-                <Text className="code">邀请码：{user_info.code}</Text>
-                <AtButton
-                  onClick={this.copyCode.bind(this)}
-                  className="note_copy_btn"
-                >
-                  复制
-</AtButton>
-              </View>
+              {/* <View className="prog_text">本月业绩达到</View>
+              <AtProgress percent={25} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress> */}
+              {user_info.grade_id == 0 && (
+                <View>
+                  <View className="prog_text">购买VIP资格礼包</View>
+                  <AtProgress percent={progressBar.number / progressBar.total * 100} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
+                </View>
+              )
+              }
+              {user_info.grade_id == 1 && (
+                <View>
+                  <View className="prog_text">拥有{progressBar.total}个VIP粉丝升级({progressBar.number}/{progressBar.total})</View>
+                  <AtProgress percent={progressBar.number / progressBar.total * 100} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
+                </View>
+              )
+              }
+              {user_info.grade_id == 2 && (
+                <View>
+                  <View className="prog_text">团队再开发{progressBar.fens.fens_total - progressBar.fens.fens}个非红粉会员（{progressBar.fens.fens}/{progressBar.fens.fens_total}）</View>
+                  <AtProgress percent={progressBar.fens.fens / progressBar.fens.fens_total * 100} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress>
+                </View>
+              )
+              }
+              {user_info.grade_id == 3 && (
+                <View>
+                  {/* <View className="prog_text">本月业绩达到{this.state.total / 10000}w元(已完成{this.state.number / 10000})w元</View>
+                  <AtProgress percent={progressBar.money / progressBar.money_total * 100} isHidePercent strokeWidth={3} color='#F8B62C'></AtProgress> */}
+                </View>
+              )
+              }
+
+              {
+                user_info.upper_shelf === 1 ?
+                  null :
+
+                  <View>
+                    {
+                      user_info.vip && user_info.vip === 1 ?
+                        <View className="code_container">
+                          <Text className="code">邀请码：{user_info.code}</Text>
+                          <AtButton
+                            onClick={this.copyCode.bind(this)}
+                            className="note_copy_btn"
+                          >
+                            复制
+                           </AtButton>
+                        </View>
+                        :
+                        null
+                    }
+                  </View>
+
+              }
             </View>
 
           </View>

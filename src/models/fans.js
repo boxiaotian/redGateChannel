@@ -24,4 +24,13 @@ export default class FanstModel extends HTTP {
       data: { yzdl: "yzdl",  ...params }
     });
   }
+   //粉丝详情
+   fansUserInfo(params) {
+    return this.request({
+      url: '/Apipersonal/fensOrderGiftBagList',
+      data: { yzdl: "yzdl",  ...params }
+    });
+  }
+
+  
 }

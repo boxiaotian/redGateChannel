@@ -8,5 +8,11 @@ export default class UserMessageModel extends HTTP {
       data: { yzdl: "yzdl", ...params }
     });
   }
+  progressBar(params){
+    return this.request({
+      url: 'Apipersonal/progressBar',
+      data: { yzdl: "yzdl", ...params }
+    });
+  }
 
 }
