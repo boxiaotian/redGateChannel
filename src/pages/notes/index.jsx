@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { Navbar } from "@/components/index";
-import { AtButton } from "taro-ui";
+import { AtButton, AtTabs, AtTabsPane } from "taro-ui";
 import { getMemberInfo } from "@/redux/actions/user";
 import { setCahce, getCahce } from "@/utils/cache";
 import NoteModel from "@/models/note";
@@ -38,7 +38,8 @@ export default class Notes extends Component {
         info: this.props.memberInfo,
         page: 0,
         isoffer: false,
-        note_list: []
+        note_list: [],
+        current: 0, //顶部标签栏
     };
 
 
@@ -88,16 +89,18 @@ export default class Notes extends Component {
         });
 
     }
-    getList() {
-        noteModel.noteList({ page: this.state.page }).then(res => {
+    getList(status) {
+        noteModel.noteList({ page: this.state.page, status, token: this.props.memberInfo.token, }).then(res => {
 
-            this.setState({ note_list: this.state.note_list.concat(res.data) });
+            this.setState({ note_list: res.data });
             if (res.data.length == 10) this.setState({ isoffer: true });
             else this.setState({ isoffer: false });
         });
     }
     onJump() {
-        Taro.redirectTo({ url: "/pages/home/index" });
+        Taro.navigateBack({
+            delta: 1 // 返回上一级页面。
+        });
     }
     // 滑动到底部
     onReachBottom() {
@@ -105,15 +108,23 @@ export default class Notes extends Component {
             this.setState({
                 page: this.state.page + 1
             });
-            this.getList();
+            this.getList(this.state.current);
         }
     }
     // 卡券详情
-    onDetail(id) {
-        Taro.navigateTo({ url: "/pages/note_detail/index?id=" + id });
+    onDetail(id, type) {
+        Taro.navigateTo({ url: "/pages/note_detail/index?id=" + id + "&type=" + type });
+    }
+    //顶部标签栏切换
+    handleClick(value) {
+        this.setState({
+            current: value
+        })
+        this.getList(value)
     }
 
     render() {
+        const tabList = [{ title: '已购买' }, { title: '已完成' }]
         let { info, note_list } = this.state;
         {
 
@@ -122,54 +133,128 @@ export default class Notes extends Component {
                     <View className="note_navbar">
                         <Navbar color="#666" title="票券中心" onJump={this.onJump.bind(this)} />
                     </View>
-                    <View className="notes_container">
-                        {note_list.map(item => {
-                            return (
-                                <View className="note" onClick={this.onDetail.bind(this, item.id)}>
+                    <AtTabs current={this.state.current} tabList={tabList} onClick={this.handleClick.bind(this)}>
+                        <AtTabsPane current={this.state.current} index={0} >
+                            <View className="notes_container">
+                                {note_list.map(item => {
+                                    return (
+                                        <View className="note">
 
-                                    <View className="note_img">
-                                        <Image
-                                            mode="aspectFill"
-                                            className="note_img"
-                                            src={item.image}
-                                        />
-                                        <View className={["dot", "dot-top"]}></View>
-                                        <View className={["dot", "dot-bottom"]}></View>
-                                    </View>
-                                    <View className="note_detail">
-                                        <View className="note_detail_price">
-                                            <Text>¥{item.price}</Text>
+                                            <View className="note_img">
+                                                <Image
+                                                    mode="aspectFill"
+                                                    className="note_img"
+                                                    src={item.image}
+                                                />
+                                                <View className={["dot", "dot-top"]}></View>
+                                                <View className={["dot", "dot-bottom"]}></View>
+                                            </View>
+                                            <View className={["note_detail", this.state.current == 1&&("bgDis")]}>
+                                                <View className="note_detail_price">
+                                                    <Text>¥{item.price}</Text>
+                                                </View>
+                                                <View className="note_detail_useage">
+                                                    <Text>{item.title}项目使用</Text>
+                                                </View>
+                                                <View className="note_detail_hosptl">
+                                                    <Text>指定医院通用</Text>
+                                                </View>
+                                                <View className="note_detail_money">
+                                                    <View className="note_text">分享可赚:¥{item.share}</View>
+                                                    <View className="note_text">消费返现:¥{item.purchase}</View>
+                                                </View>
+                                                {
+                                                    this.state.current == 0 && (
+                                                        <View className="note_detail_buy"  onClick={this.onDetail.bind(this, item.card_id, 1)}>
+                                                            <AtButton
+                                                                className="note_buy_btn"
+                                                                type="primary"
+                                                                size="small"
+                                                                circle
+                                                            >
+                                                                立即使用
+                                                     </AtButton>
+                                                        </View>
+                                                    )
+                                                }
+                                                {
+                                                    this.state.current == 1 && (
+                                                        <View className="note_detail_buy">
+                                                            <AtButton
+                                                                className="note_buy_btn"
+                                                                type="primary"
+                                                                size="small"
+                                                                circle
+                                                                disabled
+                                                            >
+                                                                已使用
+                                                             </AtButton>
+                                                        </View>
+                                                    )
+                                                }
+                                            </View>
                                         </View>
-                                        <View className="note_detail_useage">
-                                            <Text>{item.title}项目使用</Text>
-                                        </View>
-                                        <View className="note_detail_hosptl">
-                                            <Text>指定医院通用</Text>
-                                        </View>
-                                        <View className="note_detail_money">
-                                            <View className="note_text">分享可赚:¥{item.share}</View>
-                                            <View className="note_text">消费返现:¥{item.purchase}</View>
-                                        </View>
-                                        <View className="note_detail_buy">
-                                            <AtButton
-                                                className="note_buy_btn"
-                                                type="primary"
-                                                size="small"
-                                                circle
-                                            >
-                                                立即购买
-                        </AtButton>
-                                        </View>
-                                    </View>
-                                </View>
 
-                            )
-                        }
-                        )}
+                                    )
+                                }
+                                )}
 
 
 
-                    </View>
+                            </View>
+                        </AtTabsPane>
+                        <AtTabsPane current={this.state.current} index={1}>
+                            <View className="notes_container">
+                                {note_list.map(item => {
+                                    return (
+                                        <View className="note">
+
+                                            <View className="note_img">
+                                                <Image
+                                                    mode="aspectFill"
+                                                    className="note_img"
+                                                    src={item.image}
+                                                />
+                                                <View className={["dot", "dot-top"]}></View>
+                                                <View className={["dot", "dot-bottom"]}></View>
+                                            </View>
+                                            <View className="note_detail">
+                                                <View className="note_detail_price">
+                                                    <Text>¥{item.price}</Text>
+                                                </View>
+                                                <View className="note_detail_useage">
+                                                    <Text>{item.title}项目使用</Text>
+                                                </View>
+                                                <View className="note_detail_hosptl">
+                                                    <Text>指定医院通用</Text>
+                                                </View>
+                                                <View className="note_detail_money">
+                                                    <View className="note_text">分享可赚:¥{item.share}</View>
+                                                    <View className="note_text">消费返现:¥{item.purchase}</View>
+                                                </View>
+                                                <View className="note_detail_buy"  onClick={this.onDetail.bind(this, item.id, 3)}>
+                                                    <AtButton
+                                                        className="note_buy_btn"
+                                                        type="primary"
+                                                        size="small"
+                                                        circle
+                                                    >
+                                                        立即购买
+                                                   </AtButton>
+                                                </View>
+                                            </View>
+                                        </View>
+
+                                    )
+                                }
+                                )}
+
+
+
+                            </View>
+                        </AtTabsPane>
+                    </AtTabs>
+
 
 
                 </View>

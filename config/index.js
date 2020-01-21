@@ -94,7 +94,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: './',
+    publicPath: '/',
     staticDirectory: 'static',
     module: {
       postcss: {
@@ -140,7 +140,14 @@ const config = {
         '/pages/carrier_gift_packs/index': '/carrierGiftPacks',
         '/pages/steward_ten_gift/index': '/stewardTenGift',
         '/pages/my/index': '/my',
+        '/pages/my_effort/index': '/myEffort',
+        '/pages/selfsupport_effort/index': '/selfsupportEffort',
         '/pages/my_order/index': '/myOrder',
+        '/pages/fans_order/index': '/fansOrder',
+        '/pages/fans_edit/index': '/fansEdit',
+        '/pages/fans_project/index': '/fansProject',
+        '/pages/fans_info/index': '/fansInfo',
+        '/pages/fans_means/index': '/fansMeans',
         '/pages/newbie_guide/index': '/newbieGuide',
         '/pages/gift_red_exchange_detail/index': '/giftRedExchangeDetail',
         '/pages/gift_red_exchange/index': '/giftRedExchange',
@@ -153,6 +160,14 @@ const config = {
     esnextModules: ['taro-ui'],
     devServer: {
       host: '192.168.1.109'
+    },
+    output: {
+      filename: 'js/[name].[hash:8].js',
+      chunkFilename: 'js/[name].[chunkhash:8].js'
+    },
+    miniCssExtractPluginOption: {
+      filename: 'css/[name].[hash:8].css',
+      chunkFilename: 'css/[id].[chunkhash:8].css'
     }
   }
 }

@@ -9,3 +9,6 @@
  // let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
       let redirect_uri = urlEncode(window.location.href);
 
+1.首页细节
+2. 查看全部收益详情
+3.粉丝详情

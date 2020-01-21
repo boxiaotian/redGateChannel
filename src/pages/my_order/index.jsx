@@ -23,14 +23,14 @@ export default class MyOrder extends Component {
   state = {
     sort_tab: [
       { title: "自营订单" },
-      { title: "票券订单" },
       { title: "礼包订单" }
     ],
     status_tab: [
       { title: "全部" },
       { title: "未支付" },
-      { title: "已支付" },
-      { title: "已完成" }
+      { title: "未使用" },
+      { title: "已完成" },
+      { title: "退款/售后" }
     ],
     sort_current: 0,
     status_current: 0,
@@ -43,26 +43,22 @@ export default class MyOrder extends Component {
   };
 
   componentWillMount() {
-    let { sort_current, status_current } = this.$router.params;
+    let { sort_current, status_current } = this.$router.params.length > 0 ? this.$router.params : this.state;
 
     let status_tab = [];
     if (sort_current == 0) {
       status_tab = [
         { title: "全部" },
         { title: "未支付" },
-        { title: "已支付" },
-        { title: "已完成" }
+        { title: "未使用" },
+        { title: "已完成" },
+        { title: "退款/售后" }
       ];
-    } else if ( sort_current == 2) {
+    } else if (sort_current == 1) {
       status_tab = [
         { title: "全部" },
         { title: "未支付" },
-        { title: "已支付" }
-      ];
-    }else if(sort_current == 1) {
-      status_tab = [
-        { title: "待使用" },
-          { title: "已使用" }
+        { title: "未使用" }
       ];
     }
     this.setState(
@@ -74,9 +70,7 @@ export default class MyOrder extends Component {
       () => {
         Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
           if (this.state.sort_current == 0) this.orderHm();
-          // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-          else if (this.state.sort_current == 2) this.orderGiftBagc();
+          else if (this.state.sort_current == 1) this.orderGiftBagc();
         });
       }
     );
@@ -85,9 +79,7 @@ export default class MyOrder extends Component {
   // 滑动到底部
   onReachBottom() {
     if (this.state.sort_current == 0) this.orderHm();
-    // else if (this.state.sort_current == 1) this.orderDoctor();
-    else if (this.state.sort_current == 1) this.orderCard();
-    else if (this.state.sort_current == 2) this.orderGiftBagc();
+    else if (this.state.sort_current == 1) this.orderGiftBagc();
   }
 
   // 切换订单分类
@@ -98,19 +90,15 @@ export default class MyOrder extends Component {
         status_tab = [
           { title: "全部" },
           { title: "未支付" },
-          { title: "已支付" },
-          { title: "已完成" }
+          { title: "未使用" },
+          { title: "已完成" },
+          { title: "退款/售后" }
         ];
-      } else if (sort_current == 2) {
+      } else if (sort_current == 1) {
         status_tab = [
           { title: "全部" },
           { title: "未支付" },
-          { title: "已支付" }
-        ];
-      }else if (sort_current == 1 ) {
-        status_tab = [
-          { title: "待使用" },
-          { title: "已使用" }
+          { title: "未使用" }
         ];
       }
       this.setState(
@@ -126,9 +114,7 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-            else if (this.state.sort_current == 2) this.orderGiftBagc();
+            else if (this.state.sort_current == 1) this.orderGiftBagc();
           });
         }
       );
@@ -149,9 +135,7 @@ export default class MyOrder extends Component {
         () => {
           Taro.pageScrollTo({ scrollTop: 0 }).then(() => {
             if (this.state.sort_current == 0) this.orderHm();
-            // else if (this.state.sort_current == 1) this.orderDoctor();
-            else if (this.state.sort_current == 1) this.orderCard();
-            else if (this.state.sort_current == 2) this.orderGiftBagc();
+            else if (this.state.sort_current == 1) this.orderGiftBagc();
           });
         }
       );
@@ -183,15 +167,6 @@ export default class MyOrder extends Component {
       });
   }
 
-  // 团购支付
-  onGroupBuyPay(order_sn) {
-    orderModel
-      .orderDoctorPay({ token: this.props.memberInfo.token, order_sn })
-      .then(res => {
-        this.BridgeReady(res);
-      });
-  }
-
   // 礼包支付
   onGiftPay(order_sn) {
     orderModel
@@ -204,18 +179,18 @@ export default class MyOrder extends Component {
       });
   }
   // 票券支付
-  onCardPay(order_sn, id) {
-    orderModel
-      .orderUserCardPay({
-        token: this.props.memberInfo.token,
-        order_sn,
-        id,
-        source_type_id: this.props.memberInfo.openid
-      })
-      .then(res => {
-        this.BridgeReady(res);
-      });
-  }
+  // onCardPay(order_sn, id) {
+  //   orderModel
+  //     .orderUserCardPay({
+  //       token: this.props.memberInfo.token,
+  //       order_sn,
+  //       id,
+  //       source_type_id: this.props.memberInfo.openid
+  //     })
+  //     .then(res => {
+  //       this.BridgeReady(res);
+  //     });
+  // }
 
   // 调取微信支付
   BridgeReady(res) {
@@ -267,9 +242,9 @@ export default class MyOrder extends Component {
         });
     }
   }
- 
 
-// 票券订单
+
+  // 票券订单
   orderCard() {
     orderModel
       .orderUserCard({
@@ -279,7 +254,7 @@ export default class MyOrder extends Component {
       })
       .then(res => {
         // console.log("DD",res.data.length);
-        
+
         this.setState({ card_info: res });
       });
   }
@@ -291,12 +266,14 @@ export default class MyOrder extends Component {
         token: this.props.memberInfo.token
       })
       .then(res => {
+        console.log("rrr", res);
+
         this.setState({ gift_info: res });
       });
   }
 
   // 自营订单状态
-  // 状态  -1：取消订单  0：代付款  1：已付款  2：完成  3：退款中  4退款成功
+  // 状态  -1：已取消  0：代付款  1：已付款  2：已完成  3：退款中  4退款成功
   operatedStatus(status) {
     if (status == -1) return "已取消";
     else if (status == 0) return "未支付";
@@ -305,8 +282,28 @@ export default class MyOrder extends Component {
     else if (status == 3) return "退款中";
     else if (status == 4) return "退款成功";
   }
-   // 票券订单状态
-   cardStatus(status) {
+  // switch (status) {
+  //   case 0:
+  //     return "待付款";
+  //   case 1:
+  //     if (data.write_status == 0) {
+  //       return "未使用";
+  //     } else {
+  //       return "已使用";
+  //     }
+  //   case 2:
+  //     return "已完成";
+  //   case 3:
+  //     return "退款中";
+  //   case 4:
+  //     return "退款成功";
+  //   case -1:
+  //     return "已取消";
+  //   default:
+  //     return "";
+  // }
+  // 票券订单状态
+  cardStatus(status) {
     if (status) return "已使用";
     else return "待使用";
   }
@@ -340,7 +337,7 @@ export default class MyOrder extends Component {
         <View className='my_order_tab'>
           <View className='my_order_sort'>
             <AtTabBar
-              color='#ff093c'
+              color='#999999'
               selectedColor='#ffffff'
               tabList={sort_tab}
               onClick={this.onSort.bind(this)}
@@ -455,14 +452,14 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className='no_order'>
-                <Image
-                  className='no_order_img'
-                  src={image_domain + "w_order.png"}
-                />
-                <Text>暂无订单～</Text>
-              </View>
-            )}
+                <View className='no_order'>
+                  <Image
+                    className='no_order_img'
+                    src={image_domain + "w_order.png"}
+                  />
+                  <Text>暂无订单～</Text>
+                </View>
+              )}
           </View>
         )}
         {/* {sort_current == 1 && (
@@ -530,10 +527,10 @@ export default class MyOrder extends Component {
               />
               <Text>暂无订单～</Text>
             </View> */}
-          {/* </View>
-        )} */} 
-        
-         {sort_current == 1 && (
+        {/* </View>
+        )} */}
+
+        {/* {sort_current == 1 && (
           <View className='my_order_gift'>
             {(card_info.data && Object.keys(card_info.data).length) ? (
               card_info.data.map(item => {
@@ -566,17 +563,17 @@ export default class MyOrder extends Component {
                 );
               })
             ) : (
-              <View className='no_order'>
-                <Image
-                  className='no_order_img'
-                  src={image_domain + "w_order.png"}
-                />
-                <Text>暂无订单～</Text>
-              </View>
-            )}
+                <View className='no_order'>
+                  <Image
+                    className='no_order_img'
+                    src={image_domain + "w_order.png"}
+                  />
+                  <Text>暂无订单～</Text>
+                </View>
+              )}
           </View>
-        )}
-        {sort_current == 2 && (
+        )} */}
+        {sort_current == 1 && (
           <View className='my_order_gift'>
             {(gift_info.giftBage && Object.keys(gift_info.giftBage).length) ||
             (gift_info.giftBageLarge &&

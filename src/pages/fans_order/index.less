@@ -1,0 +1,263 @@
+.fans {
+    background-color: #F4F7F7;
+    padding-bottom: 100px;
+    padding-top: 278px;
+    height: auto;
+    .fans_navbar {
+        position: fixed;
+        z-index: 102;
+        .nav_bar {
+          background-color: #fff;
+          color: #333;
+          font-size: 32px;
+        }
+        
+      }
+      .my_order_tab {
+        position: fixed;
+        top: 88px;
+        left: 0;
+        width: 100%;
+        height: 190px;
+        background-color: #ffffff;
+        box-shadow: 0px 10px 15px 0px rgba(164, 164, 164, 0.17);
+        z-index: 1;
+    
+        .my_order_sort {
+          box-sizing: border-box;
+          width: 100%;
+          height: 120px;
+          padding: 30px 218px 24px;
+    
+          .at-tab-bar {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border-radius: 34px;
+            font-size: 30px;
+            
+            background-color: #F4F7F7;
+    
+            .at-badge {
+              .at-tab-bar__title {
+                line-height: 62px;
+              }
+            }
+    
+            &::after {
+              display: none;
+            }
+    
+            .at-tab-bar__item {
+              box-sizing: border-box;
+              padding: 0;
+    
+              &:nth-child(1) {
+                border-radius: 34px;
+              }
+    
+              &:nth-child(2) {
+                border-radius: 34px;
+              }
+    
+              .at-badge {
+                .at-tab-bar__title {
+                  padding: 0;
+                }
+              }
+            }
+    
+            .at-tab-bar__item--active {
+              box-sizing: border-box;
+              background-color: #FC4441;
+            }
+          }
+        }
+    
+        .my_order_status {
+          width: 100%;
+          height: 70px;
+          background-color: aquamarine;
+    
+          .at-tab-bar {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            line-height: 70px;
+    
+            &::after {
+              display: none;
+            }
+    
+            .at-tab-bar__item {
+              padding: 0;
+            }
+    
+            .at-tab-bar__item--active {
+              position: relative;
+              font-weight: bold;
+    
+              &::after {
+                content: "";
+                position: absolute;
+                bottom: -2px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 30px;
+                height: 4px;
+                background-color: #ff1b2e;
+                border-radius: 2px;
+              }
+            }
+          }
+        }
+      }
+      .gift_order_item {
+        height: 188px;
+        margin: 20px 0 ;
+        color: #2a2a2a;
+        background-color: #fff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 30px 14px;
+        border-radius: 8px;
+        .gitf_item_left {
+          display: flex;
+          flex-direction: row;
+          .gift_item_img {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            background-color: red;
+          }
+          .gift_item_detail {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            font-size: 24px;
+            .gift_detail_title {
+              font-size: 28px;
+              font-weight: 600;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 16px;
+                .name {
+                  margin-right: 11px;
+                }
+                  .my_pride_img {
+                    height: 34px;
+                    width: 100px;
+                  }
+              
+            }
+            .gift_detail_date{
+              font-size: 22px;
+              color: #666;
+            }
+          }
+        }
+        .gift_item_right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 24px;
+            color: #FC4441;
+            .gift_detail_price {
+                font-size: 28px;
+                font-weight: 600;
+                color: #333;
+              }
+              .gift_detail_return {
+                font-size: 20px;
+              }
+          }
+        
+      }
+      .fans_self_order {
+          color: #333;
+          margin-bottom: 50px;
+          .at-tab-bar {
+              background-color: #F4F7F7;
+          }
+          .fans_order_item {
+            height: 336px;
+            border-radius: 8px;
+            background-color: #fff;
+            margin: 10px 14px;
+            padding: 30px 14px;
+            box-sizing: border-box;
+            .fans_info {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                height: 88px;
+                margin-bottom: 20px;
+                .fans_info_detail {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                   .fans_detail_img {
+                    width: 88px;
+                    height: 88px;
+                    border-radius: 50%;
+                    background-color: pink;
+                   }
+                   .fans_detail_name {
+                       color: #333;
+                       font-size: 28px;
+                       font-weight: bold;
+                       margin-left: 20px;
+                   }
+                   .fans_detail_pride {
+                    height: 34px;
+                    width: 100px;
+                  }
+                }
+                .fans_order_status {
+                    font-size: 24px;
+                    color: #FC4441;
+                }
+            }
+            .fans_order {
+                display: flex;
+                flex-direction: row;
+                .fans_order_img {
+                    width: 168px;
+                    height: 168px;
+                    min-width: 168px;
+                    border-radius: 8px;
+                    background-color: pink;
+                }
+                .fans_order_detail {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-left: 10px;
+                    .fans_detail_title {
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+                    .fans_detail_con {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-size: 22px;
+                        .fans_detail_money {
+                            color: #FC4441;
+                        }
+                    }
+                }
+            }
+        }
+      }
+      
+      }
+    
+  
+  
