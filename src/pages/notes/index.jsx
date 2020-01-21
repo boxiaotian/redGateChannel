@@ -76,7 +76,7 @@ export default class Notes extends Component {
 
                 } else {
                     // 卡券列表
-                    this.getList();
+                    this.getList(0);
                 }
             });
         });
