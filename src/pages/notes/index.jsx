@@ -7,7 +7,6 @@ import { setCahce, getCahce } from "@/utils/cache";
 import NoteModel from "@/models/note";
 import { getUrlKey, urlEncode, isWeiXin } from "@/utils/utils";
 import { connect } from "@tarojs/redux";
-import { redirect_uri } from "@/constants/global"
 
 import WeiXinModel from "@/models/weixin";
 import "./index.less";
@@ -44,49 +43,7 @@ export default class Notes extends Component {
 
 
     componentWillMount() {
-        if (getUrlKey("cid")) setCahce("cid", { cid: getUrlKey("cid") });
-        // 公众号AppId
-        weiXinModel.getConfig().then(res => {
-            this.setState({ app_id: res.app_id }, () => {
-                if (!this.props.memberInfo.token) {
-                    if (this.state.app_id) {
-                        if (!getUrlKey("code")) {
-                            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.state.app_id}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`;
-                        } else {
-                            setCahce("url", { url: "notes" });
-                            this.props.onGetMemberInfo &&
-                                this.props.onGetMemberInfo({ code: getUrlKey("code") });
-                            setTimeout(() => {
-                                if (this.props.memberInfo && this.props.memberInfo.token) {
-                                    this.getList(0);
-                                } else {
-                                    Taro.showToast({
-                                        title: "请登录注册",
-                                        icon: "none",
-                                        success: () => {
-                                            setTimeout(() => {
-                                                Taro.redirectTo({ url: "/pages/login/index" });
-                                            }, 1000);
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        }
-                    }
-
-                } else {
-                    // 卡券列表
-                    this.getList(0);
-                }
-            });
-        });
-
-
-        // 公众号AppId
-        weiXinModel.getConfig().then(res => {
-            this.setState({ app_id: res.app_id });
-
-        });
+        this.getList(0);
 
     }
     getList(status) {
