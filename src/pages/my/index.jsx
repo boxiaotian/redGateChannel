@@ -178,8 +178,12 @@ export default class My extends Component {
                   <Image className="my_pride_img" src={image_domain + "lever3.png"} />
                 )
                 }
-                {user_info.grade_id == 3 && (
+                {user_info.grade_id == 3 && user_info.is_ceo=='false'&&(
                   <Image className="my_pride_img" src={image_domain + "lever4.png"} />
+                )
+                }
+                 {user_info.grade_id == 3 && user_info.is_ceo=='true'&&(
+                  <Image className="my_pride_img" src={image_domain + "lever5.png"} />
                 )
                 }
               </View>
