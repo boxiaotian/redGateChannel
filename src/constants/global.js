@@ -1,7 +1,12 @@
 
 import {
-    urlEncode
+  urlEncode
 } from "@/utils/utils";
-export const redirect_uri = urlEncode(window.location.href);
 
-// let redirect_uri = urlEncode("https://hm.hongmenpd.com/H5/wxauth.php");
+let location = window.location.href;
+
+if (process.env.NODE_ENV === "development") {
+  location = "https://hm.hongmenpd.com/H5/wxauth.php"
+}
+
+export const redirect_uri = urlEncode(location);

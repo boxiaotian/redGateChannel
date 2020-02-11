@@ -94,7 +94,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: '/',
+    publicPath: process.env.NODE_ENV === 'development' ? "/" : "./",
     staticDirectory: 'static',
     module: {
       postcss: {
@@ -159,7 +159,7 @@ const config = {
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.1.109'
+      host: '192.168.0.113'
     },
     output: {
       filename: 'js/[name].[hash:8].js',

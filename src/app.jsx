@@ -62,8 +62,12 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {}
-
+  componentWillMount(){
+    console.log("22");
+    console.log(process.env.NODE_ENV);
+    
+  }
+  
   componentDidShow() {}
 
   componentDidHide() {}
