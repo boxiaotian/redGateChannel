@@ -55,19 +55,8 @@ export default class stewardTenGift extends Component {
             setTimeout(() => {
                 if (this.props.memberInfo && this.props.memberInfo.uid) {
                     weiXinModel.selectUser(this.props.memberInfo.uid).then(res => {
-                        if ((res.grade_id == 1 || res.grade_id == 2) && res.vip == 1) {
+                        if (res.grade_id == 1 || res.grade_id == 2) {
                             this.ordergiftBagOperator(res.token);
-                        } else if (res.grade_id == 1 && res.vip == 0) {
-                            Taro.showToast({
-                                title: "您不是红粉VIP",
-                                icon: "none",
-                                success: () => {
-                                    setTimeout(() => {
-                                        window.location.href = url_domain + "redDoorPackage";
-                                        // Taro.redirectTo({ url: "/pages/red_door_package/index" });
-                                    }, 1000);
-                                }
-                            });
                         } else if (res.grade_id == 3) {
                             Taro.showToast({
                                 title: "您已是运营商",
