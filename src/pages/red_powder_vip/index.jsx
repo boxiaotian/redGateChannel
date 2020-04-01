@@ -62,7 +62,9 @@ export default class RedPowderVip extends Component {
           success: () => {
             setTimeout(() => {
               // Taro.redirectTo({ url: "/pages/my/index" });
-              window.location.href = url_domain + "myOrder?sort_current=2";
+              // window.location.href = url_domain + "myOrder?sort_current=2";
+              window.location.href = url_domain + "paysuc"
+              
             }, 1000);
           }
         });

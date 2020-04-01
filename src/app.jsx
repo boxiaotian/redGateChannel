@@ -2,6 +2,8 @@ import "@tarojs/async-await";
 import Taro, { Component } from "@tarojs/taro";
 import { Provider } from "@tarojs/redux";
 
+import wx from 'weixin-js-sdk'
+
 import Index from "./pages/index";
 
 import configStore from "./store";
@@ -53,6 +55,7 @@ class App extends Component {
       "pages/note_detail/index", //卡卷详情
       "pages/note_hsptl/index", //卡卷医院列表查询
       "pages/note_expound/index", //卡卷 权益/详情 说明
+      "pages/paysuc/index", //支付成功
     ],
     window: {
       backgroundTextStyle: "light",
@@ -61,7 +64,8 @@ class App extends Component {
       navigationBarTextStyle: "black"
     }
   };
-
+  componentDidMount(){
+  }
   componentWillMount(){
     console.log("22");
     console.log(process.env.NODE_ENV);
@@ -74,6 +78,7 @@ class App extends Component {
 
   componentDidCatchError() {}
 
+ 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {

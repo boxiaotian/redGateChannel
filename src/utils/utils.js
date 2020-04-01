@@ -1,3 +1,4 @@
+import { url_domain, image_domain } from "@/constants/counter";
 function getUrlKey(e) {
   return decodeURIComponent((new RegExp("[?|&]" + e + "=([^&;]+?)(&|#|;|$)").exec(window.location.href) || [, ""])[1].replace(/\+/g, "%20")) || null
 }
@@ -37,4 +38,15 @@ function onBridgeReady(WeixinParameter) {
   })
 }
 
-export { getUrlKey, urlEncode, isWeiXin, isAndroid, onBridgeReady }
+function initShareInfo(wx,code){
+  let shareInfo = {
+    title: '红门频道会员礼包', // 分享标题
+    desc: '我是红门频道会员，在这里发现了红门频道会员礼包，快进来看看吧', // 分享描述
+    link: url_domain + "redDoorPackage?cid="+code, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+    imgUrl: 'https://www.baidu.com/img/bd_logo1.png', // 分享图标
+  }
+  wx.updateAppMessageShareData(shareInfo);
+  wx.updateTimelineShareData(shareInfo);
+}
+
+export { getUrlKey, urlEncode, isWeiXin, isAndroid, onBridgeReady, initShareInfo }

@@ -47,4 +47,12 @@ export default class WeiXinModel extends HTTP {
       data: { mobile }
     })
   }
+
+  //获取微信分享接口参数
+  getWechatConfig(url){
+    return this.request({
+      url: 'apiwx/wxjsparams',
+      data: { url }
+    })
+  }
 }
