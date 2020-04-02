@@ -56,6 +56,7 @@ class App extends Component {
       "pages/note_hsptl/index", //卡卷医院列表查询
       "pages/note_expound/index", //卡卷 权益/详情 说明
       "pages/paysuc/index", //支付成功
+      'pages/customer_service/index', // 客服
     ],
     window: {
       backgroundTextStyle: "light",

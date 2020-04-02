@@ -1,12 +1,23 @@
 #app {
   background-color: #f6f6f6;
   line-height: 1;
-
+  .at-countdown--card .at-countdown__time-box {
+    background-color: rgb(49, 49, 49);
+    color: #fff;
+  }
   .red_door_package {
     padding: 88px 0 110px;
 
     .nav_bar {
-      background-color: #1f1e1b
+      background-color: rgb(234, 51, 99);
+      color: #fff;
+      z-index: 999;
+    }
+
+    .taro-img {
+      width: 100%;
+      height: auto;
+      vertical-align: top;
     }
 
     .package_top_group {
@@ -15,8 +26,14 @@
       width: 100%;
       height: 538px;
       padding: 20px;
-      margin-bottom: 164px;
-      background-image: linear-gradient(132deg, #1f1e1b 0%, #272522 50%, #2a2824 71%, #1f1e1b 100%);
+      // margin-bottom: 164px;
+      background-image: linear-gradient(
+        132deg,
+        #1f1e1b 0%,
+        #272522 50%,
+        #2a2824 71%,
+        #1f1e1b 100%
+      );
 
       .package_panel {
         box-sizing: border-box;
@@ -49,7 +66,8 @@
         height: 466px;
         padding: 100px 80px 0;
         box-sizing: border-box;
-        background: url(https://qiniu.hongmenpd.com/H5/images/privilege_bg.png) no-repeat;
+        background: url(https://qiniu.hongmenpd.com/H5/images/privilege_bg.png)
+          no-repeat;
         background-size: cover;
 
         .at-grid {
@@ -96,15 +114,16 @@
 
           .package_price_lable {
             position: relative;
-            width: 120px;
+            width: 8rem;
             height: 36px;
             margin-bottom: 16px;
-            background-color: #ff0050;
+            // background-color: #ff0050;
             border-radius: 4px;
-            font-size: 24px;
+            font-size: 30px;
             line-height: 36px;
-            text-align: center;
-
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             &::after {
               content: "";
               position: absolute;
@@ -178,7 +197,11 @@
 
                   .at-progress__outer-inner-background {
                     height: 34px;
-                    background-image: linear-gradient(90deg, #fef1c6 0%, #f2d9a1 100%);
+                    background-image: linear-gradient(
+                      90deg,
+                      #fef1c6 0%,
+                      #f2d9a1 100%
+                    );
                     box-shadow: inset 1px 2px 5px 0px rgba(255, 255, 255, 0.79);
                     border-radius: 17px 0px 0px 17px;
                   }
@@ -210,7 +233,6 @@
     .package_details {
       width: 100%;
       min-height: 100px;
-      padding: 0 0 50px 0;
       box-sizing: border-box;
       background-color: #ffffff;
 
@@ -244,7 +266,7 @@
             width: 70px;
             height: 8px;
             background-image: linear-gradient(-90deg, #ff1048 0%, #ff4188 100%);
-            border-radius: 4px
+            border-radius: 4px;
           }
         }
       }
@@ -263,20 +285,28 @@
       box-shadow: 3px 4px 30px 0px rgba(3, 0, 0, 0.1);
       font-size: 36px;
       line-height: 110px;
-      color: #bca366;
+      color: rgb(176, 176, 176);
 
       .package_pay_title {
-        margin-left: 112px;
+        margin-left: 32px;
+        font-size: 28px;
+        .taro-text {
+          color: #000;
+          margin-left: 4px;
+          font-size: 48px;
+        }
       }
 
       .at-button {
         width: 210px;
-        height: 110px;
+        height: 80px;
         margin: 0;
         background-image: linear-gradient(-45deg, #ff0000 0%, #ff477b 100%);
         border: none;
-        border-radius: 0%;
-        line-height: 110px;
+        border-radius: 60px;
+        line-height: 80px;
+        margin-top: 16px;
+        margin-right: 32px;
       }
     }
 
