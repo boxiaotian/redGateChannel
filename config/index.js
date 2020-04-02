@@ -156,11 +156,12 @@ const config = {
         '/pages/note_hsptl/index': '/noteHsptl',
         '/pages/note_expound/index': '/noteExpound',
         '/pages/paysuc/index': '/paysuc',
+        '/pages/customer_service/index': '/customerService',
       }
     },
     esnextModules: ['taro-ui'],
     devServer: {
-      host: '192.168.1.40'
+      host: '192.168.0.101'
     },
     output: {
       filename: 'js/[name].[hash:8].js',

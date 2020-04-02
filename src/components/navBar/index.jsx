@@ -8,7 +8,7 @@ export default class Navbar extends Component {
     title: "",
     color: "#fff",
     searchText: "搜一下",
-    searchValue: ''
+    searchValue: '',
   };
 
   // 跳转页面
@@ -24,7 +24,7 @@ export default class Navbar extends Component {
  
 
   render() {
-    let { title, color, searchText, searchValue } = this.props;
+    let { title, color, searchText, searchValue,bgColor } = this.props;
 
     return (
       <View className="nav_bar">
