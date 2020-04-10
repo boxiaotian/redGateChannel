@@ -284,6 +284,23 @@ export default class RedDoorPackage extends Component {
     return (
       <View className="red_door_package">
         <Navbar title="会员权益" onJump={this.onJump.bind(this)} />
+        {(!info.giveaway||info.giveaway.id<=0)&&(
+          <View className="package_top_group">
+            <View className="package_panel">
+              <View className="package_identity">红粉</View>
+              <View className="package_nickname">昵称</View>
+              <View>VIP会员平均每年可省25493，更可享受更多权益</View>
+            </View>
+            <View className="package_privilege">
+              <AtGrid
+                onClick={this.onPrivilege.bind(this)}
+                data={package_privilege}
+                hasBorder={false}
+                columnNum={4}
+              />
+            </View>
+          </View>
+        ) }
         {/* <View className="package_top_group">
           <View className="package_panel">
             <View className="package_identity">红粉</View>
