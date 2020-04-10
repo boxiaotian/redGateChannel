@@ -12,7 +12,8 @@ import "./index.less";
 const operatedModel = new OperatedModel();
 export default class CommodityPay extends Component {
   state = {
-    info: {}
+    info: {},
+    isToWeixin: false
   };
 
   componentWillMount() {
@@ -20,6 +21,14 @@ export default class CommodityPay extends Component {
       this.setState({ info: getCahce("commodityPay") });
     }
   }
+  componentDidMount(){
+    operatedModel.isToWeixin('hm_product_redirect_needed').then(res => {
+      
+      let flag = res.indexOf(this.state.info.gid)+1;
+      console.log("dddflag",flag);
+      this.setState({isToWeixin: flag})
+    })
+}
 
   // 返回上一页
   onJump() {
@@ -52,8 +61,11 @@ export default class CommodityPay extends Component {
           icon: "none",
           success: () => {
             setTimeout(() => {
+              this.state.isToWeixin?
+                (window.location.href = url_domain + "customerService"):(window.location.href = url_domain + "myOrder?sort_current=0")
+              
               // Taro.redirectTo({ url: "/pages/my/index" });
-              window.location.href = url_domain + "myOrder?sort_current=0";
+              
             }, 1000);
           }
         });
@@ -95,7 +107,7 @@ export default class CommodityPay extends Component {
           <View className="red_powder_vip_top_flex">
             <Text>支付金额：</Text>
             <Text style={{ color: "#ff0000" }}>¥{info.price}</Text>
-          </View>
+          </View>  
         </View>
         <View className="red_powder_vip_center">
           <View className="red_powder_vip_center_title">支付方式</View>

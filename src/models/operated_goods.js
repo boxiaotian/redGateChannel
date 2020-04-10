@@ -32,4 +32,12 @@ export default class OperatedModel extends HTTP {
       data: { source_mode: 1, yzdl: "yzdl", type: 4, source_type: 2, ...params }
     })
   }
+
+  // 自营订单下单后是否跳转添加微信
+  isToWeixin(ck) {
+    return this.request({
+      url: 'api_config/index',
+      data: { source_mode: 1, yzdl: "yzdl", ck}
+    })
+  }
 }

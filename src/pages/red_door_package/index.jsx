@@ -316,7 +316,7 @@ export default class RedDoorPackage extends Component {
             />
           </View>
         </View> */}
-        <View>
+        {/* <View>
           {info.detail_project && (
             <Image src={info.detail_Image_text[0].value} />
           )}
@@ -324,6 +324,11 @@ export default class RedDoorPackage extends Component {
         <View>
           {info.giveaway && info.giveaway.id > 0  && (
             <Image src={info.giveaway.content_first[0].value} />
+          )}
+        </View> */}
+         <View >
+          {info.giveaway && info.giveaway.id > 0  && (
+            <Image className="margin150sub" src={info.giveaway.content_first[0].value} />
           )}
         </View>
         <View className="package_center_group">
@@ -358,6 +363,12 @@ export default class RedDoorPackage extends Component {
             <View className="package_introduction">{info.shortname}</View> */}
           </View>
         </View>
+        <View>
+          {info.detail_project && (
+            <Image src={info.detail_Image_text[0].value} />
+          )}
+        </View>
+       
         <View className="package_details">
           {/* <AtTabBar
             tabList={detail_tab}
